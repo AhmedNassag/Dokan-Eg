@@ -20,7 +20,7 @@ const deleteId = ref(null)
 const isFormValid = ref(false)
 const refForm = ref()
 const selectedCategory = ref(null)
-const formData = ref({ name: '', description: '' })
+const formData = ref({ name: '', description: '', parent_id: null, is_active: true })
 
 const snackbar = ref(false)
 const snackbarMessage = ref('')
@@ -29,6 +29,8 @@ const snackbarColor = ref('success')
 const headers = [
   { title: '#', key: 'id', sortable: true },
   { title: 'Name', key: 'name', sortable: true },
+  { title: 'Parent', key: 'parent', sortable: false },
+  { title: 'Active', key: 'is_active', sortable: true },
   { title: 'Description', key: 'description', sortable: false },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
@@ -61,7 +63,7 @@ async function fetchCategories() {
 
 function openAddDialog() {
   selectedCategory.value = null
-  formData.value = { name: '', description: '' }
+  formData.value = { name: '', description: '', parent_id: null, is_active: true }
   isFormDialogOpen.value = true
   nextTick(() => refForm.value?.resetValidation())
 }
@@ -71,6 +73,8 @@ function openEditDialog(category) {
   formData.value = {
     name: category.name ?? '',
     description: category.description ?? '',
+    parent_id: category.parent_id ?? null,
+    is_active: category.is_active ?? true,
   }
   isFormDialogOpen.value = true
   nextTick(() => refForm.value?.resetValidation())
@@ -102,16 +106,39 @@ async function handleDelete() {
   }
 }
 
+async function toggleActive(category) {
+  const newActive = !category.is_active
+  try {
+    console.log('Toggling category id:', category.id, 'from', category.is_active, 'to', newActive)
+    await api.update(category.id, { is_active: newActive })
+    console.log('Toggle success')
+    await fetchCategories()
+  } catch (err) {
+    console.error('Toggle error:', err)
+    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarColor.value = 'error'
+    snackbar.value = true
+  }
+}
+
 async function onSubmit() {
   refForm.value?.validate().then(async ({ valid }) => {
     if (!valid) return
     isSubmitting.value = true
     try {
+      const data = { ...formData.value }
+      console.log('Form data before:', data)
+      if (data.parent_id === '' || data.parent_id === null || data.parent_id === undefined) {
+        delete data.parent_id
+      } else {
+        data.parent_id = Number(data.parent_id)
+      }
+      console.log('Form data after:', data)
       if (selectedCategory.value) {
-        await api.update(selectedCategory.value.id, formData.value)
+        await api.update(selectedCategory.value.id, data)
         snackbarMessage.value = 'Category updated successfully'
       } else {
-        await api.create(formData.value)
+        await api.create(data)
         snackbarMessage.value = 'Category created successfully'
       }
       snackbarColor.value = 'success'
@@ -119,6 +146,7 @@ async function onSubmit() {
       closeFormDialog()
       await fetchCategories()
     } catch (err) {
+      console.error('Submit error:', err)
       snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
       snackbarColor.value = 'error'
       snackbar.value = true
@@ -187,6 +215,24 @@ fetchCategories()
             <span class="text-body-1 text-high-emphasis">{{ item.name }}</span>
           </template>
 
+          <template #item.parent="{ item }">
+            <span class="text-body-1">{{ item.parent?.name || '—' }}</span>
+          </template>
+
+          <template #item.is_active="{ item }">
+            <VBtn
+              v-if="$can('update', 'category')"
+              :icon="item.is_active ? 'mdi-check-circle' : 'mdi-close-circle'"
+              :color="item.is_active ? 'success' : 'error'"
+              size="small"
+              variant="text"
+              @click="toggleActive(item)"
+            />
+            <VChip v-else :color="item.is_active ? 'success' : 'error'" size="small">
+              {{ item.is_active ? 'Yes' : 'No' }}
+            </VChip>
+          </template>
+
           <template #item.description="{ item }">
             <span class="text-body-1">{{ item.description || '—' }}</span>
           </template>
@@ -250,6 +296,27 @@ fetchCategories()
                   :rules="[requiredValidator]"
                   :label="$t('Name')"
                   :placeholder="$t('Category name')"
+                />
+              </VCol>
+
+              <VCol cols="12">
+                <VSelect
+                  v-model="formData.parent_id"
+                  :items="categories.filter(c => !selectedCategory || c.id !== selectedCategory.id)"
+                  item-title="name"
+                  item-value="id"
+                  :label="$t('Parent Category')"
+                  :placeholder="$t('Select parent category')"
+                  clearable
+                  :return-object="false"
+                />
+              </VCol>
+
+              <VCol cols="12">
+                <VCheckbox
+                  v-model="formData.is_active"
+                  :label="$t('Active')"
+                  color="success"
                 />
               </VCol>
 
