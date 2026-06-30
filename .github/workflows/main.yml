@@ -1,0 +1,45 @@
+name: 🚀 Build & Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: 🎉 Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v6
+
+      # ---------- Deploy ----------
+      - name: 📂 Deploy via FTP (lftp)
+        env:
+          FTP_HOST: ftp.codingcut.com
+          FTP_USER: u776007338.codingcut.com
+          FTP_PASS: "Hh@171820142536"
+          REMOTE_DIR: dokan/
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lftp
+          lftp -c "
+            set cmd:fail-exit yes;
+            set ftp:ssl-allow no;
+            set ftp:passive-mode true;
+            set net:timeout 30;
+            set net:max-retries 3;
+            set net:reconnect-interval-base 5;
+            open -u '$FTP_USER','$FTP_PASS' '$FTP_HOST';
+            mirror --reverse --ignore-time --parallel=4 --verbose \
+              --exclude '\.git' \
+              --exclude '\.github/' \
+              --exclude 'node_modules/' \
+              --exclude 'tests/' \
+              --exclude '\.env' \
+              --exclude 'storage/logs/' \
+              --exclude 'storage/framework/cache/' \
+              --exclude 'storage/framework/sessions/' \
+              --exclude 'storage/framework/views/' \
+              ./ '$REMOTE_DIR'
+          "
