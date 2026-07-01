@@ -16,9 +16,9 @@ jobs:
       # ---------- Deploy ----------
       - name: 📂 Deploy via FTP (lftp)
         env:
-          FTP_HOST: ftp.codingcut.com
-          FTP_USER: u776007338.codingcut.com
-          FTP_PASS: "Hh@171820142536"
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
           REMOTE_DIR: dokan/
         run: |
           sudo apt-get update -qq
