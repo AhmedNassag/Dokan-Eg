@@ -127,7 +127,7 @@ const onSubmit = () => {
       >
         <VCardText>
           <h4 class="text-h4 mb-1">
-            Welcome to <span class="text-capitalize"> {{ themeConfig.app.title }} </span>! 👋🏻
+            Welcome to <span class="text-capitalize"> Dokan-EG<!--{{ themeConfig.app.title }}--> </span>! 👋🏻
           </h4>
           <p class="mb-0">
             Please sign-in to your account and start the adventure
@@ -220,18 +220,18 @@ const onSubmit = () => {
                 cols="12"
                 class="d-flex align-center"
               >
-                <VDivider />
+                <!--<VDivider />
                 <span class="mx-4">or</span>
-                <VDivider />
+                <VDivider />-->
               </VCol>
 
               <!-- auth providers -->
-              <VCol
+              <!--<VCol
                 cols="12"
                 class="text-center"
               >
                 <AuthProvider />
-              </VCol>
+              </VCol>-->
             </VRow>
           </VForm>
         </VCardText>
