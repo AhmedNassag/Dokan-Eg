@@ -1,9 +1,6 @@
-import marketerCategoryRoutes from './Modules/Marketer/Category/category'
-import marketerDashboardRoutes from './Modules/Marketer/Dashboard/dashboard'
-import marketerPermissionRoutes from './Modules/Marketer/Permission/permission'
-import marketerRoleRoutes from './Modules/Marketer/Role/role'
-import marketerUserRoutes from './Modules/Marketer/User/user'
+import { createRoutesFromConfig } from './Modules/shared/routeConfig'
 
+// مثال: ل Marketer، نضع فقط dashboard و user (بدون category)
 export const marketerRoutes = [
   {
     path: '/marketer',
@@ -12,12 +9,6 @@ export const marketerRoutes = [
     meta: {
       title: 'Marketer',
     },
-    children: [
-      ...marketerDashboardRoutes,
-      ...marketerCategoryRoutes,
-      ...marketerPermissionRoutes,
-      ...marketerRoleRoutes,
-      ...marketerUserRoutes,
-    ],
+    children: createRoutesFromConfig('marketer', ['dashboard', 'user', 'role', 'permission', 'order']),
   },
 ]

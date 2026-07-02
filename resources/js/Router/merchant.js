@@ -1,8 +1,4 @@
-import merchantCategoryRoutes from './Modules/Merchant/Category/category'
-import merchantDashboardRoutes from './Modules/Merchant/Dashboard/dashboard'
-import merchantPermissionRoutes from './Modules/Merchant/Permission/permission'
-import merchantRoleRoutes from './Modules/Merchant/Role/role'
-import merchantUserRoutes from './Modules/Merchant/User/user'
+import { createRoutesFromConfig } from './Modules/shared/routeConfig'
 
 export const merchantRoutes = [
   {
@@ -12,12 +8,6 @@ export const merchantRoutes = [
     meta: {
       title: 'Merchant',
     },
-    children: [
-      ...merchantDashboardRoutes,
-      ...merchantCategoryRoutes,
-      ...merchantPermissionRoutes,
-      ...merchantRoleRoutes,
-      ...merchantUserRoutes,
-    ],
+    children: createRoutesFromConfig('merchant', ['dashboard', 'category', 'user', 'role', 'permission']),
   },
 ]
