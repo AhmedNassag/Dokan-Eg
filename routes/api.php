@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,4 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Used by user form to populate role dropdown
     Route::get('roles-list', [UserController::class, 'roles']);
+
+    // Country CRUD — permission-managed
+    Route::get('country', [CountryController::class, 'index']);
+    Route::post('country', [CountryController::class, 'store']);
+    Route::get('country/{id}', [CountryController::class, 'show']);
+    Route::put('country/{id}', [CountryController::class, 'update']);
+    Route::delete('country/{id}', [CountryController::class, 'destroy']);
+
 });

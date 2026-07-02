@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Category\CategorySeeder;
+use Database\Seeders\Country\CountrySeeder;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Database\Seeders\UserSeeder;
-use Database\Seeders\Category\CategorySeeder;
-use Database\Seeders\PermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(PermissionSeeder::class);
+        $this->call(CountrySeeder::class);
     }
 }
