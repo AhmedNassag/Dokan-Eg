@@ -19,4 +19,9 @@ class CityFilter extends Filters
     {
         return $this->builder->where('status', $value);
     }
+    
+    // public function search()
+    // {
+
+    // }
 }
