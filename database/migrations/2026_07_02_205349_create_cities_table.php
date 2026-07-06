@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+             $table->string('name');
+            $table->boolean('status')->default(1);
+            $table->unsignedBigInteger('country_id');
+            $table->foreign('country_id')->references('id')->on('countries');
+            $table->index('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
