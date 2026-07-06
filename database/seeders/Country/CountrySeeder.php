@@ -11,25 +11,14 @@ class CountrySeeder extends Seeder
     {
         $this->call(CountryPermissionSeeder::class);
 
-        Country::insert([
-            [
-                'name' => 'مصر',
-                'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'السعودية',
-                'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'الإمارات',
-                'status' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $countries = [
+            ['name' => 'مصر', 'status' => true],
+            ['name' => 'السعودية', 'status' => true],
+            ['name' => 'الإمارات', 'status' => true],
+        ];
+
+        foreach ($countries as $data) {
+            Country::firstOrCreate(['name' => $data['name']], $data);
+        }
     }
 }
