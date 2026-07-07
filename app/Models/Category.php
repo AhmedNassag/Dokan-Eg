@@ -14,10 +14,22 @@ class Category extends Model
         'name',
         'description',
         'created_by',
+        'parent_id',
+        'is_active',
     ];
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }

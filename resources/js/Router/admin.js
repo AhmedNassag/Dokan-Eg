@@ -1,8 +1,4 @@
-import adminCategoryRoutes from './Modules/Admin/Category/category'
-import adminDashboardRoutes from './Modules/Admin/Dashboard/dashboard'
-import adminRoleRoutes from './Modules/Admin/Role/role'
-import adminPermissionRoutes from './Modules/Admin/Permission/permission'
-import adminUserRoutes from './Modules/Admin/User/user'
+import { createRoutesFromConfig } from './Modules/shared/routeConfig'
 
 export const adminRoutes = [
   {
@@ -12,12 +8,6 @@ export const adminRoutes = [
     meta: {
       title: 'Admin',
     },
-    children: [
-      ...adminDashboardRoutes,
-      ...adminCategoryRoutes,
-      ...adminRoleRoutes,
-      ...adminPermissionRoutes,
-      ...adminUserRoutes,
-    ],
+    children: createRoutesFromConfig('admin', ['dashboard', 'category', 'country', 'city', 'area', 'branch', 'shipping-company', 'language', 'translation', 'user', 'role', 'permission', 'order']),
   },
 ]

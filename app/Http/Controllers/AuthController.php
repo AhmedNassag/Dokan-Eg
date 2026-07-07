@@ -18,17 +18,18 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'user_type' => ['required', 'in:merchant,marketer'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => UserType::MARKETER,
+            'user_type' => $request->user_type,
             'status' => Status::PENDING,
         ]);
 
-        $user->assignRole('marketer');
+        $user->assignRole($request->user_type);
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
@@ -84,7 +85,7 @@ class AuthController extends Controller
             ];
         }
 
-        return $user->getAllPermissions()->map(function ($permission) {
+        $permissions = $user->getAllPermissions()->map(function ($permission) {
             $parts = explode('-', $permission->name, 2);
 
             return [
@@ -92,5 +93,15 @@ class AuthController extends Controller
                 'subject' => $parts[1] ?? $permission->name,
             ];
         })->values()->toArray();
+
+        // If no permissions, add default read access to dashboard
+        if (empty($permissions)) {
+            $permissions[] = [
+                'action' => 'read',
+                'subject' => 'dashboard',
+            ];
+        }
+
+        return $permissions;
     }
 }

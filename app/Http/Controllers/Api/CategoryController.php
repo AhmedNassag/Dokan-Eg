@@ -12,19 +12,18 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
-        
+
         $this->middleware('permission:list-category', ['only' => ['index']]);
         $this->middleware('permission:store-category', ['only' => ['store']]);
         $this->middleware('permission:show-category', ['only' => ['show']]);
         $this->middleware('permission:update-category', ['only' => ['update']]);
         $this->middleware('permission:destroy-category', ['only' => ['destroy']]);
-    
     }
 
     public function index(Request $request)
     {
         $user = Auth::user();
-        $query = Category::query();
+        $query = Category::query()->with('parent');
 
         if (!$user->hasRole('admin')) {
             $query->where('created_by', $user->id);
@@ -33,7 +32,7 @@ class CategoryController extends Controller
         if ($search = $request->q) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
@@ -60,18 +59,21 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
+            'is_active' => 'nullable|boolean',
         ]);
 
         $data['created_by'] = Auth::id();
+        $data['is_active'] = $request->boolean('is_active', true);
 
-        $category = Category::create($data);
+        $category = Category::create($data)->load('parent');
 
         return response()->json($category, 201);
     }
 
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::with('parent')->findOrFail($id);
         // $this->authorizeAccess($category);
 
         return response()->json($category);
@@ -83,11 +85,18 @@ class CategoryController extends Controller
         // $this->authorizeAccess($category);
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        if ($request->has('is_active')) {
+            $data['is_active'] = $request->boolean('is_active');
+        }
+
         $category->update($data);
+        $category->load('parent');
 
         return response()->json($category);
     }
