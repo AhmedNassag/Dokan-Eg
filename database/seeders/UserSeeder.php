@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'status'    => Status::APPROVED,
             ]
         );
-        $admin = Role::findOrCreate('admin');
+        $adminRole = Role::findOrCreate('admin');
 
 
 
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                 'status'    => Status::APPROVED,
             ]
         );
-        $merchant = Role::findOrCreate('merchant');
+        $merchantRole = Role::findOrCreate('merchant');
 
 
 
@@ -51,6 +51,6 @@ class UserSeeder extends Seeder
                 'status'    => Status::APPROVED,
             ]
         );
-        $marketer = Role::findOrCreate('marketer');
+        $marketerRole = Role::findOrCreate('marketer');
     }
 }
