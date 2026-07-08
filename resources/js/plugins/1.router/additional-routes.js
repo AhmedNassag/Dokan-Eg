@@ -19,6 +19,8 @@ export const redirects = [
         return { name: 'merchant-dashboard' }
       if (userRole === 'marketer')
         return { name: 'marketer-dashboard' }
+      if (userRole === 'shipping_representative')
+        return { name: 'shipping-representative-dashboard' }
 
       return { name: 'login', query: to.query }
     },

@@ -25,8 +25,6 @@ class UserSeeder extends Seeder
         );
         $adminRole = Role::findOrCreate('admin');
 
-
-
         //merchant
         $merchant = User::firstOrCreate(
             ['email' => 'merchant@demo.com'],
@@ -39,8 +37,6 @@ class UserSeeder extends Seeder
         );
         $merchantRole = Role::findOrCreate('merchant');
 
-
-
         //marketer
         $marketer = User::firstOrCreate(
             ['email' => 'marketer@demo.com'],
@@ -52,5 +48,17 @@ class UserSeeder extends Seeder
             ]
         );
         $marketerRole = Role::findOrCreate('marketer');
+
+        //shipping representative
+        $shippingRep = User::firstOrCreate(
+            ['email' => 'shipping@demo.com'],
+            [
+                'name'      => 'Shipping Representative',
+                'password'  => Hash::make('shipping'),
+                'user_type' => UserType::SHIPPING_REPRESENTATIVE,
+                'status'    => Status::APPROVED,
+            ]
+        );
+        $shippingRepRole = Role::findOrCreate('shipping_representative');
     }
 }

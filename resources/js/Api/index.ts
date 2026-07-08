@@ -10,6 +10,8 @@ export { default as BranchAPI } from './shared/Branch/branch'
 export { default as ShippingCompanyAPI } from './shared/ShippingCompany/shippingCompany'
 export { default as LanguageAPI } from './shared/Language/language'
 export { default as TranslationAPI } from './shared/Translation/translation'
+export { default as BrandAPI } from './shared/Brand/brand'
+export { default as UnitAPI } from './shared/Unit/unit'
 
 // Backward-compatible role-specific aliases
 export { default as AdminCategory } from './Admin/Category/category'
@@ -43,3 +45,11 @@ export { default as MarketerLanguage } from './Marketer/Language/language'
 export { default as AdminTranslation } from './Admin/Translation/translation'
 export { default as MerchantTranslation } from './Merchant/Translation/translation'
 export { default as MarketerTranslation } from './Marketer/Translation/translation'
+
+export { default as AdminBrand } from './Admin/Brand/brand'
+export { default as MerchantBrand } from './Merchant/Brand/brand'
+export { default as MarketerBrand } from './Marketer/Brand/brand'
+
+export { default as AdminUnit } from './Admin/Unit/unit'
+export { default as MerchantUnit } from './Merchant/Unit/unit'
+export { default as MarketerUnit } from './Marketer/Unit/unit'

@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Api\AreaController;
 use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\ShippingCompanyController;
 use App\Http\Controllers\Api\TranslationController;
+use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -104,6 +106,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('translation/{id}', [TranslationController::class, 'show']);
     Route::put('translation/{id}', [TranslationController::class, 'update']);
     Route::delete('translation/{id}', [TranslationController::class, 'destroy']);
+
+    // Brand CRUD — permission-managed
+    Route::get('brand', [BrandController::class, 'index']);
+    Route::post('brand', [BrandController::class, 'store']);
+    Route::get('brand/{id}', [BrandController::class, 'show']);
+    Route::put('brand/{id}', [BrandController::class, 'update']);
+    Route::delete('brand/{id}', [BrandController::class, 'destroy']);
+
+    // Unit CRUD — permission-managed
+    Route::get('unit', [UnitController::class, 'index']);
+    Route::post('unit', [UnitController::class, 'store']);
+    Route::get('unit/{id}', [UnitController::class, 'show']);
+    Route::put('unit/{id}', [UnitController::class, 'update']);
+    Route::delete('unit/{id}', [UnitController::class, 'destroy']);
 
     // Translation export (public for frontend i18n)
     Route::get('translations/export', [TranslationController::class, 'export']);

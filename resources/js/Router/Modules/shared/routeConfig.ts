@@ -127,6 +127,24 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     action: 'list',
     subject: 'translation',
   },
+  brand: {
+    title: 'Brands',
+    path: 'brand',
+    namePrefix: 'brand',
+    component: () => import('@/views/pages/shared/Brand/Brand.vue'),
+    icon: { icon: 'tabler-tag' },
+    action: 'list',
+    subject: 'brand',
+  },
+  unit: {
+    title: 'Units',
+    path: 'unit',
+    namePrefix: 'unit',
+    component: () => import('@/views/pages/shared/Unit/Unit.vue'),
+    icon: { icon: 'tabler-ruler' },
+    action: 'list',
+    subject: 'unit',
+  },
 }
 
 // Dashboard components per role
@@ -134,6 +152,7 @@ export const dashboardComponents = {
   admin: () => import('@/views/pages/Admin/Dashboard/Dashboard.vue'),
   marketer: () => import('@/views/pages/Marketer/Dashboard/Dashboard.vue'),
   merchant: () => import('@/views/pages/Merchant/Dashboard/Dashboard.vue'),
+  'shipping-representative': () => import('@/views/pages/ShippingRepresentative/Dashboard/Dashboard.vue'),
 }
 
 // Function to create routes from config

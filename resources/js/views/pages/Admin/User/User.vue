@@ -48,6 +48,7 @@ const userTypeOptions = [
   { title: 'Admin', value: 'admin' },
   { title: 'Merchant', value: 'merchant' },
   { title: 'Marketer', value: 'marketer' },
+  { title: 'Shipping Representative', value: 'shipping_representative' },
 ]
 
 const statusOptions = [
@@ -260,7 +261,7 @@ fetchRoles()
           <template #item.user_type="{ item }">
             <VChip
               size="small"
-              :color="item.user_type === 'admin' ? 'primary' : item.user_type === 'merchant' ? 'warning' : 'info'"
+              :color="item.user_type === 'admin' ? 'primary' : item.user_type === 'merchant' ? 'warning' : item.user_type === 'shipping_representative' ? 'secondary' : 'info'"
               label
             >
               {{ item.user_type }}

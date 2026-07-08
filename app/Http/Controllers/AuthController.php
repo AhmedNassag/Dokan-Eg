@@ -18,7 +18,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'user_type' => ['required', 'in:merchant,marketer'],
+            'user_type' => ['required', 'in:merchant,marketer,shipping_representative'],
         ]);
 
         $user = User::create([
@@ -94,7 +94,6 @@ class AuthController extends Controller
             ];
         })->values()->toArray();
 
-        // If no permissions, add default read access to dashboard
         if (empty($permissions)) {
             $permissions[] = [
                 'action' => 'read',

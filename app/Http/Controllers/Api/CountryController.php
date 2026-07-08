@@ -8,6 +8,7 @@ use App\Http\Requests\Country\StoreCountryRequest;
 use App\Http\Requests\Country\UpdateCountryRequest;
 use App\Repositories\Country\CountryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 
 class CountryController extends Controller
 {
@@ -15,6 +16,19 @@ class CountryController extends Controller
     public function __construct(CountryInterface $country)
     {
         $this->country = $country;
+        
+    }
+    public static function middleware(): array
+    {
+        return [
+            'auth:sanctum',
+
+            new Middleware('permission:list-country', only: ['index']),
+            new Middleware('permission:store-country', only: ['store']),
+            new Middleware('permission:show-country', only: ['show']),
+            new Middleware('permission:update-country', only: ['update']),
+            new Middleware('permission:destroy-country', only: ['destroy']),
+        ];
     }
     // public function get()
     // {

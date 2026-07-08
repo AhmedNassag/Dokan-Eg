@@ -8,6 +8,7 @@ use App\Http\Requests\Area\StoreAreaRequest;
 use App\Http\Requests\Area\UpdateAreaRequest;
 use App\Repositories\Area\AreaInterface;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 
 class AreaController extends Controller
 {
@@ -16,6 +17,18 @@ class AreaController extends Controller
     public function __construct(AreaInterface $area)
     {
         $this->area = $area;
+    }
+    public static function middleware(): array
+    {
+        return [
+            'auth:sanctum',
+
+            new Middleware('permission:list-area', only: ['index']),
+            new Middleware('permission:store-area', only: ['store']),
+            new Middleware('permission:show-area', only: ['show']),
+            new Middleware('permission:update-area', only: ['update']),
+            new Middleware('permission:destroy-area', only: ['destroy']),
+        ];
     }
 
     public function index(Request $request, AreaFilter $filter)

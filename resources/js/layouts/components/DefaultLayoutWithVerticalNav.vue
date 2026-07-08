@@ -3,6 +3,7 @@ import defaultNavItems from '@/navigation/vertical'
 import adminNavItems from '@/navigation/vertical/admin'
 import merchantNavItems from '@/navigation/vertical/merchant'
 import marketerNavItems from '@/navigation/vertical/marketer'
+import shippingRepresentativeNavItems from '@/navigation/vertical/shipping-representative'
 import { themeConfig } from '@themeConfig'
 
 // Components
@@ -25,6 +26,7 @@ const navItems = computed(() => {
   if (role === 'admin') return adminNavItems
   if (role === 'merchant') return merchantNavItems
   if (role === 'marketer') return marketerNavItems
+  if (role === 'shipping_representative') return shippingRepresentativeNavItems
   return defaultNavItems
 })
 </script>

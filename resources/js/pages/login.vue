@@ -63,6 +63,8 @@ const login = async () => {
         redirectTo = { name: 'merchant-dashboard' }
       } else if (userType === 'marketer') {
         redirectTo = { name: 'marketer-dashboard' }
+      } else if (userType === 'shipping_representative') {
+        redirectTo = { name: 'shipping-representative-dashboard' }
       } else if (userType === 'admin') {
         redirectTo = { name: 'admin-dashboard' }
       } else {
@@ -129,6 +131,9 @@ const onSubmit = () => {
             </p>
             <p class="text-sm mb-2">
               Marketer Email: <strong>marketer@demo.com</strong> / Pass: <strong>marketer</strong>
+            </p>
+            <p class="text-sm mb-2">
+              Shipping Rep Email: <strong>shipping@demo.com</strong> / Pass: <strong>shipping</strong>
             </p>
           </VAlert>
         </VCardText>

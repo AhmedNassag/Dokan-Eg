@@ -59,12 +59,18 @@ const register = async () => {
     useCookie('userData').value = userData
     useCookie('accessToken').value = accessToken
 
-    await nextTick(() => {
-      router.push('/')
-    })
+    const dashboardMap = {
+      admin: 'admin-dashboard',
+      merchant: 'merchant-dashboard',
+      marketer: 'marketer-dashboard',
+      shipping_representative: 'shipping-representative-dashboard',
+    }
+
+    const routeName = dashboardMap[userData?.user_type] || 'admin-dashboard'
+    router.push({ name: routeName })
   }
-  catch (err) {
-    console.error(err)
+  catch {
+    // errors handled by onResponseError
   }
 }
 
@@ -129,6 +135,7 @@ const onSubmit = () => {
                 <VSelect v-model="form.user_type" :rules="[requiredValidator]" label="Account Type" :items="[
                   { title: 'Merchant', value: 'merchant' },
                   { title: 'Marketer', value: 'marketer' },
+                  { title: 'Shipping Representative', value: 'shipping_representative' },
                 ]" item-title="title" item-value="value" placeholder="Select account type"
                   :error-messages="errors.user_type" clearable />
               </VCol>

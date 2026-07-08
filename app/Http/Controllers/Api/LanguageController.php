@@ -8,6 +8,7 @@ use App\Http\Requests\Language\StoreLanguageRequest;
 use App\Http\Requests\Language\UpdateLanguageRequest;
 use App\Repositories\Language\LanguageInterface;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 
 class LanguageController extends Controller
 {
@@ -16,6 +17,18 @@ class LanguageController extends Controller
     public function __construct(LanguageInterface $language)
     {
         $this->language = $language;
+    }
+    public static function middleware(): array
+    {
+        return [
+            'auth:sanctum',
+
+            new Middleware('permission:list-language', only: ['index']),
+            new Middleware('permission:store-language', only: ['store']),
+            new Middleware('permission:show-language', only: ['show']),
+            new Middleware('permission:update-language', only: ['update']),
+            new Middleware('permission:destroy-language', only: ['destroy']),
+        ];
     }
 
     public function index(Request $request, LanguageFilter $filter)

@@ -6,6 +6,8 @@ use App\Repositories\Area\AreaInterface;
 use App\Repositories\Area\AreaRepository;
 use App\Repositories\Branch\BranchInterface;
 use App\Repositories\Branch\BranchRepository;
+use App\Repositories\Brand\BrandInterface;
+use App\Repositories\Brand\BrandRepository;
 use App\Repositories\City\CityInterface;
 use App\Repositories\City\CityRepository;
 use App\Repositories\Country\CountryInterface;
@@ -16,6 +18,8 @@ use App\Repositories\ShippingCompany\ShippingCompanyInterface;
 use App\Repositories\Translation\TranslationInterface;
 use App\Repositories\Translation\TranslationRepository;
 use App\Repositories\ShippingCompany\ShippingCompanyRepository;
+use App\Repositories\Unit\UnitInterface;
+use App\Repositories\Unit\UnitRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepoServiceProvider extends ServiceProvider
@@ -58,6 +62,16 @@ class RepoServiceProvider extends ServiceProvider
         $this->app->bind(
             TranslationInterface::class,
             TranslationRepository::class
+        );
+
+        $this->app->bind(
+            BrandInterface::class,
+            BrandRepository::class
+        );
+
+        $this->app->bind(
+            UnitInterface::class,
+            UnitRepository::class
         );
     }
 

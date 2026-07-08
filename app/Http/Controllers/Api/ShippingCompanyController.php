@@ -8,6 +8,7 @@ use App\Http\Requests\ShippingCompany\StoreShippingCompanyRequest;
 use App\Http\Requests\ShippingCompany\UpdateShippingCompanyRequest;
 use App\Repositories\ShippingCompany\ShippingCompanyInterface;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 
 class ShippingCompanyController extends Controller
 {
@@ -16,6 +17,18 @@ class ShippingCompanyController extends Controller
     public function __construct(ShippingCompanyInterface $shippingCompany)
     {
         $this->shippingCompany = $shippingCompany;
+    }
+    public static function middleware(): array
+    {
+        return [
+            'auth:sanctum',
+
+            new Middleware('permission:list-shipping-company', only: ['index']),
+            new Middleware('permission:store-shipping-company', only: ['store']),
+            new Middleware('permission:show-shipping-company', only: ['show']),
+            new Middleware('permission:update-shipping-company', only: ['update']),
+            new Middleware('permission:destroy-shipping-company', only: ['destroy']),
+        ];
     }
 
     public function index(Request $request, ShippingCompanyFilter $filter)

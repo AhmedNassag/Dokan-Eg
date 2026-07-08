@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use Database\Seeders\Area\AreaSeeder;
 use Database\Seeders\Branch\BranchSeeder;
+use Database\Seeders\Brand\BrandSeeder;
 use Database\Seeders\Category\CategorySeeder;
 use Database\Seeders\Language\LanguageSeeder;
 use Database\Seeders\ShippingCompany\ShippingCompanySeeder;
 use Database\Seeders\Translation\TranslationSeeder;
+use Database\Seeders\Unit\UnitSeeder;
 use Database\Seeders\City\CitySeeder;
 use Database\Seeders\Country\CountrySeeder;
 use Database\Seeders\PermissionSeeder;
@@ -49,5 +51,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageSeeder::class);
         $this->call(TranslationSeeder::class);
         $this->call(ShippingCompanySeeder::class);
+        $this->call(BrandSeeder::class);
+        $this->call(UnitSeeder::class);
     }
 }

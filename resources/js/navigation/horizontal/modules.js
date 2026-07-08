@@ -10,6 +10,8 @@ export default [
       { title: 'Branches', to: 'admin-branch', icon: { icon: 'tabler-building' } },
       { title: 'Shipping Companies', to: 'admin-shipping-company', icon: { icon: 'tabler-truck' } },
       { title: 'Languages', to: 'admin-language', icon: { icon: 'tabler-language' } },
+      { title: 'Brands', to: 'admin-brand', icon: { icon: 'tabler-tag' } },
+      { title: 'Units', to: 'admin-unit', icon: { icon: 'tabler-ruler' } },
       { title: 'Translations', to: 'admin-translation', icon: { icon: 'tabler-file-text' } },
     ],
   },

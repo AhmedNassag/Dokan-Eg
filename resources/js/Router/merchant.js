@@ -8,6 +8,6 @@ export const merchantRoutes = [
     meta: {
       title: 'Merchant',
     },
-    children: createRoutesFromConfig('merchant', ['dashboard', 'category', 'country', 'city', 'area', 'branch', 'shipping-company', 'language', 'translation', 'user', 'role', 'permission']),
+    children: createRoutesFromConfig('merchant', ['dashboard', 'category', 'country', 'city', 'area', 'branch', 'shipping-company', 'language', 'translation', 'brand', 'unit', 'user', 'role', 'permission']),
   },
 ]

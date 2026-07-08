@@ -19,18 +19,22 @@ class PermissionSeeder extends Seeder
         $adminRole->syncPermissions($permissions);
         $admin->assignRole([$adminRole->id]);
 
-
         //merchant
         $merchant     = User::where('email', 'merchant@demo.com')->first();
         $merchantRole = Role::findOrCreate('merchant');
         $merchantRole->syncPermissions($permissions);
         $merchant->assignRole([$merchantRole->id]);
 
-
         //marketer
         $marketer     = User::where('email', 'marketer@demo.com')->first();
         $marketerRole = Role::findOrCreate('marketer');
         $marketerRole->syncPermissions($permissions);
         $marketer->assignRole([$marketerRole->id]);
+
+        //shipping representative
+        $shippingRep     = User::where('email', 'shipping@demo.com')->first();
+        $shippingRepRole = Role::findOrCreate('shipping_representative');
+        $shippingRepRole->syncPermissions($permissions);
+        $shippingRep->assignRole([$shippingRepRole->id]);
     }
 }

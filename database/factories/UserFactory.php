@@ -47,4 +47,12 @@ class UserFactory extends Factory
             'status' => Status::APPROVED,
         ]);
     }
+
+    public function shippingRepresentative(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'user_type' => UserType::SHIPPING_REPRESENTATIVE,
+            'status' => Status::APPROVED,
+        ]);
+    }
 }
