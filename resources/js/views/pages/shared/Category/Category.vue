@@ -1,5 +1,5 @@
 <script setup>
-import CategoryAPI from '@/Api/shared/Category/category'
+import CategoryAPI from '@/API/shared/Category/category'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -51,9 +51,10 @@ async function fetchCategories() {
     })
 
     const categoryData = res.data ?? res.categories ?? []
+
     categories.value = categoryData.map(cat => ({
       ...cat,
-      is_active: Boolean(cat.is_active)
+      is_active: Boolean(cat.is_active),
     }))
     totalCategories.value = res.total ?? res.totalCategories ?? 0
   } catch {
@@ -62,6 +63,15 @@ async function fetchCategories() {
   } finally {
     isLoading.value = false
   }
+}
+
+function formatError(err) {
+  const data = err?.response?._data
+  if (data?.errors) {
+    return Object.values(data.errors).flat().join(', ')
+  }
+  
+  return data?.message || err?.message || 'An error occurred'
 }
 
 function openAddModal() {
@@ -87,7 +97,7 @@ async function handleDelete() {
     snackbar.value = true
     await fetchCategories()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -96,12 +106,14 @@ async function handleDelete() {
 }
 
 async function toggleActive(category) {
-  const newActive = !category.is_active
   try {
-    await api.update(category.id, { is_active: newActive })
+    await api.update(category.id, {
+      ...category,
+      is_active: !category.is_active,
+    })
     await fetchCategories()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -115,7 +127,7 @@ async function handleAddSubmit(data) {
     snackbar.value = true
     await fetchCategories()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -129,7 +141,7 @@ async function handleEditSubmit(data) {
     snackbar.value = true
     await fetchCategories()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -158,9 +170,18 @@ fetchCategories()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable
-            clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'category')" prepend-icon="tabler-plus" @click="openAddModal">
+          <AppTextField
+            v-model="searchQuery"
+            :placeholder="$t('Search')"
+            style="inline-size: 15.625rem;"
+            clearable
+            clear-icon="tabler-x"
+          />
+          <VBtn
+            v-if="$can('store', 'category')"
+            prepend-icon="tabler-plus"
+            @click="openAddModal"
+          >
             {{ $t('Add Category') }}
           </VBtn>
         </div>
@@ -169,9 +190,16 @@ fetchCategories()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="categories"
-          :items-length="totalCategories" :headers="headers" :loading="isLoading" class="text-no-wrap"
-          @update:options="updateOptions">
+        <VDataTableServer
+          v-model:items-per-page="itemsPerPage"
+          v-model:page="page"
+          :items="categories"
+          :items-length="totalCategories"
+          :headers="headers"
+          :loading="isLoading"
+          class="text-no-wrap"
+          @update:options="updateOptions"
+        >
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -185,9 +213,19 @@ fetchCategories()
           </template>
 
           <template #item.is_active="{ item }">
-            <VSwitch v-if="$can('update', 'category')" :model-value="item.is_active"
-              @update:model-value="() => toggleActive(item)" color="success" inset hide-details />
-            <VChip v-else :color="item.is_active ? 'success' : 'error'" size="small">
+            <VSwitch
+              v-if="$can('update', 'category')"
+              :model-value="item.is_active"
+              color="success"
+              inset
+              hide-details
+              @update:model-value="() => toggleActive(item)"
+            />
+            <VChip
+              v-else
+              :color="item.is_active ? 'success' : 'error'"
+              size="small"
+            >
               {{ item.is_active ? 'Yes' : 'No' }}
             </VChip>
           </template>
@@ -198,34 +236,64 @@ fetchCategories()
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn v-if="$can('update', 'category')" @click="openEditModal(item)">
+              <IconBtn
+                v-if="$can('update', 'category')"
+                @click="openEditModal(item)"
+              >
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn v-if="$can('destroy', 'category')" @click="confirmDelete(item.id)">
+              <IconBtn
+                v-if="$can('destroy', 'category')"
+                @click="confirmDelete(item.id)"
+              >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalCategories" />
+            <TablePagination
+              v-model:page="page"
+              :items-per-page="itemsPerPage"
+              :total-items="totalCategories"
+            />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal v-model="isAddModalOpen" :categories="categories" @submit="handleAddSubmit" />
+  <AddModal
+    v-model="isAddModalOpen"
+    :categories="categories"
+    @submit="handleAddSubmit"
+  />
 
-  <EditModal v-model="isEditModalOpen" :category="selectedCategory" :categories="categories"
-    @submit="handleEditSubmit" />
+  <EditModal
+    v-model="isEditModalOpen"
+    :category="selectedCategory"
+    :categories="categories"
+    @submit="handleEditSubmit"
+  />
 
-  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
+  <DeleteModal
+    v-model="isDeleteModalOpen"
+    @confirm="handleDelete"
+  />
 
-  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
+  <VSnackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    timeout="3000"
+  >
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn color="white" variant="text" @click="snackbar = false">
+      <VBtn
+        color="white"
+        variant="text"
+        @click="snackbar = false"
+      >
         Close
       </VBtn>
     </template>

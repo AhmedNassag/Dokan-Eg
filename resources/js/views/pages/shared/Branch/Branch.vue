@@ -1,5 +1,5 @@
 <script setup>
-import BranchAPI from '@/Api/shared/Branch/branch'
+import BranchAPI from '@/API/shared/Branch/branch'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -43,9 +43,10 @@ async function fetchBranches() {
     })
 
     const items = res.data?.items ?? []
+
     branches.value = items.map(b => ({
       ...b,
-      status: Boolean(b.status)
+      status: Boolean(b.status),
     }))
     totalBranches.value = res.data?.pagination?.total ?? 0
   } catch {
@@ -54,6 +55,15 @@ async function fetchBranches() {
   } finally {
     isLoading.value = false
   }
+}
+
+function formatError(err) {
+  const data = err?.response?._data
+  if (data?.errors) {
+    return Object.values(data.errors).flat().join(', ')
+  }
+  
+  return data?.message || err?.message || 'An error occurred'
 }
 
 function openAddModal() {
@@ -79,7 +89,7 @@ async function handleDelete() {
     snackbar.value = true
     await fetchBranches()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -88,12 +98,14 @@ async function handleDelete() {
 }
 
 async function toggleStatus(branch) {
-  const newStatus = !branch.status
   try {
-    await api.update(branch.id, { status: newStatus })
+    await api.update(branch.id, {
+      ...branch,
+      status: !branch.status,
+    })
     await fetchBranches()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -107,7 +119,7 @@ async function handleAddSubmit(data) {
     snackbar.value = true
     await fetchBranches()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -121,7 +133,7 @@ async function handleEditSubmit(data) {
     snackbar.value = true
     await fetchBranches()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -150,9 +162,18 @@ fetchBranches()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable
-            clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'branch')" prepend-icon="tabler-plus" @click="openAddModal">
+          <AppTextField
+            v-model="searchQuery"
+            :placeholder="$t('Search')"
+            style="inline-size: 15.625rem;"
+            clearable
+            clear-icon="tabler-x"
+          />
+          <VBtn
+            v-if="$can('store', 'branch')"
+            prepend-icon="tabler-plus"
+            @click="openAddModal"
+          >
             {{ $t('Add Branch') }}
           </VBtn>
         </div>
@@ -161,8 +182,15 @@ fetchBranches()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="branches"
-          :items-length="totalBranches" :headers="headers" :loading="isLoading" class="text-no-wrap">
+        <VDataTableServer
+          v-model:items-per-page="itemsPerPage"
+          v-model:page="page"
+          :items="branches"
+          :items-length="totalBranches"
+          :headers="headers"
+          :loading="isLoading"
+          class="text-no-wrap"
+        >
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -184,42 +212,81 @@ fetchBranches()
           </template>
 
           <template #item.status="{ item }">
-            <VSwitch v-if="$can('update', 'branch')" :model-value="item.status"
-              @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
-            <VChip v-else :color="item.status ? 'success' : 'error'" size="small">
+            <VSwitch
+              v-if="$can('update', 'branch')"
+              :model-value="item.status"
+              color="success"
+              inset
+              hide-details
+              @update:model-value="() => toggleStatus(item)"
+            />
+            <VChip
+              v-else
+              :color="item.status ? 'success' : 'error'"
+              size="small"
+            >
               {{ item.status ? 'Active' : 'Inactive' }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn v-if="$can('update', 'branch')" @click="openEditModal(item)">
+              <IconBtn
+                v-if="$can('update', 'branch')"
+                @click="openEditModal(item)"
+              >
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn v-if="$can('destroy', 'branch')" @click="confirmDelete(item.id)">
+              <IconBtn
+                v-if="$can('destroy', 'branch')"
+                @click="confirmDelete(item.id)"
+              >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalBranches" />
+            <TablePagination
+              v-model:page="page"
+              :items-per-page="itemsPerPage"
+              :total-items="totalBranches"
+            />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
+  <AddModal
+    v-model="isAddModalOpen"
+    @submit="handleAddSubmit"
+  />
 
-  <EditModal v-model="isEditModalOpen" :branch="selectedBranch" @submit="handleEditSubmit" />
+  <EditModal
+    v-model="isEditModalOpen"
+    :branch="selectedBranch"
+    @submit="handleEditSubmit"
+  />
 
-  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
+  <DeleteModal
+    v-model="isDeleteModalOpen"
+    @confirm="handleDelete"
+  />
 
-  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
+  <VSnackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    timeout="3000"
+  >
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn color="white" variant="text" @click="snackbar = false">
+      <VBtn
+        color="white"
+        variant="text"
+        @click="snackbar = false"
+      >
         Close
       </VBtn>
     </template>

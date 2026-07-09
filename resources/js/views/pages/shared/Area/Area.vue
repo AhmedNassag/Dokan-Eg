@@ -1,5 +1,5 @@
 <script setup>
-import AreaAPI from '@/Api/shared/Area/area'
+import AreaAPI from '@/API/shared/Area/area'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -41,9 +41,10 @@ async function fetchAreas() {
     })
 
     const items = res.data?.items ?? []
+
     areas.value = items.map(a => ({
       ...a,
-      status: Boolean(a.status)
+      status: Boolean(a.status),
     }))
     totalAreas.value = res.data?.pagination?.total ?? 0
   } catch {
@@ -52,6 +53,15 @@ async function fetchAreas() {
   } finally {
     isLoading.value = false
   }
+}
+
+function formatError(err) {
+  const data = err?.response?._data
+  if (data?.errors) {
+    return Object.values(data.errors).flat().join(', ')
+  }
+  
+  return data?.message || err?.message || 'An error occurred'
 }
 
 function openAddModal() {
@@ -77,7 +87,7 @@ async function handleDelete() {
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -86,12 +96,14 @@ async function handleDelete() {
 }
 
 async function toggleStatus(area) {
-  const newStatus = !area.status
   try {
-    await api.update(area.id, { status: newStatus })
+    await api.update(area.id, {
+      ...area,
+      status: !area.status,
+    })
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -105,7 +117,7 @@ async function handleAddSubmit(data) {
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -119,7 +131,7 @@ async function handleEditSubmit(data) {
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -148,9 +160,18 @@ fetchAreas()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable
-            clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'area')" prepend-icon="tabler-plus" @click="openAddModal">
+          <AppTextField
+            v-model="searchQuery"
+            :placeholder="$t('Search')"
+            style="inline-size: 15.625rem;"
+            clearable
+            clear-icon="tabler-x"
+          />
+          <VBtn
+            v-if="$can('store', 'area')"
+            prepend-icon="tabler-plus"
+            @click="openAddModal"
+          >
             {{ $t('Add Area') }}
           </VBtn>
         </div>
@@ -159,8 +180,15 @@ fetchAreas()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="areas"
-          :items-length="totalAreas" :headers="headers" :loading="isLoading" class="text-no-wrap">
+        <VDataTableServer
+          v-model:items-per-page="itemsPerPage"
+          v-model:page="page"
+          :items="areas"
+          :items-length="totalAreas"
+          :headers="headers"
+          :loading="isLoading"
+          class="text-no-wrap"
+        >
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -174,42 +202,81 @@ fetchAreas()
           </template>
 
           <template #item.status="{ item }">
-            <VSwitch v-if="$can('update', 'area')" :model-value="item.status"
-              @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
-            <VChip v-else :color="item.status ? 'success' : 'error'" size="small">
+            <VSwitch
+              v-if="$can('update', 'area')"
+              :model-value="item.status"
+              color="success"
+              inset
+              hide-details
+              @update:model-value="() => toggleStatus(item)"
+            />
+            <VChip
+              v-else
+              :color="item.status ? 'success' : 'error'"
+              size="small"
+            >
               {{ item.status ? 'Active' : 'Inactive' }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn v-if="$can('update', 'area')" @click="openEditModal(item)">
+              <IconBtn
+                v-if="$can('update', 'area')"
+                @click="openEditModal(item)"
+              >
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn v-if="$can('destroy', 'area')" @click="confirmDelete(item.id)">
+              <IconBtn
+                v-if="$can('destroy', 'area')"
+                @click="confirmDelete(item.id)"
+              >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalAreas" />
+            <TablePagination
+              v-model:page="page"
+              :items-per-page="itemsPerPage"
+              :total-items="totalAreas"
+            />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
+  <AddModal
+    v-model="isAddModalOpen"
+    @submit="handleAddSubmit"
+  />
 
-  <EditModal v-model="isEditModalOpen" :area="selectedArea" @submit="handleEditSubmit" />
+  <EditModal
+    v-model="isEditModalOpen"
+    :area="selectedArea"
+    @submit="handleEditSubmit"
+  />
 
-  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
+  <DeleteModal
+    v-model="isDeleteModalOpen"
+    @confirm="handleDelete"
+  />
 
-  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
+  <VSnackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    timeout="3000"
+  >
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn color="white" variant="text" @click="snackbar = false">
+      <VBtn
+        color="white"
+        variant="text"
+        @click="snackbar = false"
+      >
         Close
       </VBtn>
     </template>
