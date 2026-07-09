@@ -15,10 +15,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => ['required', 'string'],
-            'code'      => ['required', 'string', 'max:10', Rule::unique('languages', 'code')->ignore($this->route('id'))],
-            'direction' => ['required', 'in:ltr,rtl'],
-            'status'    => ['required', 'boolean'],
+            'name'       => ['required', 'string'],
+            'code'       => ['required', 'string', 'max:10', Rule::unique('languages', 'code')->ignore($this->route('id'))],
+            'direction'  => ['required', 'in:ltr,rtl'],
+            'is_default' => ['nullable', 'boolean'],
+            'status'     => ['required', 'boolean'],
         ];
     }
 

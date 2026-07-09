@@ -96,6 +96,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('language', [LanguageController::class, 'store']);
     Route::get('language/{id}', [LanguageController::class, 'show']);
     Route::put('language/{id}', [LanguageController::class, 'update']);
+    Route::put('language/{id}/set-default', [LanguageController::class, 'setDefault']);
     Route::delete('language/{id}', [LanguageController::class, 'destroy']);
 
     // Translation CRUD — permission-managed

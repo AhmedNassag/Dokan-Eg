@@ -22,7 +22,7 @@ class LanguageController extends Controller
         $this->middleware('permission:list-language', ['only' => ['index']]);
         $this->middleware('permission:show-language', ['only' => ['show']]);
         $this->middleware('permission:store-language', ['only' => ['store']]);
-        $this->middleware('permission:update-language', ['only' => ['update']]);
+        $this->middleware('permission:update-language', ['only' => ['update', 'setDefault']]);
         $this->middleware('permission:destroy-language', ['only' => ['destroy']]);
     }
 
@@ -52,6 +52,13 @@ class LanguageController extends Controller
     public function update($id, UpdateRequest $request)
     {
         return $this->language->update($id, $request);
+    }
+
+
+
+    public function setDefault($id)
+    {
+        return $this->language->setDefault($id);
     }
 
 

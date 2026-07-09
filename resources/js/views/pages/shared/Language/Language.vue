@@ -25,6 +25,7 @@ const headers = [
   { title: 'Name', key: 'name' },
   { title: 'Code', key: 'code' },
   { title: 'Direction', key: 'direction' },
+  { title: 'Default', key: 'is_default' },
   { title: 'Status', key: 'status' },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
@@ -38,12 +39,20 @@ async function fetchItems() {
       page: page.value,
     })
     const data = res.data?.items ?? []
-    items.value = data.map(c => ({ ...c, status: Boolean(c.status) }))
+    items.value = data.map(c => ({ ...c, status: Boolean(c.status), is_default: Boolean(c.is_default) }))
     totalLanguages.value = res.data?.pagination?.total ?? 0
   } catch {
     items.value = []
     totalLanguages.value = 0
   } finally { isLoading.value = false }
+}
+
+function formatError(err) {
+  const data = err?.response?._data
+  if (data?.errors) {
+    return Object.values(data.errors).flat().join(', ')
+  }
+  return data?.message || err?.message || 'An error occurred'
 }
 
 function openAddModal() { isAddModalOpen.value = true }
@@ -58,17 +67,33 @@ async function handleDelete() {
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'; snackbar.value = true
   } finally { deleteId.value = null }
 }
 
 async function toggleStatus(item) {
   try {
-    await api.update(item.id, { status: !item.status })
+    await api.update(item.id, {
+      name: item.name,
+      code: item.code,
+      direction: item.direction,
+      status: !item.status,
+    })
     await fetchItems()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
+    snackbarColor.value = 'error'; snackbar.value = true
+  }
+}
+
+async function toggleDefault(item) {
+  if (item.is_default) return
+  try {
+    await api.setDefault(item.id)
+    await fetchItems()
+  } catch (err) {
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -80,7 +105,7 @@ async function handleAddSubmit(data) {
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -92,7 +117,7 @@ async function handleEditSubmit(data) {
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'; snackbar.value = true
   } finally { selectedItem.value = null }
 }
@@ -133,6 +158,12 @@ fetchItems()
 
         <template #item.direction="{ item }">
           {{ item.direction }}
+        </template>
+
+        <template #item.is_default="{ item }">
+          <VSwitch v-if="$can('update', 'language')" :model-value="item.is_default"
+            @update:model-value="() => toggleDefault(item)" color="primary" inset hide-details />
+          <VChip v-else :color="item.is_default ? 'primary' : 'default'" size="small">{{ item.is_default ? 'Yes' : 'No' }}</VChip>
         </template>
 
         <template #item.status="{ item }">

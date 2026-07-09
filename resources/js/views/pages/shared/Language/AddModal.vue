@@ -6,13 +6,13 @@ const isSubmitting = ref(false)
 const refForm = ref()
 const isFormValid = ref(false)
 
-const formData = ref({ name: '', code: '', direction: 'ltr', status: true })
+const formData = ref({ name: '', code: '', direction: 'ltr', is_default: false, status: true })
 
 function closeModal() {
   emit('update:modelValue', false)
   nextTick(() => {
     refForm.value?.reset(); refForm.value?.resetValidation()
-    formData.value = { name: '', code: '', direction: 'ltr', status: true }
+    formData.value = { name: '', code: '', direction: 'ltr', is_default: false, status: true }
   })
 }
 
@@ -42,6 +42,7 @@ async function onSubmit() {
               <VSelect v-model="formData.direction" :items="['ltr', 'rtl']"
                 :label="$t('Direction')" hide-details />
             </VCol>
+            <VCol cols="12"><VCheckbox v-model="formData.is_default" :label="$t('Default')" color="primary" /></VCol>
             <VCol cols="12"><VCheckbox v-model="formData.status" :label="$t('Active')" color="success" /></VCol>
           </VRow>
           <VRow class="mt-2"><VCol cols="12">
