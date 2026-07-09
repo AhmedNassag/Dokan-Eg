@@ -162,8 +162,8 @@ const chartOptions = computed(() => {
 <template>
   <VCard>
     <VCardItem class="pb-3">
-      <VCardTitle>Orders</VCardTitle>
-      <VCardSubtitle>Last Week</VCardSubtitle>
+      <VCardTitle>{{ $t('Orders') }}</VCardTitle>
+      <VCardSubtitle>{{ $t('Last Week') }}</VCardSubtitle>
     </VCardItem>
 
     <VCardText>

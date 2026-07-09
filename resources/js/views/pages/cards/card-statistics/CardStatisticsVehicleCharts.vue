@@ -1,9 +1,11 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const logisticData = ref([
   {
     icon: 'tabler-truck',
     color: 'primary',
-    title: 'On route vehicles',
+    title: t('On route vehicles'),
     value: 42,
     change: 18.2,
     isHover: false,
@@ -11,7 +13,7 @@ const logisticData = ref([
   {
     icon: 'tabler-alert-triangle',
     color: 'warning',
-    title: 'Vehicles with errors',
+    title: t('Vehicles with errors'),
     value: 8,
     change: -8.7,
     isHover: false,
@@ -19,7 +21,7 @@ const logisticData = ref([
   {
     icon: 'tabler-git-fork',
     color: 'error',
-    title: 'Deviated from route',
+    title: t('Deviated from route'),
     value: 27,
     change: 4.3,
     isHover: false,
@@ -27,7 +29,7 @@ const logisticData = ref([
   {
     icon: 'tabler-clock',
     color: 'info',
-    title: 'Late vehicles',
+    title: t('Late vehicles'),
     value: 13,
     change: -2.5,
     isHover: false,
@@ -75,7 +77,7 @@ const logisticData = ref([
                 {{ (data.change > 0) ? '+' : '' }} {{ data.change }}%
               </h6>
               <div class="text-disabled">
-                than last week
+                {{ $t('than last week') }}
               </div>
             </div>
           </VCardText>

@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const searchQuery = ref('')
 const selectedStatus = ref()
 const selectedRows = ref([])
@@ -17,32 +19,32 @@ const updateOptions = options => {
 // 👉 headers
 const headers = [
   {
-    title: '#',
+    title: t('#'),
     key: 'id',
   },
   {
-    title: 'Status',
+    title: t('Status'),
     key: 'status',
     sortable: false,
   },
   {
-    title: 'Client',
+    title: t('Client'),
     key: 'client',
   },
   {
-    title: 'Total',
+    title: t('Total'),
     key: 'total',
   },
   {
-    title: 'Issued Date',
+    title: t('Issued Date'),
     key: 'date',
   },
   {
-    title: 'Balance',
+    title: t('Balance'),
     key: 'balance',
   },
   {
-    title: 'Actions',
+    title: t('Actions'),
     key: 'actions',
     sortable: false,
   },
@@ -69,12 +71,12 @@ const totalInvoices = computed(() => invoiceData.value?.totalInvoices)
 const resolveInvoiceBalanceVariant = (balance, total) => {
   if (balance === total)
     return {
-      status: 'Unpaid',
+      status: t('Unpaid'),
       chip: { color: 'error' },
     }
   if (balance === 0)
     return {
-      status: 'Paid',
+      status: t('Paid'),
       chip: { color: 'success' },
     }
   
@@ -132,7 +134,7 @@ const deleteInvoice = async id => {
   <VCard
     v-if="invoices"
     id="invoice-list"
-    title="Billing History"
+    :title="$t('Billing History')"
   >
     <VCardText class="d-flex align-center flex-wrap gap-4">
       <!-- 👉 Create invoice -->
@@ -149,7 +151,7 @@ const deleteInvoice = async id => {
         prepend-icon="tabler-plus"
         :to="{ name: 'apps-invoice-add' }"
       >
-        Create invoice
+        {{ $t('Create invoice') }}
       </VBtn>
 
       <VSpacer />
@@ -159,16 +161,16 @@ const deleteInvoice = async id => {
         <div class="invoice-list-search">
           <AppTextField
             v-model="searchQuery"
-            placeholder="Search Invoice"
+            :placeholder="$t('Search Invoice')"
           />
         </div>
         <div class="invoice-list-status">
           <AppSelect
             v-model="selectedStatus"
-            placeholder="Invoice Status"
+            :placeholder="$t('Invoice Status')"
             clearable
             clear-icon="tabler-x"
-            :items="['Downloaded', 'Draft', 'Sent', 'Paid', 'Partial Payment', 'Past Due']"
+            :items="[$t('Downloaded'), $t('Draft'), $t('Sent'), $t('Paid'), $t('Partial Payment'), $t('Past Due')]"
             style="inline-size: 12rem;"
           />
         </div>
@@ -218,10 +220,10 @@ const deleteInvoice = async id => {
             {{ item.invoiceStatus }}
           </p>
           <p class="mb-0">
-            Balance: {{ item.balance }}
+            {{ $t('Balance:') }} {{ item.balance }}
           </p>
           <p class="mb-0">
-            Due date: {{ item.dueDate }}
+            {{ $t('Due date:') }} {{ item.dueDate }}
           </p>
         </VTooltip>
       </template>

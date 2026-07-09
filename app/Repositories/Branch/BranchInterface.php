@@ -5,8 +5,12 @@ namespace App\Repositories\Branch;
 interface BranchInterface
 {
     public function index($request, $filter);
-    public function show($branchId);
+    
+    public function show($id);
+    
     public function store($request);
-    public function update($branchId, $request);
-    public function destroy($branchId);
+    
+    public function update($id, $request);
+    
+    public function destroy($id);
 }

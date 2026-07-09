@@ -1,5 +1,19 @@
 import { createNavItemsFromConfig } from '@/Router/Modules/shared/routeConfig'
 
-export function createNavItems(role, sections = ['dashboard', 'category', 'user', 'role', 'permission', 'order']) {
+export function createNavItems(role, sections = [
+  'dashboard',
+  'user',
+  'role',
+  'permission',
+  'category',
+  'country',
+  'city',
+  'area',
+  'branch',
+  'shippingCompany',
+  'language',
+  'translation',
+  'order',
+]) {
   return createNavItemsFromConfig(role, sections)
 }

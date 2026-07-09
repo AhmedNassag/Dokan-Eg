@@ -1,14 +1,16 @@
-<script setup>
-const navigationTab = ref('Item One')
-const navigationTab2 = ref('Item One')
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
+const navigationTab = ref(t('Item One'))
+const navigationTab2 = ref(t('Item One'))
 
 const tabItems = [
-  'Item One',
-  'Item Two',
-  'Item Three',
+  t('Item One'),
+  t('Item Two'),
+  t('Item Three'),
 ]
 
-const tabContent = 'Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards...'
+const tabContent = t('Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards...')
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const tabContent = 'Although cards can support multiple actions, UI controls, an
             :value="item"
           >
             <VCardItem>
-              <VCardTitle>Navigation Card</VCardTitle>
+              <VCardTitle>{{ $t('Navigation Card') }}</VCardTitle>
             </VCardItem>
 
             <VCardText>
@@ -44,7 +46,7 @@ const tabContent = 'Although cards can support multiple actions, UI controls, an
             </VCardText>
 
             <VCardText>
-              <VBtn>Learn More</VBtn>
+              <VBtn>{{ $t('Learn More') }}</VBtn>
             </VCardText>
           </VWindowItem>
         </VWindow>
@@ -78,13 +80,13 @@ const tabContent = 'Although cards can support multiple actions, UI controls, an
             class="text-center"
           >
             <VCardItem>
-              <VCardTitle>Navigation Card</VCardTitle>
+              <VCardTitle>{{ $t('Navigation Card') }}</VCardTitle>
             </VCardItem>
 
             <VCardText>{{ tabContent }}</VCardText>
 
             <VCardText>
-              <VBtn>Learn More</VBtn>
+              <VBtn>{{ $t('Learn More') }}</VBtn>
             </VCardText>
           </VWindowItem>
         </VWindow>

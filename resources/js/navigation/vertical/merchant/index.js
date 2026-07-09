@@ -1,3 +1,19 @@
 import { createNavItems } from '../shared/index'
 
-export default createNavItems('merchant', ['dashboard', 'category', 'country', 'city', 'area', 'branch', 'shipping-company', 'language', 'translation', 'user', 'role', 'permission'])
+export default createNavItems(
+  'merchant',
+  [
+    'dashboard',
+    'user',
+    'role',
+    'permission',
+    'category',
+    'country',
+    'city',
+    'area',
+    'branch',
+    'shippingCompany',
+    'language',
+    'translation',
+    'order',
+  ])

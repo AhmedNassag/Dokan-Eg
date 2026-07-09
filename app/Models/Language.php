@@ -12,6 +12,7 @@ class Language extends Model
         'name',
         'code',
         'direction',
+        'is_default',
         'status',
     ];
 

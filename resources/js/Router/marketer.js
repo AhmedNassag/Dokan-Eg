@@ -9,6 +9,20 @@ export const marketerRoutes = [
     meta: {
       title: 'Marketer',
     },
-    children: createRoutesFromConfig('marketer', ['dashboard', 'country', 'city', 'area', 'branch', 'shipping-company', 'language', 'translation', 'user', 'role', 'permission', 'order']),
+    children: createRoutesFromConfig('marketer', [
+      'dashboard',
+      'user',
+      'role',
+      'permission',
+      'language',
+      'translation',
+      'category',
+      'country',
+      'city',
+      'area',
+      'branch',
+      'shippingCompany',
+      'order',
+    ]),
   },
 ]

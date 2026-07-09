@@ -17,6 +17,8 @@ class TranslationRepository implements TranslationInterface
         return new Translation();
     }
 
+
+    
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -42,6 +44,8 @@ class TranslationRepository implements TranslationInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         $translation = $this->getModel()->create($request->validated());
@@ -49,6 +53,8 @@ class TranslationRepository implements TranslationInterface
             ->setData(TranslationResource::make($translation))
             ->build();
     }
+
+
 
     public function show($id)
     {
@@ -60,6 +66,8 @@ class TranslationRepository implements TranslationInterface
             ->setData(TranslationResource::make($translation))
             ->build();
     }
+
+
 
     public function update($id, $request)
     {
@@ -73,6 +81,8 @@ class TranslationRepository implements TranslationInterface
             ->build();
     }
 
+
+
     public function destroy($id)
     {
         $translation = $this->getModel()->find($id);
@@ -82,6 +92,8 @@ class TranslationRepository implements TranslationInterface
         $translation->delete();
         return $this->isOk(__('Destroyed Successfully'))->build();
     }
+
+
 
     public function export($code)
     {

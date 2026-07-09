@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import RoleAPI from '@/Api/Admin/Role/role'
 import PermissionAPI from '@/Api/Admin/Permission/permission'
@@ -30,10 +32,10 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Role', key: 'name', sortable: true },
-  { title: 'Permissions', key: 'permissions', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('role.#'), key: 'id', sortable: true },
+  { title: t('role.Role'), key: 'name', sortable: true },
+  { title: t('role.Permissions'), key: 'permissions', sortable: false },
+  { title: t('role.Actions'), key: 'actions', sortable: false },
 ]
 
 const updateOptions = options => {
@@ -168,17 +170,17 @@ async function onSubmit() {
     try {
       if (selectedRole.value) {
         await roleApi.update(selectedRole.value.id, formData.value)
-        snackbarMessage.value = 'Role updated successfully'
+        snackbarMessage.value = t('role.Role Updated Successfully')
       } else {
         await roleApi.create(formData.value)
-        snackbarMessage.value = 'Role created successfully'
+        snackbarMessage.value = t('role.Role Created Successfully')
       }
       snackbarColor.value = 'success'
       snackbar.value = true
       closeFormDialog()
       await fetchRoles()
     } catch (err) {
-      snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+      snackbarMessage.value = err?.response?._data?.message || err?.message || t('role.An Error Occurred')
       snackbarColor.value = 'error'
       snackbar.value = true
     } finally {
@@ -201,17 +203,17 @@ fetchAllPermissions()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Role Management') }}
+            {{ $t('role.Role Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage roles and their permissions') }}
+            {{ $t('role.Manage Roles And Their Permissions') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('role.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -221,7 +223,7 @@ fetchAllPermissions()
             prepend-icon="tabler-plus"
             @click="openAddDialog"
           >
-            {{ $t('Add Role') }}
+            {{ $t('role.Add Role') }}
           </VBtn>
         </div>
       </div>
@@ -310,7 +312,7 @@ fetchAllPermissions()
     @update:model-value="closeFormDialog"
   >
     <AppDrawerHeaderSection
-      :title="selectedRole ? $t('Edit Role') : $t('Add Role')"
+      :title="selectedRole ? $t('role.Edit Role') : $t('role.Add Role')"
       @cancel="closeFormDialog"
     />
 
@@ -329,14 +331,14 @@ fetchAllPermissions()
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Role Name')"
-                  :placeholder="$t('Enter role name')"
+                  :label="$t('role.Role Name')"
+                  :placeholder="$t('role.Enter Role Name')"
                 />
               </VCol>
 
               <VCol cols="12">
                 <label class="text-body-2 text-high-emphasis font-weight-medium mb-2 d-block">
-                  {{ $t('Permissions') }}
+                  {{ $t('role.Permissions') }}
                 </label>
                 <VCard
                   variant="outlined"
@@ -389,7 +391,7 @@ fetchAllPermissions()
                     type="info"
                     variant="tonal"
                     density="compact"
-                    :text="$t('No permissions available')"
+                    :text="$t('role.No Permissions Available')"
                   />
                 </VCard>
               </VCol>
@@ -400,7 +402,7 @@ fetchAllPermissions()
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ selectedRole ? $t('Update') : $t('Submit') }}
+                  {{ selectedRole ? $t('role.Update') : $t('role.Submit') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -408,7 +410,7 @@ fetchAllPermissions()
                   color="error"
                   @click="closeFormDialog"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('role.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>
@@ -420,11 +422,11 @@ fetchAllPermissions()
 
   <ConfirmDialog
     :is-dialog-visible="isConfirmDialogOpen"
-    confirmation-question="Are you sure you want to delete this role?"
-    confirm-title="Deleted!"
-    confirm-msg="Role has been deleted successfully."
-    cancel-title="Cancelled"
-    cancel-msg="Role deletion cancelled."
+    :confirmation-question="$t('role.Are You Sure You Want To Delete This Role?')"
+    :confirm-title="$t('role.Deleted!')"
+    :confirm-msg="$t('role.Role Has Been Deleted Successfully.')"
+    :cancel-title="$t('role.Cancelled')"
+    :cancel-msg="$t('role.Role Deletion Cancelled.')"
     @update:is-dialog-visible="isConfirmDialogOpen = $event"
     @confirm="handleDelete"
   />
@@ -442,7 +444,7 @@ fetchAllPermissions()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('role.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

@@ -303,7 +303,7 @@ const chartOptions = computed(() => {
       >
         <VCardText>
           <h6 class="text-h5 mb-sm-n8">
-            Revenue Report
+            {{ $t('Revenue Report') }}
           </h6>
 
           <VueApexCharts
@@ -349,7 +349,7 @@ const chartOptions = computed(() => {
               $25,825
             </h5>
             <p class="mb-0">
-              <span class="text-high-emphasis font-weight-medium me-1">Budget:</span>
+              <span class="text-high-emphasis font-weight-medium me-1">{{ $t('Budget:') }}</span>
               <span>56,800</span>
             </p>
           </div>
@@ -361,7 +361,7 @@ const chartOptions = computed(() => {
           />
 
           <VBtn class="mt-8">
-            Increase Budget
+            {{ $t('Increase Budget') }}
           </VBtn>
         </VCardText>
       </VCol>

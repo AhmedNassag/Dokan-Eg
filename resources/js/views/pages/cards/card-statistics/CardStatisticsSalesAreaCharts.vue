@@ -64,10 +64,10 @@ const chartOptions = {
   <VCard>
     <VCardItem class="pb-3">
       <VCardTitle>
-        Sales
+        {{ $t('Sales') }}
       </VCardTitle>
       <VCardSubtitle>
-        Last Year
+        {{ $t('Last Year') }}
       </VCardSubtitle>
     </VCardItem>
 

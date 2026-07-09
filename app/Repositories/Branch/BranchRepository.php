@@ -16,6 +16,8 @@ class BranchRepository implements BranchInterface
         return new Branch();
     }
 
+
+
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -41,6 +43,8 @@ class BranchRepository implements BranchInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         try {
@@ -56,9 +60,11 @@ class BranchRepository implements BranchInterface
         }
     }
 
-    public function show($branchId)
+
+
+    public function show($id)
     {
-        $branch = $this->getModel()->with('area')->find($branchId);
+        $branch = $this->getModel()->with('area')->find($id);
 
         if (!$branch) {
             return $this->isError(__('branch Not Found'))
@@ -70,10 +76,12 @@ class BranchRepository implements BranchInterface
             ->build();
     }
 
-    public function update($branchId, $request)
+
+
+    public function update($id, $request)
     {
         try {
-            $branch = $this->getModel()->find($branchId);
+            $branch = $this->getModel()->find($id);
             if (!$branch) {
                 return $this->isError(__('branch Not Found'))
                     ->setStatus(404)
@@ -91,9 +99,11 @@ class BranchRepository implements BranchInterface
         }
     }
 
-    public function destroy($branchId)
+
+    
+    public function destroy($id)
     {
-        $branch = $this->getModel()->find($branchId);
+        $branch = $this->getModel()->find($id);
 
         if (!$branch) {
             return $this->isError(__('branch Not Found'))

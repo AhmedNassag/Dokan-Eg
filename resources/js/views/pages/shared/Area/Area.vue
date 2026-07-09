@@ -1,5 +1,7 @@
-<script setup>
-import AreaAPI from '@/Api/shared/Area/area'
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
+import AreaAPI from '@/API/shared/Area/area'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -24,11 +26,11 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: false },
-  { title: 'Name', key: 'name', sortable: false },
-  { title: 'City', key: 'city', sortable: false },
-  { title: 'Status', key: 'status', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: false },
+  { title: t('area.Name'), key: 'name', sortable: false },
+  { title: t('area.City'), key: 'city', sortable: false },
+  { title: t('area.Status'), key: 'status', sortable: false },
+  { title: t('area.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchAreas() {
@@ -41,9 +43,10 @@ async function fetchAreas() {
     })
 
     const items = res.data?.items ?? []
+
     areas.value = items.map(a => ({
       ...a,
-      status: Boolean(a.status)
+      status: Boolean(a.status),
     }))
     totalAreas.value = res.data?.pagination?.total ?? 0
   } catch {
@@ -52,6 +55,15 @@ async function fetchAreas() {
   } finally {
     isLoading.value = false
   }
+}
+
+function formatError(err) {
+  const data = err?.response?._data
+  if (data?.errors) {
+    return Object.values(data.errors).flat().join(', ')
+  }
+  
+  return data?.message || err?.message || t('area.An Error Occurred')
 }
 
 function openAddModal() {
@@ -72,12 +84,12 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Area deleted successfully'
+    snackbarMessage.value = t('area.Area Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -86,12 +98,14 @@ async function handleDelete() {
 }
 
 async function toggleStatus(area) {
-  const newStatus = !area.status
   try {
-    await api.update(area.id, { status: newStatus })
+    await api.update(area.id, {
+      ...area,
+      status: !area.status,
+    })
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -100,12 +114,12 @@ async function toggleStatus(area) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Area created successfully'
+    snackbarMessage.value = t('area.Area Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   }
@@ -114,12 +128,12 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedArea.value.id, data)
-    snackbarMessage.value = 'Area updated successfully'
+    snackbarMessage.value = t('area.Area Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+    snackbarMessage.value = formatError(err)
     snackbarColor.value = 'error'
     snackbar.value = true
   } finally {
@@ -140,18 +154,27 @@ fetchAreas()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Area Management') }}
+            {{ $t('area.Area Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your areas') }}
+            {{ $t('area.Manage Your Areas') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable
-            clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'area')" prepend-icon="tabler-plus" @click="openAddModal">
-            {{ $t('Add Area') }}
+          <AppTextField
+            v-model="searchQuery"
+            :placeholder="$t('area.Search')"
+            style="inline-size: 15.625rem;"
+            clearable
+            clear-icon="tabler-x"
+          />
+          <VBtn
+            v-if="$can('store', 'area')"
+            prepend-icon="tabler-plus"
+            @click="openAddModal"
+          >
+            {{ $t('area.Add Area') }}
           </VBtn>
         </div>
       </div>
@@ -159,8 +182,15 @@ fetchAreas()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="areas"
-          :items-length="totalAreas" :headers="headers" :loading="isLoading" class="text-no-wrap">
+        <VDataTableServer
+          v-model:items-per-page="itemsPerPage"
+          v-model:page="page"
+          :items="areas"
+          :items-length="totalAreas"
+          :headers="headers"
+          :loading="isLoading"
+          class="text-no-wrap"
+        >
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -174,43 +204,82 @@ fetchAreas()
           </template>
 
           <template #item.status="{ item }">
-            <VSwitch v-if="$can('update', 'area')" :model-value="item.status"
-              @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
-            <VChip v-else :color="item.status ? 'success' : 'error'" size="small">
-              {{ item.status ? 'Active' : 'Inactive' }}
+            <VSwitch
+              v-if="$can('update', 'area')"
+              :model-value="item.status"
+              color="success"
+              inset
+              hide-details
+              @update:model-value="() => toggleStatus(item)"
+            />
+            <VChip
+              v-else
+              :color="item.status ? 'success' : 'error'"
+              size="small"
+            >
+              {{ item.status ? $t('area.Active') : $t('area.Inactive') }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn v-if="$can('update', 'area')" @click="openEditModal(item)">
+              <IconBtn
+                v-if="$can('update', 'area')"
+                @click="openEditModal(item)"
+              >
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn v-if="$can('destroy', 'area')" @click="confirmDelete(item.id)">
+              <IconBtn
+                v-if="$can('destroy', 'area')"
+                @click="confirmDelete(item.id)"
+              >
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalAreas" />
+            <TablePagination
+              v-model:page="page"
+              :items-per-page="itemsPerPage"
+              :total-items="totalAreas"
+            />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
+  <AddModal
+    v-model="isAddModalOpen"
+    @submit="handleAddSubmit"
+  />
 
-  <EditModal v-model="isEditModalOpen" :area="selectedArea" @submit="handleEditSubmit" />
+  <EditModal
+    v-model="isEditModalOpen"
+    :area="selectedArea"
+    @submit="handleEditSubmit"
+  />
 
-  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
+  <DeleteModal
+    v-model="isDeleteModalOpen"
+    @confirm="handleDelete"
+  />
 
-  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
+  <VSnackbar
+    v-model="snackbar"
+    :color="snackbarColor"
+    location="top"
+    timeout="3000"
+  >
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn color="white" variant="text" @click="snackbar = false">
-        Close
+      <VBtn
+        color="white"
+        variant="text"
+        @click="snackbar = false"
+      >
+        {{ $t('area.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

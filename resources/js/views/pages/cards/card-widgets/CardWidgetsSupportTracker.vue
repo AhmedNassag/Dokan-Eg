@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { hexToRgb } from '@layouts/utils'
 
@@ -79,30 +81,30 @@ const supportTicket = [
   {
     avatarColor: 'primary',
     avatarIcon: 'tabler-ticket',
-    title: 'New Tickets',
+    title: t('New Tickets'),
     subtitle: '142',
   },
   {
     avatarColor: 'info',
     avatarIcon: 'tabler-check',
-    title: 'Open Tickets',
+    title: t('Open Tickets'),
     subtitle: '28',
   },
   {
     avatarColor: 'warning',
     avatarIcon: 'tabler-clock',
-    title: 'Response Time',
+    title: t('Response Time'),
     subtitle: '1 Day',
   },
 ]
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
@@ -111,8 +113,8 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>Support Tracker</VCardTitle>
-      <VCardSubtitle>Last 7 Days</VCardSubtitle>
+      <VCardTitle>{{ $t('Support Tracker') }}</VCardTitle>
+      <VCardSubtitle>{{ $t('Last 7 Days') }}</VCardSubtitle>
 
       <template #append>
         <div class="mt-n4 me-n2">
@@ -133,7 +135,7 @@ const moreList = [
               164
             </h2>
             <p class="text-base mb-0">
-              Total Tickets
+              {{ $t('Total Tickets') }}
             </p>
           </div>
 

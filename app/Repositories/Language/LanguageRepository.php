@@ -42,7 +42,17 @@ class LanguageRepository implements LanguageInterface
 
     public function store($request)
     {
-        $language = $this->getModel()->create($request->validated());
+        $data = $request->validated();
+
+        $data['is_default'] = $request->boolean('is_default');
+
+        if ($data['is_default']) {
+            $data['status'] = true;
+            $this->getModel()->where('is_default', true)->update(['is_default' => false]);
+        }
+
+        $language = $this->getModel()->create($data);
+
         return $this->isOk(__('Stored Successfully'))
             ->setData(LanguageResource::make($language))
             ->build();
@@ -65,8 +75,52 @@ class LanguageRepository implements LanguageInterface
         if (!$language) {
             return $this->isError(__('Not Found'))->setStatus(404)->build();
         }
-        $language->update($request->validated());
+
+        $data = $request->validated();
+
+        if ($request->has('status')) {
+            $newStatus = $request->boolean('status');
+
+            if (!$newStatus && $language->is_default) {
+                return $this->isError(__('Cannot deactivate the default language'))
+                    ->setStatus(400)
+                    ->build();
+            }
+
+            $data['status'] = $newStatus;
+        }
+
+        $language->update($data);
+
         return $this->isOk(__('Updated Successfully'))
+            ->setData(LanguageResource::make($language))
+            ->build();
+    }
+
+    public function setDefault($id)
+    {
+        $language = $this->getModel()->find($id);
+        if (!$language) {
+            return $this->isError(__('Not Found'))->setStatus(404)->build();
+        }
+
+        if ($language->is_default) {
+            return $this->isError(__('This language is already the default'))
+                ->setStatus(400)
+                ->build();
+        }
+
+        if (!$language->status) {
+            return $this->isError(__('Cannot set an inactive language as default'))
+                ->setStatus(400)
+                ->build();
+        }
+
+        $this->getModel()->where('is_default', true)->update(['is_default' => false]);
+
+        $language->update(['is_default' => true]);
+
+        return $this->isOk(__('Default language updated successfully'))
             ->setData(LanguageResource::make($language))
             ->build();
     }
@@ -77,7 +131,15 @@ class LanguageRepository implements LanguageInterface
         if (!$language) {
             return $this->isError(__('Not Found'))->setStatus(404)->build();
         }
+
+        if ($language->is_default) {
+            return $this->isError(__('Cannot delete the default language'))
+                ->setStatus(400)
+                ->build();
+        }
+
         $language->delete();
+
         return $this->isOk(__('Destroyed Successfully'))->build();
     }
 }

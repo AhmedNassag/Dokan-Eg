@@ -11,11 +11,13 @@ class AreaPermissionSeeder extends Seeder
     {
         $permissions = [
             'list-area',
-            'store-area',
             'show-area',
+            'store-area',
             'update-area',
             'destroy-area',
         ];
+
+
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission);

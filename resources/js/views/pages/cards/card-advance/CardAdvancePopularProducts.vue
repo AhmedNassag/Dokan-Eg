@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import amazonEchoDot from '@images/eCommerce/amazon-echo-dot.png'
 import appleWatch from '@images/eCommerce/apple-watch.png'
 import headphone from '@images/eCommerce/headphone.png'
@@ -9,53 +11,53 @@ import sonyDualsense from '@images/eCommerce/sony-dualsense.png'
 const popularProducts = [
   {
     avatarImg: iphone,
-    title: 'Apple iPhone 13',
-    subtitle: 'Item: #FXZ-4567',
+    title: t('Apple iPhone 13'),
+    subtitle: t('Item: #FXZ-4567'),
     stats: '$999.29',
   },
   {
     avatarImg: nike,
-    title: 'Nike Air Jordan',
-    subtitle: 'Item: #FXZ-3456',
+    title: t('Nike Air Jordan'),
+    subtitle: t('Item: #FXZ-3456'),
     stats: '$72.40',
   },
   {
     avatarImg: headphone,
-    title: 'Beats Studio 2',
-    subtitle: 'Item: #FXZ-9485',
+    title: t('Beats Studio 2'),
+    subtitle: t('Item: #FXZ-9485'),
     stats: '$99',
   },
   {
     avatarImg: appleWatch,
-    title: 'Apple Watch Series 7',
-    subtitle: 'Item: #FXZ-2345',
+    title: t('Apple Watch Series 7'),
+    subtitle: t('Item: #FXZ-2345'),
     stats: '$249.99',
   },
   {
     avatarImg: amazonEchoDot,
-    title: 'Amazon Echo Dot',
-    subtitle: 'Item: #FXZ-8959',
+    title: t('Amazon Echo Dot'),
+    subtitle: t('Item: #FXZ-8959'),
     stats: '$79.40',
   },
   {
     avatarImg: sonyDualsense,
-    title: 'Play Station Console',
-    subtitle: 'Item: #FXZ-7892',
+    title: t('Play Station Console'),
+    subtitle: t('Item: #FXZ-7892'),
     stats: '$129.48',
   },
 ]
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -63,8 +65,8 @@ const moreList = [
 
 <template>
   <VCard
-    title="Popular Products"
-    subtitle="Total 10.4k Visitors"
+    :title="$t('Popular Products')"
+    :subtitle="$t('Total 10.4k Visitors')"
   >
     <template #append>
       <div class="mt-n4 me-n2">

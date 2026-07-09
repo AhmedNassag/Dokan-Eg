@@ -5,6 +5,7 @@ namespace Database\Seeders\Translation;
 use App\Models\Language;
 use App\Models\Translation;
 use Illuminate\Database\Seeder;
+use Database\Seeders\Translation\TranslationPermissionSeeder;
 
 class TranslationSeeder extends Seeder
 {
@@ -12,44 +13,393 @@ class TranslationSeeder extends Seeder
     {
         $this->call(TranslationPermissionSeeder::class);
 
-        $locales = [
-            'en' => database_path('seeders/Translation/data/en.json'),
-            'ar' => database_path('seeders/Translation/data/ar.json'),
+        $en = Language::where('code', 'en')->first();
+        $ar = Language::where('code', 'ar')->first();
+
+        if (!$en || !$ar) {
+            $this->command->error('Languages (en, ar) must be seeded first.');
+            return;
+        }
+
+        $prefixes = ['adminDashboard', 'area', 'branch', 'category', 'city', 'country', 'invoice', 'language', 'marketerDashboard', 'merchantDashboard', 'order', 'permission', 'role', 'shippingCompany', 'translation', 'user'];
+
+        // Remove old flat records (group=null) that stored prefixed keys in the format "prefix.Key"
+        // These were created by the old JSON-based seeder and are now replaced by properly grouped records.
+        $deleted = 0;
+        foreach ($prefixes as $prefix) {
+            $deleted += Translation::whereNull('group')->where('key', 'like', "{$prefix}.%")->delete();
+        }
+        if ($deleted) {
+            $this->command->info("Cleaned up {$deleted} old flat translation records.");
+        }
+
+        $groups = [
+            'adminDashboard' => [
+                'Total Users' => ['en' => 'Total Users', 'ar' => 'إجمالي المستخدمين'],
+                'Active Merchants' => ['en' => 'Active Merchants', 'ar' => 'التجار النشطون'],
+                'Total Orders' => ['en' => 'Total Orders', 'ar' => 'إجمالي الطلبات'],
+                'Revenue' => ['en' => 'Revenue', 'ar' => 'الإيرادات'],
+                'Admin Dashboard' => ['en' => 'Admin Dashboard', 'ar' => 'لوحة تحكم المدير'],
+                'Welcome Back, Admin. Here Is Your Overview.' => ['en' => 'Welcome Back, Admin. Here Is Your Overview.', 'ar' => 'مرحبًا بعودتك، أيها المدير. هذه نظرة عامة.'],
+            ],
+            'area' => [
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Area' => ['en' => 'Add Area', 'ar' => 'إضافة منطقة'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Area?' => ['en' => 'Are You Sure You Want To Delete This Area?', 'ar' => 'هل أنت متأكد من حذف هذه المنطقة؟'],
+                'Area Created Successfully' => ['en' => 'Area Created Successfully', 'ar' => 'تم إنشاء المنطقة بنجاح'],
+                'Area Deleted Successfully' => ['en' => 'Area Deleted Successfully', 'ar' => 'تم حذف المنطقة بنجاح'],
+                'Area Deletion Cancelled.' => ['en' => 'Area Deletion Cancelled.', 'ar' => 'تم إلغاء حذف المنطقة.'],
+                'Area Has Been Deleted Successfully.' => ['en' => 'Area Has Been Deleted Successfully.', 'ar' => 'تم حذف المنطقة بنجاح.'],
+                'Area Management' => ['en' => 'Area Management', 'ar' => 'إدارة المناطق'],
+                'Area Name' => ['en' => 'Area Name', 'ar' => 'اسم المنطقة'],
+                'Area Updated Successfully' => ['en' => 'Area Updated Successfully', 'ar' => 'تم تحديث المنطقة بنجاح'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'City' => ['en' => 'City', 'ar' => 'المدينة'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit Area' => ['en' => 'Edit Area', 'ar' => 'تعديل المنطقة'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Manage Your Areas' => ['en' => 'Manage Your Areas', 'ar' => 'إدارة المناطق الخاصة بك'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Select City' => ['en' => 'Select City', 'ar' => 'اختر المدينة'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'branch' => [
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Branch' => ['en' => 'Add Branch', 'ar' => 'إضافة فرع'],
+                'Address' => ['en' => 'Address', 'ar' => 'العنوان'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Branch?' => ['en' => 'Are You Sure You Want To Delete This Branch?', 'ar' => 'هل أنت متأكد من حذف هذا الفرع؟'],
+                'Area' => ['en' => 'Area', 'ar' => 'المنطقة'],
+                'Branch Address' => ['en' => 'Branch Address', 'ar' => 'عنوان الفرع'],
+                'Branch Code' => ['en' => 'Branch Code', 'ar' => 'كود الفرع'],
+                'Branch Created Successfully' => ['en' => 'Branch Created Successfully', 'ar' => 'تم إنشاء الفرع بنجاح'],
+                'Branch Deleted Successfully' => ['en' => 'Branch Deleted Successfully', 'ar' => 'تم حذف الفرع بنجاح'],
+                'Branch Deletion Cancelled.' => ['en' => 'Branch Deletion Cancelled.', 'ar' => 'تم إلغاء حذف الفرع.'],
+                'Branch Has Been Deleted Successfully.' => ['en' => 'Branch Has Been Deleted Successfully.', 'ar' => 'تم حذف الفرع بنجاح.'],
+                'Branch Management' => ['en' => 'Branch Management', 'ar' => 'إدارة الفروع'],
+                'Branch Mobile' => ['en' => 'Branch Mobile', 'ar' => 'جوال الفرع'],
+                'Branch Name' => ['en' => 'Branch Name', 'ar' => 'اسم الفرع'],
+                'Branch Updated Successfully' => ['en' => 'Branch Updated Successfully', 'ar' => 'تم تحديث الفرع بنجاح'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Code' => ['en' => 'Code', 'ar' => 'الكود'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit Branch' => ['en' => 'Edit Branch', 'ar' => 'تعديل الفرع'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Manage Your Branches' => ['en' => 'Manage Your Branches', 'ar' => 'إدارة الفروع الخاصة بك'],
+                'Mobile' => ['en' => 'Mobile', 'ar' => 'الجوال'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Select Area' => ['en' => 'Select Area', 'ar' => 'اختر المنطقة'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'category' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Category' => ['en' => 'Add Category', 'ar' => 'إضافة تصنيف'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Category?' => ['en' => 'Are You Sure You Want To Delete This Category?', 'ar' => 'هل أنت متأكد من حذف هذا التصنيف؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'Category Created Successfully' => ['en' => 'Category Created Successfully', 'ar' => 'تم إنشاء التصنيف بنجاح'],
+                'Category Deleted Successfully' => ['en' => 'Category Deleted Successfully', 'ar' => 'تم حذف التصنيف بنجاح'],
+                'Category Deletion Cancelled.' => ['en' => 'Category Deletion Cancelled.', 'ar' => 'تم إلغاء حذف التصنيف.'],
+                'Category Description' => ['en' => 'Category Description', 'ar' => 'وصف التصنيف'],
+                'Category Has Been Deleted Successfully.' => ['en' => 'Category Has Been Deleted Successfully.', 'ar' => 'تم حذف التصنيف بنجاح.'],
+                'Category Management' => ['en' => 'Category Management', 'ar' => 'إدارة التصنيفات'],
+                'Category Name' => ['en' => 'Category Name', 'ar' => 'اسم التصنيف'],
+                'Category Updated Successfully' => ['en' => 'Category Updated Successfully', 'ar' => 'تم تحديث التصنيف بنجاح'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Description' => ['en' => 'Description', 'ar' => 'الوصف'],
+                'Edit Category' => ['en' => 'Edit Category', 'ar' => 'تعديل التصنيف'],
+                'Manage Your Categories' => ['en' => 'Manage Your Categories', 'ar' => 'إدارة التصنيفات الخاصة بك'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'No' => ['en' => 'No', 'ar' => 'لا'],
+                'Parent' => ['en' => 'Parent', 'ar' => 'التصنيف الأب'],
+                'Parent Category' => ['en' => 'Parent Category', 'ar' => 'التصنيف الأب'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Select Parent Category' => ['en' => 'Select Parent Category', 'ar' => 'اختر التصنيف الأب'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+                'Yes' => ['en' => 'Yes', 'ar' => 'نعم'],
+            ],
+            'city' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add City' => ['en' => 'Add City', 'ar' => 'إضافة مدينة'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want to Delete This City?' => ['en' => 'Are You Sure You Want to Delete This City?', 'ar' => 'هل أنت متأكد من حذف هذه المدينة؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'City Created Successfully' => ['en' => 'City Created Successfully', 'ar' => 'تم إنشاء المدينة بنجاح'],
+                'City Deleted Successfully' => ['en' => 'City Deleted Successfully', 'ar' => 'تم حذف المدينة بنجاح'],
+                'City Deletion Cancelled.' => ['en' => 'City Deletion Cancelled.', 'ar' => 'تم إلغاء حذف المدينة.'],
+                'City Has Been Deleted Successfully.' => ['en' => 'City Has Been Deleted Successfully.', 'ar' => 'تم حذف المدينة بنجاح.'],
+                'City Management' => ['en' => 'City Management', 'ar' => 'إدارة المدن'],
+                'City Name' => ['en' => 'City Name', 'ar' => 'اسم المدينة'],
+                'City Updated Successfully' => ['en' => 'City Updated Successfully', 'ar' => 'تم تحديث المدينة بنجاح'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Country' => ['en' => 'Country', 'ar' => 'الدولة'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit City' => ['en' => 'Edit City', 'ar' => 'تعديل المدينة'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Manage Your Cities' => ['en' => 'Manage Your Cities', 'ar' => 'إدارة المدن الخاصة بك'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Select Country' => ['en' => 'Select Country', 'ar' => 'اختر الدولة'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'country' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Country' => ['en' => 'Add Country', 'ar' => 'إضافة دولة'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Country?' => ['en' => 'Are You Sure You Want To Delete This Country?', 'ar' => 'هل أنت متأكد من حذف هذه الدولة؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Country Created Successfully' => ['en' => 'Country Created Successfully', 'ar' => 'تم إنشاء الدولة بنجاح'],
+                'Country Deleted Successfully' => ['en' => 'Country Deleted Successfully', 'ar' => 'تم حذف الدولة بنجاح'],
+                'Country Deletion Cancelled.' => ['en' => 'Country Deletion Cancelled.', 'ar' => 'تم إلغاء حذف الدولة.'],
+                'Country Has Been Deleted Successfully.' => ['en' => 'Country Has Been Deleted Successfully.', 'ar' => 'تم حذف الدولة بنجاح.'],
+                'Country Management' => ['en' => 'Country Management', 'ar' => 'إدارة الدول'],
+                'Country Name' => ['en' => 'Country Name', 'ar' => 'اسم الدولة'],
+                'Country Updated Successfully' => ['en' => 'Country Updated Successfully', 'ar' => 'تم تحديث الدولة بنجاح'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit Country' => ['en' => 'Edit Country', 'ar' => 'تعديل الدولة'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Manage Your Countries' => ['en' => 'Manage Your Countries', 'ar' => 'إدارة الدول الخاصة بك'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'language' => [
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Language' => ['en' => 'Add Language', 'ar' => 'إضافة لغة'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Language?' => ['en' => 'Are You Sure You Want To Delete This Language?', 'ar' => 'هل أنت متأكد من حذف هذه اللغة؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Code' => ['en' => 'Code', 'ar' => 'الكود'],
+                'Default' => ['en' => 'Default', 'ar' => 'الافتراضية'],
+                'Delete' => ['en' => 'Delete', 'ar' => 'حذف'],
+                'Delete Language' => ['en' => 'Delete Language', 'ar' => 'حذف اللغة'],
+                'Direction' => ['en' => 'Direction', 'ar' => 'الاتجاه'],
+                'e.g. en' => ['en' => 'e.g. en', 'ar' => 'مثال: ar'],
+                'Edit Language' => ['en' => 'Edit Language', 'ar' => 'تعديل اللغة'],
+                'en-ar-fr' => ['en' => 'en-ar-fr', 'ar' => 'ar-en-fr'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Language Created Successfully' => ['en' => 'Language Created Successfully', 'ar' => 'تم إنشاء اللغة بنجاح'],
+                'Language Deleted Successfully' => ['en' => 'Language Deleted Successfully', 'ar' => 'تم حذف اللغة بنجاح'],
+                'Language Name' => ['en' => 'Language Name', 'ar' => 'اسم اللغة'],
+                'Language Updated Successfully' => ['en' => 'Language Updated Successfully', 'ar' => 'تم تحديث اللغة بنجاح'],
+                'Languages' => ['en' => 'Languages', 'ar' => 'اللغات'],
+                'Manage System Languages' => ['en' => 'Manage System Languages', 'ar' => 'إدارة لغات النظام'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'No' => ['en' => 'No', 'ar' => 'لا'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+                'Yes' => ['en' => 'Yes', 'ar' => 'نعم'],
+            ],
+            'marketerDashboard' => [
+                'Campaigns' => ['en' => 'Campaigns', 'ar' => 'الحملات'],
+                'Conversion Rate' => ['en' => 'Conversion Rate', 'ar' => 'معدل التحويل'],
+                'Leads Generated' => ['en' => 'Leads Generated', 'ar' => 'العملاء المتوقعون'],
+                'Marketer Dashboard' => ['en' => 'Marketer Dashboard', 'ar' => 'لوحة تحكم المسوق'],
+                'ROI' => ['en' => 'ROI', 'ar' => 'العائد على الاستثمار'],
+                'Welcome back! Here Is Your Marketing Overview.' => ['en' => 'Welcome back! Here Is Your Marketing Overview.', 'ar' => 'مرحبًا بعودتك! هذه نظرة عامة على التسويق.'],
+            ],
+            'merchantDashboard' => [
+                'Active Orders' => ['en' => 'Active Orders', 'ar' => 'الطلبات النشطة'],
+                'Avg Rating' => ['en' => 'Avg Rating', 'ar' => 'متوسط التقييم'],
+                'Merchant Dashboard' => ['en' => 'Merchant Dashboard', 'ar' => 'لوحة تحكم التاجر'],
+                'Total Products' => ['en' => 'Total Products', 'ar' => 'إجمالي المنتجات'],
+                'Total Sales' => ['en' => 'Total Sales', 'ar' => 'إجمالي المبيعات'],
+                'Welcome back! Here Is Your Store Overview.' => ['en' => 'Welcome back! Here Is Your Store Overview.', 'ar' => 'مرحبًا بعودتك! هذه نظرة عامة على متجرك.'],
+            ],
+            'order' => [
+                'Orders' => ['en' => 'Orders', 'ar' => 'الطلبات'],
+            ],
+            'permission' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Manage Permissions' => ['en' => 'Manage Permissions', 'ar' => 'إدارة الصلاحيات'],
+                'Permission' => ['en' => 'Permission', 'ar' => 'الصلاحية'],
+                'Permission Management' => ['en' => 'Permission Management', 'ar' => 'إدارة الصلاحيات'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+            ],
+            'role' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Add Role' => ['en' => 'Add Role', 'ar' => 'إضافة دور'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Role?' => ['en' => 'Are You Sure You Want To Delete This Role?', 'ar' => 'هل أنت متأكد من حذف هذا الدور؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit Role' => ['en' => 'Edit Role', 'ar' => 'تعديل الدور'],
+                'Enter Role Name' => ['en' => 'Enter Role Name', 'ar' => 'أدخل اسم الدور'],
+                'Manage Roles And Their Permissions' => ['en' => 'Manage Roles And Their Permissions', 'ar' => 'إدارة الأدوار وصلاحياتها'],
+                'No Permissions Available' => ['en' => 'No Permissions Available', 'ar' => 'لا توجد صلاحيات متاحة'],
+                'Permissions' => ['en' => 'Permissions', 'ar' => 'الصلاحيات'],
+                'Role' => ['en' => 'Role', 'ar' => 'الدور'],
+                'Role Created Successfully' => ['en' => 'Role Created Successfully', 'ar' => 'تم إنشاء الدور بنجاح'],
+                'Role Deletion Cancelled.' => ['en' => 'Role Deletion Cancelled.', 'ar' => 'تم إلغاء حذف الدور.'],
+                'Role Has Been Deleted Successfully.' => ['en' => 'Role Has Been Deleted Successfully.', 'ar' => 'تم حذف الدور بنجاح.'],
+                'Role Management' => ['en' => 'Role Management', 'ar' => 'إدارة الأدوار'],
+                'Role Name' => ['en' => 'Role Name', 'ar' => 'اسم الدور'],
+                'Role Updated Successfully' => ['en' => 'Role Updated Successfully', 'ar' => 'تم تحديث الدور بنجاح'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'shippingCompany' => [
+                '0.00' => ['en' => '0.00', 'ar' => '0.00'],
+                'Active' => ['en' => 'Active', 'ar' => 'نشط'],
+                'Add Price' => ['en' => 'Add Price', 'ar' => 'إضافة سعر'],
+                'Add Shipping Company' => ['en' => 'Add Shipping Company', 'ar' => 'إضافة شركة شحن'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Are You Sure You Want To Delete This Shipping Company?' => ['en' => 'Are You Sure You Want To Delete This Shipping Company?', 'ar' => 'هل أنت متأكد من حذف شركة الشحن هذه؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'City' => ['en' => 'City', 'ar' => 'المدينة'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Code' => ['en' => 'Code', 'ar' => 'الكود'],
+                'Company Code' => ['en' => 'Company Code', 'ar' => 'كود الشركة'],
+                'Company Name' => ['en' => 'Company Name', 'ar' => 'اسم الشركة'],
+                'Company Phone' => ['en' => 'Company Phone', 'ar' => 'هاتف الشركة'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit Shipping Company' => ['en' => 'Edit Shipping Company', 'ar' => 'تعديل شركة الشحن'],
+                'EGP' => ['en' => 'EGP', 'ar' => 'ج.م'],
+                'Inactive' => ['en' => 'Inactive', 'ar' => 'غير نشط'],
+                'Manage Your Shipping Companies And Prices' => ['en' => 'Manage Your Shipping Companies And Prices', 'ar' => 'إدارة شركات الشحن والأسعار'],
+                'No Prices Added Yet' => ['en' => 'No Prices Added Yet', 'ar' => 'لم يتم إضافة أسعار بعد'],
+                'No prices set' => ['en' => 'No prices set', 'ar' => 'لم يتم تحديد أسعار'],
+                'No shipping companies found' => ['en' => 'No shipping companies found', 'ar' => 'لم يتم العثور على شركات شحن'],
+                'Phone' => ['en' => 'Phone', 'ar' => 'الهاتف'],
+                'Price' => ['en' => 'Price', 'ar' => 'السعر'],
+                'Price Cannot Be Negative' => ['en' => 'Price Cannot Be Negative', 'ar' => 'لا يمكن أن يكون السعر سالبًا'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Shipping Companies' => ['en' => 'Shipping Companies', 'ar' => 'شركات الشحن'],
+                'Shipping Company Created Successfully' => ['en' => 'Shipping Company Created Successfully', 'ar' => 'تم إنشاء شركة الشحن بنجاح'],
+                'Shipping Company Deleted Successfully' => ['en' => 'Shipping Company Deleted Successfully', 'ar' => 'تم حذف شركة الشحن بنجاح'],
+                'Shipping Company Deletion Cancelled.' => ['en' => 'Shipping Company Deletion Cancelled.', 'ar' => 'تم إلغاء حذف شركة الشحن.'],
+                'Shipping Company Has Been Deleted Successfully.' => ['en' => 'Shipping Company Has Been Deleted Successfully.', 'ar' => 'تم حذف شركة الشحن بنجاح.'],
+                'Shipping Company Updated Successfully' => ['en' => 'Shipping Company Updated Successfully', 'ar' => 'تم تحديث شركة الشحن بنجاح'],
+                'Shipping Prices' => ['en' => 'Shipping Prices', 'ar' => 'أسعار الشحن'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+            ],
+            'translation' => [
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Add' => ['en' => 'Add', 'ar' => 'إضافة'],
+                'Add Translation Key' => ['en' => 'Add Translation Key', 'ar' => 'إضافة مفتاح ترجمة'],
+                'All Groups' => ['en' => 'All Groups', 'ar' => 'جميع المجموعات'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Edit Translation Key' => ['en' => 'Edit Translation Key', 'ar' => 'تعديل مفتاح الترجمة'],
+                'Error' => ['en' => 'Error', 'ar' => 'خطأ'],
+                'Error Loading Translations' => ['en' => 'Error Loading Translations', 'ar' => 'خطأ في تحميل الترجمات'],
+                'Group' => ['en' => 'Group', 'ar' => 'المجموعة'],
+                'Group (optional)' => ['en' => 'Group (optional)', 'ar' => 'المجموعة (اختياري)'],
+                'Key' => ['en' => 'Key', 'ar' => 'المفتاح'],
+                'key Name' => ['en' => 'key Name', 'ar' => 'اسم المفتاح'],
+                'Language' => ['en' => 'Language', 'ar' => 'اللغة'],
+                'Manage Translation Keys And Values' => ['en' => 'Manage Translation Keys And Values', 'ar' => 'إدارة مفاتيح الترجمة وقيمها'],
+                'Search Key Or Value' => ['en' => 'Search Key Or Value', 'ar' => 'بحث عن مفتاح أو قيمة'],
+                'Translated text' => ['en' => 'Translated text', 'ar' => 'النص المترجم'],
+                'Translation Deleted' => ['en' => 'Translation Deleted', 'ar' => 'تم حذف الترجمة'],
+                'Translations' => ['en' => 'Translations', 'ar' => 'الترجمات'],
+                'Translations Added' => ['en' => 'Translations Added', 'ar' => 'تمت إضافة الترجمات'],
+                'Translations Updated' => ['en' => 'Translations Updated', 'ar' => 'تم تحديث الترجمات'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+                'Value' => ['en' => 'Value', 'ar' => 'القيمة'],
+            ],
+            'user' => [
+                '#' => ['en' => '#', 'ar' => '#'],
+                'Actions' => ['en' => 'Actions', 'ar' => 'الإجراءات'],
+                'Add User' => ['en' => 'Add User', 'ar' => 'إضافة مستخدم'],
+                'Admin' => ['en' => 'Admin', 'ar' => 'مدير'],
+                'An Error Occurred' => ['en' => 'An Error Occurred', 'ar' => 'حدث خطأ'],
+                'Approved' => ['en' => 'Approved', 'ar' => 'موافق عليه'],
+                'Are You Sure You Want To Delete This User?' => ['en' => 'Are You Sure You Want To Delete This User?', 'ar' => 'هل أنت متأكد من حذف هذا المستخدم؟'],
+                'Cancel' => ['en' => 'Cancel', 'ar' => 'إلغاء'],
+                'Cancelled' => ['en' => 'Cancelled', 'ar' => 'تم الإلغاء'],
+                'Close' => ['en' => 'Close', 'ar' => 'إغلاق'],
+                'Deleted!' => ['en' => 'Deleted!', 'ar' => 'تم الحذف!'],
+                'Edit User' => ['en' => 'Edit User', 'ar' => 'تعديل المستخدم'],
+                'Email' => ['en' => 'Email', 'ar' => 'البريد الإلكتروني'],
+                'Email Address' => ['en' => 'Email Address', 'ar' => 'عنوان البريد الإلكتروني'],
+                'Full name' => ['en' => 'Full name', 'ar' => 'الاسم الكامل'],
+                'Leave Empty To Keep Current' => ['en' => 'Leave Empty To Keep Current', 'ar' => 'اتركه فارغًا للاحتفاظ بالحالي'],
+                'Manage Users And Their Roles' => ['en' => 'Manage Users And Their Roles', 'ar' => 'إدارة المستخدمين وأدوارهم'],
+                'Marketer' => ['en' => 'Marketer', 'ar' => 'مسوق'],
+                'Merchant' => ['en' => 'Merchant', 'ar' => 'تاجر'],
+                'Name' => ['en' => 'Name', 'ar' => 'الاسم'],
+                'Password' => ['en' => 'Password', 'ar' => 'كلمة المرور'],
+                'Pending' => ['en' => 'Pending', 'ar' => 'قيد الانتظار'],
+                'Rejected' => ['en' => 'Rejected', 'ar' => 'مرفوض'],
+                'Role' => ['en' => 'Role', 'ar' => 'الدور'],
+                'Search' => ['en' => 'Search', 'ar' => 'بحث'],
+                'Select Role' => ['en' => 'Select Role', 'ar' => 'اختر الدور'],
+                'Status' => ['en' => 'Status', 'ar' => 'الحالة'],
+                'Submit' => ['en' => 'Submit', 'ar' => 'إرسال'],
+                'Suspended' => ['en' => 'Suspended', 'ar' => 'معلق'],
+                'Type' => ['en' => 'Type', 'ar' => 'النوع'],
+                'Update' => ['en' => 'Update', 'ar' => 'تحديث'],
+                'User Created Successfully' => ['en' => 'User Created Successfully', 'ar' => 'تم إنشاء المستخدم بنجاح'],
+                'User Deletion Cancelled.' => ['en' => 'User Deletion Cancelled.', 'ar' => 'تم إلغاء حذف المستخدم.'],
+                'User Has Been Deleted Successfully.' => ['en' => 'User Has Been Deleted Successfully.', 'ar' => 'تم حذف المستخدم بنجاح.'],
+                'User Management' => ['en' => 'User Management', 'ar' => 'إدارة المستخدمين'],
+                'User Type' => ['en' => 'User Type', 'ar' => 'نوع المستخدم'],
+                'User Updated Successfully' => ['en' => 'User Updated Successfully', 'ar' => 'تم تحديث المستخدم بنجاح'],
+            ],
         ];
 
-        foreach ($locales as $code => $path) {
-            $language = Language::where('code', $code)->first();
-            if (!$language) continue;
-            if (!file_exists($path)) continue;
+        $inserted = 0;
+        $updated = 0;
 
-            $data = json_decode(file_get_contents($path), true);
-            if (!$data) continue;
-
-            foreach ($data as $group => $value) {
-                if (is_array($value)) {
-                    $this->seedNested($language->id, $group, $value);
-                } else {
-                    Translation::firstOrCreate(
-                        ['language_id' => $language->id, 'group' => null, 'key' => $group],
-                        ['value' => $value]
-                    );
-                }
-            }
-        }
-    }
-
-    private function seedNested($languageId, $group, array $items, $prefix = '')
-    {
-        foreach ($items as $key => $value) {
-            $fullKey = $prefix ? "{$prefix}.{$key}" : $key;
-            if (is_array($value)) {
-                $this->seedNested($languageId, $group, $value, $fullKey);
-            } else {
-                Translation::firstOrCreate(
-                    ['language_id' => $languageId, 'group' => $group, 'key' => $fullKey],
-                    ['value' => $value]
+        foreach ($groups as $group => $keys) {
+            foreach ($keys as $key => $values) {
+                // English
+                $t = Translation::updateOrCreate(
+                    ['language_id' => $en->id, 'group' => $group, 'key' => $key],
+                    ['value' => $values['en']]
                 );
+                $t->wasRecentlyCreated ? $inserted++ : $updated++;
+
+                // Arabic
+                $t = Translation::updateOrCreate(
+                    ['language_id' => $ar->id, 'group' => $group, 'key' => $key],
+                    ['value' => $values['ar']]
+                );
+                $t->wasRecentlyCreated ? $inserted++ : $updated++;
             }
         }
+
+        $this->command->info("Translations seeded: {$inserted} inserted, {$updated} updated.");
     }
 }

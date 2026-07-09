@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import laptopGirl from '@images/illustrations/laptop-girl.png'
 
 const isCurrentPasswordVisible = ref(false)
@@ -9,9 +11,9 @@ const newPassword = ref('')
 const confirmPassword = ref('')
 
 const passwordRequirements = [
-  'Minimum 8 characters long - the more, the better',
-  'At least one lowercase character',
-  'At least one number, symbol, or whitespace character',
+  t('Minimum 8 characters long - the more, the better'),
+  t('At least one lowercase character'),
+  t('At least one number, symbol, or whitespace character'),
 ]
 
 const serverKeys = [
@@ -37,19 +39,19 @@ const serverKeys = [
 
 const recentDevicesHeaders = [
   {
-    title: 'BROWSER',
+    title: t('BROWSER'),
     key: 'browser',
   },
   {
-    title: 'DEVICE',
+    title: t('DEVICE'),
     key: 'device',
   },
   {
-    title: 'LOCATION',
+    title: t('LOCATION'),
     key: 'location',
   },
   {
-    title: 'RECENT ACTIVITY',
+    title: t('RECENT ACTIVITY'),
     key: 'recentActivity',
   },
 ]
@@ -124,7 +126,7 @@ const isOneTimePasswordDialogVisible = ref(false)
   <VRow>
     <!-- SECTION: Change Password -->
     <VCol cols="12">
-      <VCard title="Change Password">
+      <VCard :title="$t('Change Password')">
         <VForm>
           <VCardText class="pt-0">
             <!-- 👉 Current Password -->
@@ -134,15 +136,15 @@ const isOneTimePasswordDialogVisible = ref(false)
                 md="6"
               >
                 <!-- 👉 current password -->
-                <AppTextField
-                  v-model="currentPassword"
-                  :type="isCurrentPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isCurrentPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  label="Current Password"
-                  autocomplete="on"
-                  placeholder="············"
-                  @click:append-inner="isCurrentPasswordVisible = !isCurrentPasswordVisible"
-                />
+                  <AppTextField
+                    v-model="currentPassword"
+                    :type="isCurrentPasswordVisible ? 'text' : 'password'"
+                    :append-inner-icon="isCurrentPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
+                    :label="$t('Current Password')"
+                    autocomplete="on"
+                    :placeholder="$t('············')"
+                    @click:append-inner="isCurrentPasswordVisible = !isCurrentPasswordVisible"
+                  />
               </VCol>
             </VRow>
 
@@ -157,9 +159,9 @@ const isOneTimePasswordDialogVisible = ref(false)
                   v-model="newPassword"
                   :type="isNewPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isNewPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  label="New Password"
+                  :label="$t('New Password')"
                   autocomplete="on"
-                  placeholder="············"
+                  :placeholder="$t('············')"
                   @click:append-inner="isNewPasswordVisible = !isNewPasswordVisible"
                 />
               </VCol>
@@ -173,9 +175,9 @@ const isOneTimePasswordDialogVisible = ref(false)
                   v-model="confirmPassword"
                   :type="isConfirmPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isConfirmPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  label="Confirm New Password"
+                  :label="$t('Confirm New Password')"
                   autocomplete="on"
-                  placeholder="············"
+                  :placeholder="$t('············')"
                   @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
                 />
               </VCol>
@@ -185,7 +187,7 @@ const isOneTimePasswordDialogVisible = ref(false)
           <!-- 👉 Password Requirements -->
           <VCardText>
             <h6 class="text-h6 text-medium-emphasis mb-4">
-              Password Requirements:
+              {{ $t('Password Requirements:') }}
             </h6>
 
             <VList class="card-list">
@@ -207,14 +209,14 @@ const isOneTimePasswordDialogVisible = ref(false)
 
           <!-- 👉 Action Buttons -->
           <VCardText class="d-flex flex-wrap gap-4">
-            <VBtn>Save changes</VBtn>
+            <VBtn>{{ $t('Save changes') }}</VBtn>
 
             <VBtn
               type="reset"
               color="secondary"
               variant="tonal"
             >
-              Reset
+              {{ $t('Reset') }}
             </VBtn>
           </VCardText>
         </VForm>
@@ -224,22 +226,21 @@ const isOneTimePasswordDialogVisible = ref(false)
 
     <!-- SECTION Two-steps verification -->
     <VCol cols="12">
-      <VCard title="Two-steps verification">
+      <VCard :title="$t('Two-steps verification')">
         <VCardText>
           <h5 class="text-h5 text-medium-emphasis mb-4">
-            Two factor authentication is not enabled yet.
+            {{ $t('Two factor authentication is not enabled yet.') }}
           </h5>
           <p class="mb-6">
-            Two-factor authentication adds an additional layer of security to your account by
-            requiring more than just a password to log in.
+            {{ $t('Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.') }}
             <a
               href="javascript:void(0)"
               class="text-decoration-none"
-            >Learn more.</a>
+            >{{ $t('Learn more.') }}</a>
           </p>
 
           <VBtn @click="isOneTimePasswordDialogVisible = true">
-            Enable two-factor authentication
+            {{ $t('Enable two-factor authentication') }}
           </VBtn>
         </VCardText>
       </VCard>
@@ -248,7 +249,7 @@ const isOneTimePasswordDialogVisible = ref(false)
 
     <VCol cols="12">
       <!-- SECTION: Create an API key -->
-      <VCard title="Create an API key">
+      <VCard :title="$t('Create an API key')">
         <VRow no-gutters>
           <!-- 👉 Choose API Key -->
           <VCol
@@ -263,17 +264,17 @@ const isOneTimePasswordDialogVisible = ref(false)
                   <!-- 👉 Choose API Key -->
                   <VCol cols="12">
                     <AppSelect
-                      label="Choose the API key type you want to create"
-                      placeholder="Select API key type"
-                      :items="['Full Control', 'Modify', 'Read & Execute', 'List Folder Contents', 'Read Only', 'Read & Write']"
+                      :label="$t('Choose the API key type you want to create')"
+                      :placeholder="$t('Select API key type')"
+                      :items="[$t('Full Control'), $t('Modify'), $t('Read & Execute'), $t('List Folder Contents'), $t('Read Only'), $t('Read & Write')]"
                     />
                   </VCol>
 
                   <!-- 👉 Name the API Key -->
                   <VCol cols="12">
                     <AppTextField
-                      label="Name the API key"
-                      placeholder="Name the API key"
+                      :label="$t('Name the API key')"
+                      :placeholder="$t('Name the API key')"
                     />
                   </VCol>
 
@@ -283,7 +284,7 @@ const isOneTimePasswordDialogVisible = ref(false)
                       type="submit"
                       block
                     >
-                      Create Key
+                      {{ $t('Create Key') }}
                     </VBtn>
                   </VCol>
                 </VRow>
@@ -314,12 +315,10 @@ const isOneTimePasswordDialogVisible = ref(false)
       <!-- SECTION: API Keys List -->
       <VCard>
         <VCardItem class="pb-4">
-          <VCardTitle>API Key List & Access</VCardTitle>
+          <VCardTitle>{{ $t('API Key List & Access') }}</VCardTitle>
         </VCardItem>
         <VCardText>
-          An API key is a simple encrypted string that identifies an application without any principal. They are useful
-          for accessing public data anonymously, and are used to associate API requests with your project for quota and
-          billing.
+          {{ $t('An API key is a simple encrypted string that identifies an application without any principal. They are useful for accessing public data anonymously, and are used to associate API requests with your project for quota and billing.') }}
         </VCardText>
 
         <!-- 👉 Server Status -->
@@ -356,7 +355,7 @@ const isOneTimePasswordDialogVisible = ref(false)
                 </div>
               </div>
               <div class="text-disabled">
-                Created on {{ serverKey.createdOn }}
+                {{ $t('Created on') }} {{ serverKey.createdOn }}
               </div>
             </div>
           </VCard>
@@ -368,7 +367,7 @@ const isOneTimePasswordDialogVisible = ref(false)
     <!-- SECTION Recent Devices -->
     <VCol cols="12">
       <!-- 👉 Table -->
-      <VCard title="Recent Devices">
+      <VCard :title="$t('Recent Devices')">
         <VDivider />
 
         <VDataTable

@@ -44,7 +44,7 @@ const props = defineProps({
               },
             }"
           >
-            Read More
+            {{ $t('Read More') }}
           </VBtn>
         </VCardText>
       </VCard>

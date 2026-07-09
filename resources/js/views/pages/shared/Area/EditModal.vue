@@ -82,7 +82,7 @@ fetchCities()
     @update:model-value="closeModal"
   >
     <AppDrawerHeaderSection
-      :title="$t('Edit Area')"
+      :title="$t('area.Edit Area')"
       @cancel="closeModal"
     />
 
@@ -101,8 +101,8 @@ fetchCities()
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Name')"
-                  :placeholder="$t('Area name')"
+                  :label="$t('area.Name')"
+                  :placeholder="$t('area.Area Name')"
                 />
               </VCol>
 
@@ -112,8 +112,8 @@ fetchCities()
                   :items="cities"
                   item-title="name"
                   item-value="id"
-                  :label="$t('City')"
-                  :placeholder="$t('Select city')"
+                  :label="$t('area.City')"
+                  :placeholder="$t('area.Select City')"
                   :rules="[requiredValidator]"
                   clearable
                   :return-object="false"
@@ -123,7 +123,7 @@ fetchCities()
               <VCol cols="12">
                 <VCheckbox
                   v-model="formData.status"
-                  :label="$t('Active')"
+                  :label="$t('area.Active')"
                   color="success"
                 />
               </VCol>
@@ -134,7 +134,7 @@ fetchCities()
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ $t('Update') }}
+                  {{ $t('area.Update') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -142,7 +142,7 @@ fetchCities()
                   color="error"
                   @click="closeModal"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('area.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>

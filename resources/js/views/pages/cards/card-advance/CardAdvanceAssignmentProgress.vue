@@ -1,25 +1,27 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const assignmentData = [
   {
-    title: 'User Experience Design',
+    title: t('User Experience Design'),
     tasks: 120,
     progress: 72,
     color: 'primary',
   },
   {
-    title: 'Basic fundamentals',
+    title: t('Basic fundamentals'),
     tasks: 32,
     progress: 48,
     color: 'success',
   },
   {
-    title: 'React Native components',
+    title: t('React Native components'),
     tasks: 182,
     progress: 15,
     color: 'error',
   },
   {
-    title: 'Basic of music theory',
+    title: t('Basic of music theory'),
     tasks: 56,
     progress: 24,
     color: 'info',
@@ -29,7 +31,7 @@ const assignmentData = [
 
 <template>
   <VCard>
-    <VCardItem title="Assignment progress">
+    <VCardItem :title="$t('Assignment progress')">
       <template #append>
         <MoreBtn />
       </template>
@@ -57,7 +59,7 @@ const assignmentData = [
           </VListItemTitle>
 
           <VListItemSubtitle class="me-2">
-            {{ assignment.tasks }} Tasks
+            {{ assignment.tasks }} {{ $t('Tasks') }}
           </VListItemSubtitle>
           <template #append>
             <VBtn

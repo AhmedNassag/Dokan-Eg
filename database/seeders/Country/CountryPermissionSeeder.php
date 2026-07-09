@@ -12,15 +12,15 @@ class CountryPermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'list-category',
-            'store-category',
-            'show-category',
-            'update-category',
-            'destroy-category',
+            'list-country',
+            'show-country',
+            'store-country',
+            'update-country',
+            'destroy-country',
         ];
-
-
         
+
+
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission);
         }

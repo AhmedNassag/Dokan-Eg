@@ -32,9 +32,9 @@ const selectedNotification = ref('Only when I\'m online')
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>Recent Devices</VCardTitle>
+      <VCardTitle>{{ $t('Recent Devices') }}</VCardTitle>
       <p class="text-body-1 mb-0">
-        We need permission from your browser to show notifications. <span class="text-primary cursor-pointer">Request Permission</span>
+        {{ $t('We need permission from your browser to show notifications.') }} <span class="text-primary cursor-pointer">{{ $t('Request Permission') }}</span>
       </p>
     </VCardItem>
 
@@ -44,16 +44,16 @@ const selectedNotification = ref('Only when I\'m online')
         <thead>
           <tr>
             <th scope="col">
-              Type
+              {{ $t('Type') }}
             </th>
             <th scope="col">
-              EMAIL
+              {{ $t('EMAIL') }}
             </th>
             <th scope="col">
-              BROWSER
+              {{ $t('BROWSER') }}
             </th>
             <th scope="col">
-              App
+              {{ $t('App') }}
             </th>
           </tr>
         </thead>
@@ -83,7 +83,7 @@ const selectedNotification = ref('Only when I\'m online')
     <VCardText>
       <VForm @submit.prevent="() => {}">
         <h6 class="text-body-1 font-weight-medium mb-6">
-          When should we send you notifications?
+          {{ $t('When should we send you notifications?') }}
         </h6>
 
         <VRow>
@@ -94,22 +94,22 @@ const selectedNotification = ref('Only when I\'m online')
             <AppSelect
               v-model="selectedNotification"
               mandatory
-              placeholder="Select an option"
-              :items="['Only when I\'m online', 'Anytime']"
+              :placeholder="$t('Select an option')"
+              :items="[$t('Only when I\'m online'), $t('Anytime')]"
             />
           </VCol>
         </VRow>
 
         <div class="d-flex flex-wrap gap-4 mt-6">
           <VBtn type="submit">
-            Save Changes
+            {{ $t('Save Changes') }}
           </VBtn>
           <VBtn
             color="secondary"
             variant="tonal"
             type="reset"
           >
-            Discard
+            {{ $t('Discard') }}
           </VBtn>
         </div>
       </VForm>

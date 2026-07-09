@@ -15,18 +15,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'      => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'  => ['required', 'string', 'min:8', 'confirmed'],
             'user_type' => ['required', 'in:merchant,marketer'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password),
             'user_type' => $request->user_type,
-            'status' => Status::PENDING,
+            'status'    => Status::PENDING,
         ]);
 
         $user->assignRole($request->user_type);
@@ -34,16 +34,18 @@ class AuthController extends Controller
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
-            'accessToken' => $token,
-            'userData' => $user,
+            'accessToken'      => $token,
+            'userData'         => $user,
             'userAbilityRules' => $this->getUserAbilityRules($user),
         ]);
     }
 
+
+    
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -64,11 +66,13 @@ class AuthController extends Controller
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
-            'accessToken' => $token,
-            'userData' => $user,
+            'accessToken'      => $token,
+            'userData'         => $user,
             'userAbilityRules' => $this->getUserAbilityRules($user),
         ]);
     }
+
+
 
     public function logout(Request $request)
     {
@@ -76,6 +80,8 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully']);
     }
+
+
 
     public function getUserAbilityRules(User $user)
     {
@@ -89,7 +95,7 @@ class AuthController extends Controller
             $parts = explode('-', $permission->name, 2);
 
             return [
-                'action' => $parts[0] ?? $permission->name,
+                'action'  => $parts[0] ?? $permission->name,
                 'subject' => $parts[1] ?? $permission->name,
             ];
         })->values()->toArray();
@@ -97,7 +103,7 @@ class AuthController extends Controller
         // If no permissions, add default read access to dashboard
         if (empty($permissions)) {
             $permissions[] = [
-                'action' => 'read',
+                'action'  => 'read',
                 'subject' => 'dashboard',
             ];
         }

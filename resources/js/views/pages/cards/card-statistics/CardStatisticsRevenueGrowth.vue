@@ -168,10 +168,10 @@ const chartOptions = computed(() => {
       <div class="d-flex flex-column">
         <div class="mb-auto">
           <h5 class="text-h5 text-no-wrap mb-2">
-            Revenue Growth
+            {{ $t('Revenue Growth') }}
           </h5>
           <div class="text-body-1">
-            Weekly Report
+            {{ $t('Weekly Report') }}
           </div>
         </div>
 

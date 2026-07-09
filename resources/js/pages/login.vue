@@ -55,7 +55,22 @@ const login = async () => {
     ability.update(res.userAbilityRules)
 
     await nextTick(() => {
-      // Redirect based on user type
+      const queryTo = route.query.to
+      if (queryTo && typeof queryTo === 'string') {
+        try {
+          const resolved = router.resolve(queryTo)
+          if (resolved.matched.length > 0) {
+            router.replace(resolved)
+            
+            return
+          }
+        } catch {
+          // fall through
+          console.log(queryTo)
+          alert("there's an error when you'are trying to login")
+        }
+      }
+
       const userType = res.userData?.user_type
       let redirectTo
 
@@ -137,17 +152,12 @@ const onSubmit = () => {
             <VRow>
               <!-- email -->
               <VCol cols="12">
-                <AppTextField v-model="credentials.email" label="Email" placeholder="johndoe@email.com" type="email"
-                  autofocus :rules="[requiredValidator, emailValidator]" :error-messages="errors.email" />
+                <AppTextField v-model="credentials.email" label="Email" placeholder="johndoe@email.com" type="email" autofocus :rules="[requiredValidator, emailValidator]" :error-messages="errors.email" />
               </VCol>
 
               <!-- password -->
               <VCol cols="12">
-                <AppTextField v-model="credentials.password" label="Password" placeholder="············"
-                  :rules="[requiredValidator]" :type="isPasswordVisible ? 'text' : 'password'" autocomplete="password"
-                  :error-messages="errors.password"
-                  :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
-                  @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+                <AppTextField v-model="credentials.password" label="Password" placeholder="············" :rules="[requiredValidator]" :type="isPasswordVisible ? 'text' : 'password'" autocomplete="password" :error-messages="errors.password" :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'" @click:append-inner="isPasswordVisible = !isPasswordVisible" />
 
                 <div class="d-flex align-center flex-wrap justify-space-between my-6">
                   <VCheckbox v-model="rememberMe" label="Remember me" />
@@ -168,19 +178,7 @@ const onSubmit = () => {
                   Create an account
                 </RouterLink>
               </VCol>
-              <VCol cols="12" class="d-flex align-center">
-                <!--<VDivider />
-                <span class="mx-4">or</span>
-                <VDivider />-->
-              </VCol>
-
-              <!-- auth providers -->
-              <!--<VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
-              </VCol>-->
+              <VCol cols="12" class="d-flex align-center"></VCol>
             </VRow>
           </VForm>
         </VCardText>

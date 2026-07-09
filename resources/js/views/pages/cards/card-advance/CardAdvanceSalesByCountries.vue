@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import auFlag from '@images/icons/countries/au.png'
 import brFlag from '@images/icons/countries/br.png'
 import cnFlag from '@images/icons/countries/cn.png'
@@ -10,52 +12,52 @@ const salesByCountries = [
   {
     avatarImg: usFlag,
     stats: '$8,567k',
-    subtitle: 'United states',
+    subtitle: t('United states'),
     profitLoss: 25.8,
   },
   {
     avatarImg: brFlag,
     stats: '$2,415k',
-    subtitle: 'Brazil',
+    subtitle: t('Brazil'),
     profitLoss: -6.2,
   },
   {
     avatarImg: inFlag,
     stats: '$865k',
-    subtitle: 'India',
+    subtitle: t('India'),
     profitLoss: 12.4,
   },
   {
     avatarImg: auFlag,
     stats: '$745k',
-    subtitle: 'Australia',
+    subtitle: t('Australia'),
     profitLoss: -11.9,
   },
   {
     avatarImg: frFlag,
     stats: '$45',
-    subtitle: 'France',
+    subtitle: t('France'),
     profitLoss: 16.2,
   },
   {
     avatarImg: cnFlag,
     stats: '$12k',
-    subtitle: 'China',
+    subtitle: t('China'),
     profitLoss: 14.8,
   },
 ]
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -63,8 +65,8 @@ const moreList = [
 
 <template>
   <VCard
-    title="Sales by Countries"
-    subtitle="Monthly Sales Overview"
+    :title="$t('Sales by Countries')"
+    :subtitle="$t('Monthly Sales Overview')"
   >
     <template #append>
       <div class="mt-n4 me-n2">
