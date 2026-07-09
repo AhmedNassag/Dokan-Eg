@@ -25,9 +25,9 @@ const itemsPerPage = ref(10)
 const totalFiltered = ref(0)
 
 const headers = [
-  { title: t('Key'), key: 'key', sortable: false },
-  { title: t('Value'), key: 'value', sortable: false },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('translation.Key'), key: 'key', sortable: false },
+  { title: t('translation.Value'), key: 'value', sortable: false },
+  { title: t('translation.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchLanguages() {
@@ -81,7 +81,7 @@ watchEffect(() => { totalFiltered.value = filteredItems.value.length })
 
 const groupOptions = computed(() => {
   const g = [...new Set(items.value.map(t => t.group).filter(Boolean))].sort()
-  return [{ title: t('All Groups'), value: '' }, ...g.map(name => ({ title: name, value: name }))]
+  return [{ title: t('translation.All Groups'), value: '' }, ...g.map(name => ({ title: name, value: name }))]
 })
 
 const paginatedItems = computed(() => {
@@ -109,7 +109,7 @@ async function openEditDialog(item) {
     editForm.value = { group: item.group, key: item.key, values, ids }
     isEditDialogOpen.value = true
   } catch {
-    snackbarMessage.value = t('Error loading translations')
+    snackbarMessage.value = t('translation.Error Loading Translations')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -142,10 +142,10 @@ async function saveEditDialog() {
     }
 
     isEditDialogOpen.value = false
-    snackbarMessage.value = t('Translations updated')
+    snackbarMessage.value = t('translation.Translations Updated')
     snackbarColor.value = 'success'; snackbar.value = true
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || t('Error')
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -161,10 +161,10 @@ async function deleteTranslation(id) {
       mergeLocaleMessage(locale.value, exportData)
     }
 
-    snackbarMessage.value = t('Translation deleted')
+    snackbarMessage.value = t('translation.Translation Deleted')
     snackbarColor.value = 'success'; snackbar.value = true
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || t('Error')
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -193,10 +193,10 @@ async function addTranslation() {
     isAddDialogOpen.value = false
     addForm.value = { group: '', key: '', values: {} }
     initAddFormValues()
-    snackbarMessage.value = t('Translations added')
+    snackbarMessage.value = t('translation.Translations Added')
     snackbarColor.value = 'success'; snackbar.value = true
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || t('Error')
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -209,12 +209,12 @@ fetchLanguages()
     <VCol cols="12">
       <div class="d-flex flex-wrap align-center">
         <div>
-          <h4 class="text-h4">{{ $t('Translations') }}</h4>
-          <p class="text-body-1 mb-0">{{ $t('Manage translation keys and values') }}</p>
+          <h4 class="text-h4">{{ $t('translation.Translations') }}</h4>
+          <p class="text-body-1 mb-0">{{ $t('translation.Manage Translation Keys And Values') }}</p>
         </div>
         <VSpacer />
         <VBtn v-if="$can('store', 'translation')" prepend-icon="tabler-plus" @click="isAddDialogOpen = true">
-          {{ $t('Add Translation Key') }}
+          {{ $t('translation.Add Translation Key') }}
         </VBtn>
       </div>
     </VCol>
@@ -222,12 +222,9 @@ fetchLanguages()
     <VCol cols="12">
       <VCard>
         <VCardText class="d-flex flex-wrap align-center gap-4">
-          <VSelect v-model="selectedLang" :items="languages" item-title="name" item-value="id"
-            :label="$t('Language')" style="inline-size: 200px;" hide-details clearable />
-          <VSelect v-model="groupFilter" :items="groupOptions" item-title="title" item-value="value"
-            :label="$t('Group')" style="inline-size: 200px;" hide-details clearable />
-          <AppTextField v-model="searchKey" :placeholder="$t('Search key or value')"
-            style="inline-size: 250px;" clearable hide-details />
+          <VSelect v-model="selectedLang" :items="languages" item-title="name" item-value="id" :label="$t('translation.Language')" style="inline-size: 200px;" hide-details clearable />
+          <VSelect v-model="groupFilter" :items="groupOptions" item-title="title" item-value="value" :label="$t('translation.Group')" style="inline-size: 200px;" hide-details clearable />
+          <AppTextField v-model="searchKey" :placeholder="$t('translation.Search Key Or Value')" style="inline-size: 250px;" clearable hide-details />
         </VCardText>
 
         <VDivider />
@@ -265,64 +262,62 @@ fetchLanguages()
 
   <VDialog v-model="isAddDialogOpen" max-width="600">
     <VCard>
-      <VCardTitle>{{ $t('Add Translation Key') }}</VCardTitle>
+      <VCardTitle>{{ $t('translation.Add Translation Key') }}</VCardTitle>
       <VCardText>
         <VRow>
           <VCol cols="12">
-            <AppTextField v-model="addForm.group" :label="$t('Group (optional)')"
-              :placeholder="$t('e.g. $vuetify')" />
+            <AppTextField v-model="addForm.group" :label="$t('translation.Group (optional)')" :placeholder="$t('translation.Group')" />
           </VCol>
           <VCol cols="12">
-            <AppTextField v-model="addForm.key" :rules="[requiredValidator]"
-              :label="$t('Key')" :placeholder="$t('translation.key.name')" />
+            <AppTextField v-model="addForm.key" :rules="[requiredValidator]" :label="$t('translation.Key')" :placeholder="$t('translation.key Name')" />
           </VCol>
           <VCol cols="12" v-for="lang in languages" :key="lang.id">
             <AppTextField
               v-model="addForm.values[lang.id]"
-              :label="$t('Value') + ' (' + lang.name + ')'"
-              :placeholder="$t('Translated text')"
+              :label="$t('translation.Value') + ' (' + lang.name + ')'"
+              :placeholder="$t('translation.Translated text')"
             />
           </VCol>
         </VRow>
       </VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn variant="tonal" @click="isAddDialogOpen = false">{{ $t('Cancel') }}</VBtn>
-        <VBtn color="primary" @click="addTranslation">{{ $t('Add') }}</VBtn>
+        <VBtn variant="tonal" @click="isAddDialogOpen = false">{{ $t('translation.Cancel') }}</VBtn>
+        <VBtn color="primary" @click="addTranslation">{{ $t('translation.Add') }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
 
   <VDialog v-model="isEditDialogOpen" max-width="600">
     <VCard>
-      <VCardTitle>{{ $t('Edit Translation Key') }}</VCardTitle>
+      <VCardTitle>{{ $t('translation.Edit Translation Key') }}</VCardTitle>
       <VCardText>
         <VRow>
           <VCol cols="12">
-            <AppTextField :model-value="editForm.group" :label="$t('Group')" readonly />
+            <AppTextField :model-value="editForm.group" :label="$t('translation.Group')" readonly />
           </VCol>
           <VCol cols="12">
-            <AppTextField :model-value="editForm.key" :label="$t('Key')" readonly />
+            <AppTextField :model-value="editForm.key" :label="$t('translation.Key')" readonly />
           </VCol>
           <VCol cols="12" v-for="lang in languages" :key="lang.id">
             <AppTextField
               v-model="editForm.values[lang.id]"
-              :label="$t('Value') + ' (' + lang.name + ')'"
-              :placeholder="$t('Translated text')"
+              :label="$t('translation.Value') + ' (' + lang.name + ')'"
+              :placeholder="$t('translation.Translated text')"
             />
           </VCol>
         </VRow>
       </VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn variant="tonal" @click="isEditDialogOpen = false">{{ $t('Cancel') }}</VBtn>
-        <VBtn color="primary" @click="saveEditDialog">{{ $t('Update') }}</VBtn>
+        <VBtn variant="tonal" @click="isEditDialogOpen = false">{{ $t('translation.Cancel') }}</VBtn>
+        <VBtn color="primary" @click="saveEditDialog">{{ $t('translation.Update') }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
 
   <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="2000">
     {{ snackbarMessage }}
-    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">{{ $t('Close') }}</VBtn></template>
+    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">{{ $t('translation.Close') }}</VBtn></template>
   </VSnackbar>
 </template>

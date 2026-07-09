@@ -26,11 +26,11 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: t('#'), key: 'id', sortable: false },
-  { title: t('Name'), key: 'name', sortable: false },
-  { title: t('Country'), key: 'country', sortable: false },
-  { title: t('Status'), key: 'status', sortable: false },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('city.#'), key: 'id', sortable: false },
+  { title: t('city.Name'), key: 'name', sortable: false },
+  { title: t('city.Country'), key: 'country', sortable: false },
+  { title: t('city.Status'), key: 'status', sortable: false },
+  { title: t('city.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchCities() {
@@ -63,7 +63,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || t('An error occurred')
+  return data?.message || err?.message || t('city.An Error Occurred')
 }
 
 function openAddModal() {
@@ -84,7 +84,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = t('City deleted successfully')
+    snackbarMessage.value = t('city.City Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -114,7 +114,7 @@ async function toggleStatus(city) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = t('City created successfully')
+    snackbarMessage.value = t('city.City Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -128,7 +128,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCity.value.id, data)
-    snackbarMessage.value = t('City updated successfully')
+    snackbarMessage.value = t('city.City Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -154,17 +154,17 @@ fetchCities()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('City Management') }}
+            {{ $t('city.City Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your cities') }}
+            {{ $t('city.Manage Your Cities') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('city.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -174,7 +174,7 @@ fetchCities()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add City') }}
+            {{ $t('city.Add City') }}
           </VBtn>
         </div>
       </div>
@@ -217,7 +217,7 @@ fetchCities()
               :color="item.status ? 'success' : 'error'"
               size="small"
             >
-              {{ item.status ? $t('Active') : $t('Inactive') }}
+              {{ item.status ? $t('city.Active') : $t('city.Inactive') }}
             </VChip>
           </template>
 
@@ -279,7 +279,7 @@ fetchCities()
         variant="text"
         @click="snackbar = false"
       >
-        {{ $t('Close') }}
+        {{ $t('city.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

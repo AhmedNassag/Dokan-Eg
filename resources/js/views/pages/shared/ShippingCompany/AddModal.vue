@@ -32,7 +32,7 @@ function availableCities(currentIndex) {
   return cities.value.filter(c => !selectedIds.includes(c.id))
 }
 
-const nonNegativeRule = v => v === null || v === '' || Number(v) >= 0 || t('Price cannot be negative')
+const nonNegativeRule = v => v === null || v === '' || Number(v) >= 0 || t('shippingCompany.Price Cannot Be Negative')
 
 function addRow() {
   priceRows.value.push({ city_id: null, price: null })
@@ -70,55 +70,61 @@ async function onSubmit() {
 
 fetchCities()
 </script>
+
 <template>
-  <VNavigationDrawer temporary :width="500" location="end" class="scrollable-content"
-    :model-value="modelValue" @update:model-value="closeModal">
-    <AppDrawerHeaderSection :title="$t('Add Shipping Company')" @cancel="closeModal" />
+  <VNavigationDrawer temporary :width="500" location="end" class="scrollable-content" :model-value="modelValue" @update:model-value="closeModal">
+    <AppDrawerHeaderSection :title="$t('shippingCompany.Add Shipping Company')" @cancel="closeModal" />
     <VDivider />
     <PerfectScrollbar :options="{ wheelPropagation: false }">
-      <VCard flat><VCardText>
-        <VForm ref="refForm" v-model="isFormValid" @submit.prevent="onSubmit">
-          <VRow>
-            <VCol cols="12"><AppTextField v-model="formData.name" :rules="[requiredValidator]"
-              :label="$t('Company Name')" :placeholder="$t('Company name')" /></VCol>
-            <VCol cols="6"><AppTextField v-model="formData.code" :rules="[requiredValidator]"
-              :label="$t('Code')" :placeholder="$t('Company code')" /></VCol>
-            <VCol cols="6"><AppTextField v-model="formData.phone" :rules="[requiredValidator]"
-              :label="$t('Phone')" :placeholder="$t('Company phone')" /></VCol>
-            <VCol cols="12"><VCheckbox v-model="formData.status" :label="$t('Active')" color="success" /></VCol>
-          </VRow>
-
-          <VDivider class="my-4" />
-          <div class="d-flex align-center mb-4">
-            <h5 class="text-h5 mb-0">{{ $t('Shipping Prices') }}</h5>
-            <VSpacer />
-            <VBtn size="small" variant="tonal" prepend-icon="tabler-plus" @click="addRow">{{ $t('Add Price') }}</VBtn>
-          </div>
-
-          <VSlideYTransition group>
-            <VRow v-for="(row, i) in priceRows" :key="i" align="center" class="mb-3">
+      <VCard flat>
+        <VCardText>
+          <VForm ref="refForm" v-model="isFormValid" @submit.prevent="onSubmit">
+            <VRow>
+              <VCol cols="12">
+                <AppTextField v-model="formData.name" :rules="[requiredValidator]" :label="$t('shippingCompany.Company Name')" :placeholder="$t('shippingCompany.Company Name')" /></VCol>
               <VCol cols="6">
-                <VSelect v-model="row.city_id" :items="availableCities(i)" item-title="name" item-value="id"
-                  :label="$t('City')" clearable hide-details />
+                <AppTextField v-model="formData.code" :rules="[requiredValidator]" :label="$t('shippingCompany.Code')" :placeholder="$t('shippingCompany.Company Code')" />
               </VCol>
-              <VCol cols="4">
-                <AppTextField v-model="row.price" type="number" :label="$t('Price')"
-                  :placeholder="$t('0.00')" :rules="[nonNegativeRule]" min="0" hide-details :suffix="$t('EGP')" />
+              <VCol cols="6">
+                <AppTextField v-model="formData.phone" :rules="[requiredValidator]" :label="$t('shippingCompany.Phone')" :placeholder="$t('shippingCompany.Company Phone')" />
               </VCol>
-              <VCol cols="2" class="text-center">
-                <IconBtn @click="removeRow(i)"><VIcon icon="tabler-trash" color="error" /></IconBtn>
+              <VCol cols="12">
+                <VCheckbox v-model="formData.status" :label="$t('shippingCompany.Active')" color="success" />
               </VCol>
             </VRow>
-          </VSlideYTransition>
 
-          <p v-if="!priceRows.length" class="text-body-2 text-medium-emphasis mt-2">{{ $t('No prices added yet') }}</p>
+            <VDivider class="my-4" />
+            <div class="d-flex align-center mb-4">
+              <h5 class="text-h5 mb-0">{{ $t('shippingCompany.Shipping Prices') }}</h5>
+              <VSpacer />
+              <VBtn size="small" variant="tonal" prepend-icon="tabler-plus" @click="addRow">{{ $t('shippingCompany.Add Price') }}</VBtn>
+            </div>
 
-          <VRow class="mt-4"><VCol cols="12">
-            <VBtn type="submit" :loading="isSubmitting" class="me-3">{{ $t('Submit') }}</VBtn>
-            <VBtn type="reset" variant="tonal" color="error" @click="closeModal">{{ $t('Cancel') }}</VBtn>
-          </VCol></VRow>
-        </VForm>
-      </VCardText></VCard>
+            <VSlideYTransition group>
+              <VRow v-for="(row, i) in priceRows" :key="i" align="center" class="mb-3">
+                <VCol cols="6">
+                  <VSelect v-model="row.city_id" :items="availableCities(i)" item-title="name" item-value="id" :label="$t('shippingCompany.City')" clearable hide-details />
+                </VCol>
+                <VCol cols="4">
+                  <AppTextField v-model="row.price" type="number" :label="$t('shippingCompany.Price')" :placeholder="$t('shippingCompany.0.00')" :rules="[nonNegativeRule]" min="0" hide-details :suffix="$t('shippingCompany.EGP')" />
+                </VCol>
+                <VCol cols="2" class="text-center">
+                  <IconBtn @click="removeRow(i)"><VIcon icon="tabler-trash" color="error" /></IconBtn>
+                </VCol>
+              </VRow>
+            </VSlideYTransition>
+
+            <p v-if="!priceRows.length" class="text-body-2 text-medium-emphasis mt-2">{{ $t('shippingCompany.No Prices Added Yet') }}</p>
+
+            <VRow class="mt-4">
+              <VCol cols="12">
+                <VBtn type="submit" :loading="isSubmitting" class="me-3">{{ $t('shippingCompany.Submit') }}</VBtn>
+                <VBtn type="reset" variant="tonal" color="error" @click="closeModal">{{ $t('shippingCompany.Cancel') }}</VBtn>
+              </VCol>
+            </VRow>
+          </VForm>
+        </VCardText>
+      </VCard>
     </PerfectScrollbar>
   </VNavigationDrawer>
 </template>

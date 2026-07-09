@@ -24,12 +24,12 @@ const itemsPerPage = ref(10)
 const totalLanguages = ref(0)
 
 const headers = [
-  { title: t('Name'), key: 'name' },
-  { title: t('Code'), key: 'code' },
-  { title: t('Direction'), key: 'direction' },
-  { title: t('Default'), key: 'is_default' },
-  { title: t('Status'), key: 'status' },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('language.Name'), key: 'name' },
+  { title: t('language.Code'), key: 'code' },
+  { title: t('language.Direction'), key: 'direction' },
+  { title: t('language.Default'), key: 'is_default' },
+  { title: t('language.Status'), key: 'status' },
+  { title: t('language.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchItems() {
@@ -54,7 +54,7 @@ function formatError(err) {
   if (data?.errors) {
     return Object.values(data.errors).flat().join(', ')
   }
-  return data?.message || err?.message || t('An error occurred')
+  return data?.message || err?.message || t('language.An Error Occurred')
 }
 
 function openAddModal() { isAddModalOpen.value = true }
@@ -65,7 +65,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = t('Language deleted successfully')
+    snackbarMessage.value = t('language.Language Deleted Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -103,7 +103,7 @@ async function toggleDefault(item) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = t('Language created successfully')
+    snackbarMessage.value = t('language.Language Created Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -115,7 +115,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedItem.value.id, data)
-    snackbarMessage.value = t('Language updated successfully')
+    snackbarMessage.value = t('language.Language Updated Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -133,13 +133,13 @@ fetchItems()
     <VCol cols="12">
       <div class="d-flex flex-wrap align-center">
         <div>
-          <h4 class="text-h4">{{ $t('Languages') }}</h4>
-          <p class="text-body-1 mb-0">{{ $t('Manage system languages') }}</p>
+          <h4 class="text-h4">{{ $t('language.Languages') }}</h4>
+          <p class="text-body-1 mb-0">{{ $t('language.Manage System Languages') }}</p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'language')" prepend-icon="tabler-plus" @click="openAddModal">{{ $t('Add Language') }}</VBtn>
+          <AppTextField v-model="searchQuery" :placeholder="$t('language.Search')" style="inline-size: 15.625rem;" clearable clear-icon="tabler-x" />
+          <VBtn v-if="$can('store', 'language')" prepend-icon="tabler-plus" @click="openAddModal">{{ $t('language.Add Language') }}</VBtn>
         </div>
       </div>
     </VCol>
@@ -163,15 +163,13 @@ fetchItems()
         </template>
 
         <template #item.is_default="{ item }">
-          <VSwitch v-if="$can('update', 'language')" :model-value="item.is_default"
-            @update:model-value="() => toggleDefault(item)" color="primary" inset hide-details />
-          <VChip v-else :color="item.is_default ? 'primary' : 'default'" size="small">{{ item.is_default ? $t('Yes') : $t('No') }}</VChip>
+          <VSwitch v-if="$can('update', 'language')" :model-value="item.is_default" @update:model-value="() => toggleDefault(item)" color="primary" inset hide-details />
+          <VChip v-else :color="item.is_default ? 'primary' : 'default'" size="small">{{ item.is_default ? $t('language.Yes') : $t('language.No') }}</VChip>
         </template>
 
         <template #item.status="{ item }">
-          <VSwitch v-if="$can('update', 'language')" :model-value="item.status"
-            @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
-          <VChip v-else :color="item.status ? 'success' : 'error'" size="small">{{ item.status ? $t('Active') : $t('Inactive') }}</VChip>
+          <VSwitch v-if="$can('update', 'language')" :model-value="item.status" @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
+          <VChip v-else :color="item.status ? 'success' : 'error'" size="small">{{ item.status ? $t('language.Active') : $t('language.Inactive') }}</VChip>
         </template>
 
         <template #item.actions="{ item }">
@@ -192,6 +190,8 @@ fetchItems()
 
   <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
     {{ snackbarMessage }}
-    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">{{ $t('Close') }}</VBtn></template>
+    <template #actions>
+      <VBtn color="white" variant="text" @click="snackbar = false">{{ $t('language.Close') }}</VBtn>
+    </template>
   </VSnackbar>
 </template>

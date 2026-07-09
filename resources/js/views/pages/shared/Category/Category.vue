@@ -28,12 +28,12 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: t('#'), key: 'id', sortable: true },
-  { title: t('Name'), key: 'name', sortable: true },
-  { title: t('Parent'), key: 'parent', sortable: false },
-  { title: t('Active'), key: 'is_active', sortable: true },
-  { title: t('Description'), key: 'description', sortable: false },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('category.#'), key: 'id', sortable: true },
+  { title: t('category.Name'), key: 'name', sortable: true },
+  { title: t('category.Parent'), key: 'parent', sortable: false },
+  { title: t('category.Active'), key: 'is_active', sortable: true },
+  { title: t('category.Description'), key: 'description', sortable: false },
+  { title: t('category.Actions'), key: 'actions', sortable: false },
 ]
 
 const updateOptions = options => {
@@ -73,7 +73,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || t('An error occurred')
+  return data?.message || err?.message || t('category.An Error Occurred')
 }
 
 function openAddModal() {
@@ -94,7 +94,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = t('Category deleted successfully')
+    snackbarMessage.value = t('category.Category Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -124,7 +124,7 @@ async function toggleActive(category) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = t('Category created successfully')
+    snackbarMessage.value = t('category.Category Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -138,7 +138,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCategory.value.id, data)
-    snackbarMessage.value = t('Category updated successfully')
+    snackbarMessage.value = t('category.Category Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -164,17 +164,17 @@ fetchCategories()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Category Management') }}
+            {{ $t('category.Category Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your categories') }}
+            {{ $t('category.Manage Your Categories') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('category.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -184,7 +184,7 @@ fetchCategories()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add Category') }}
+            {{ $t('category.Add Category') }}
           </VBtn>
         </div>
       </div>
@@ -228,7 +228,7 @@ fetchCategories()
               :color="item.is_active ? 'success' : 'error'"
               size="small"
             >
-              {{ item.is_active ? $t('Yes') : $t('No') }}
+              {{ item.is_active ? $t('category.Yes') : $t('category.No') }}
             </VChip>
           </template>
 
@@ -296,7 +296,7 @@ fetchCategories()
         variant="text"
         @click="snackbar = false"
       >
-        {{ $t('Close') }}
+        {{ $t('category.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

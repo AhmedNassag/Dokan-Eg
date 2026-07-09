@@ -37,26 +37,26 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: t('#'), key: 'id', sortable: true },
-  { title: t('Name'), key: 'name', sortable: true },
-  { title: t('Email'), key: 'email', sortable: true },
-  { title: t('Type'), key: 'user_type', sortable: true },
-  { title: t('Status'), key: 'status', sortable: true },
-  { title: t('Role'), key: 'role', sortable: false },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('user.#'), key: 'id', sortable: true },
+  { title: t('user.Name'), key: 'name', sortable: true },
+  { title: t('user.Email'), key: 'email', sortable: true },
+  { title: t('user.Type'), key: 'user_type', sortable: true },
+  { title: t('user.Status'), key: 'status', sortable: true },
+  { title: t('user.Role'), key: 'role', sortable: false },
+  { title: t('user.Actions'), key: 'actions', sortable: false },
 ]
 
 const userTypeOptions = [
-  { title: t('Admin'), value: 'admin' },
-  { title: t('Merchant'), value: 'merchant' },
-  { title: t('Marketer'), value: 'marketer' },
+  { title: t('user.Admin'), value: 'admin' },
+  { title: t('user.Merchant'), value: 'merchant' },
+  { title: t('user.Marketer'), value: 'marketer' },
 ]
 
 const statusOptions = [
-  { title: t('Approved'), value: 'approved' },
-  { title: t('Pending'), value: 'pending' },
-  { title: t('Rejected'), value: 'rejected' },
-  { title: t('Suspended'), value: 'suspended' },
+  { title: t('user.Approved'), value: 'approved' },
+  { title: t('user.Pending'), value: 'pending' },
+  { title: t('user.Rejected'), value: 'rejected' },
+  { title: t('user.Suspended'), value: 'suspended' },
 ]
 
 const statusColorMap = {
@@ -161,17 +161,17 @@ async function onSubmit() {
     try {
       if (selectedUser.value) {
         await api.update(selectedUser.value.id, formData.value)
-        snackbarMessage.value = t('User updated successfully')
+        snackbarMessage.value = t('user.User Updated Successfully')
       } else {
         await api.create(formData.value)
-        snackbarMessage.value = t('User created successfully')
+        snackbarMessage.value = t('user.User Created Successfully')
       }
       snackbarColor.value = 'success'
       snackbar.value = true
       closeFormDialog()
       await fetchUsers()
     } catch (err) {
-      snackbarMessage.value = err?.response?._data?.message || err?.message || t('An error occurred')
+      snackbarMessage.value = err?.response?._data?.message || err?.message || t('user.An Error Occurred')
       snackbarColor.value = 'error'
       snackbar.value = true
     } finally {
@@ -194,17 +194,17 @@ fetchRoles()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('User Management') }}
+            {{ $t('user.User Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage users and their roles') }}
+            {{ $t('user.Manage Users And Their Roles') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('user.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -214,7 +214,7 @@ fetchRoles()
             prepend-icon="tabler-plus"
             @click="openAddDialog"
           >
-            {{ $t('Add User') }}
+            {{ $t('user.Add User') }}
           </VBtn>
         </div>
       </div>
@@ -334,7 +334,7 @@ fetchRoles()
     @update:model-value="closeFormDialog"
   >
     <AppDrawerHeaderSection
-      :title="selectedUser ? $t('Edit User') : $t('Add User')"
+      :title="selectedUser ? $t('user.Edit User') : $t('user.Add User')"
       @cancel="closeFormDialog"
     />
 
@@ -353,8 +353,8 @@ fetchRoles()
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Name')"
-                  :placeholder="$t('Full name')"
+                  :label="$t('user.Name')"
+                  :placeholder="$t('user.Full name')"
                 />
               </VCol>
 
@@ -362,16 +362,16 @@ fetchRoles()
                 <AppTextField
                   v-model="formData.email"
                   :rules="[requiredValidator, emailValidator]"
-                  :label="$t('Email')"
-                  :placeholder="$t('Email address')"
+                  :label="$t('user.Email')"
+                  :placeholder="$t('user.Email Address')"
                 />
               </VCol>
 
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.password"
-                  :label="$t('Password')"
-                  :placeholder="selectedUser ? $t('Leave empty to keep current') : $t('Password')"
+                  :label="$t('user.Password')"
+                  :placeholder="selectedUser ? $t('user.Leave Empty To Keep Current') : $t('user.Password')"
                   :rules="selectedUser ? [] : [requiredValidator]"
                   type="password"
                 />
@@ -382,7 +382,7 @@ fetchRoles()
                   v-model="formData.user_type"
                   :items="userTypeOptions"
                   :rules="[requiredValidator]"
-                  :label="$t('User Type')"
+                  :label="$t('user.User Type')"
                   item-title="title"
                   item-value="value"
                 />
@@ -393,7 +393,7 @@ fetchRoles()
                   v-model="formData.status"
                   :items="statusOptions"
                   :rules="[requiredValidator]"
-                  :label="$t('Status')"
+                  :label="$t('user.Status')"
                   item-title="title"
                   item-value="value"
                 />
@@ -404,10 +404,10 @@ fetchRoles()
                   v-model="formData.role"
                   :items="roles"
                   :rules="[requiredValidator]"
-                  :label="$t('Role')"
+                  :label="$t('user.Role')"
                   item-title="name"
                   item-value="id"
-                  :placeholder="$t('Select role')"
+                  :placeholder="$t('user.Select Role')"
                 />
               </VCol>
 
@@ -417,7 +417,7 @@ fetchRoles()
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ selectedUser ? $t('Update') : $t('Submit') }}
+                  {{ selectedUser ? $t('user.Update') : $t('user.Submit') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -425,7 +425,7 @@ fetchRoles()
                   color="error"
                   @click="closeFormDialog"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('user.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>
@@ -437,11 +437,11 @@ fetchRoles()
 
   <ConfirmDialog
     :is-dialog-visible="isConfirmDialogOpen"
-    :confirmation-question="$t('Are you sure you want to delete this user?')"
-    :confirm-title="$t('Deleted!')"
-    :confirm-msg="$t('User has been deleted successfully.')"
-    :cancel-title="$t('Cancelled')"
-    :cancel-msg="$t('User deletion cancelled.')"
+    :confirmation-question="$t('user.Are You Sure You Want To Delete This User?')"
+    :confirm-title="$t('user.Deleted!')"
+    :confirm-msg="$t('user.User Has Been Deleted Successfully.')"
+    :cancel-title="$t('user.Cancelled')"
+    :cancel-msg="$t('user.User Deletion Cancelled.')"
     @update:is-dialog-visible="isConfirmDialogOpen = $event"
     @confirm="handleDelete"
   />
@@ -459,7 +459,7 @@ fetchRoles()
         variant="text"
         @click="snackbar = false"
       >
-        {{ $t('Close') }}
+        {{ $t('user.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

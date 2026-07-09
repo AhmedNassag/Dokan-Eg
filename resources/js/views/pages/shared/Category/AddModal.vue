@@ -63,7 +63,7 @@ async function onSubmit() {
     @update:model-value="closeModal"
   >
     <AppDrawerHeaderSection
-      :title="$t('Add Category')"
+      :title="$t('category.Add Category')"
       @cancel="closeModal"
     />
 
@@ -82,8 +82,8 @@ async function onSubmit() {
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Name')"
-                  :placeholder="$t('Category name')"
+                  :label="$t('category.Name')"
+                  :placeholder="$t('category.Category Name')"
                 />
               </VCol>
 
@@ -93,8 +93,8 @@ async function onSubmit() {
                   :items="categories"
                   item-title="name"
                   item-value="id"
-                  :label="$t('Parent Category')"
-                  :placeholder="$t('Select parent category')"
+                  :label="$t('category.Parent Category')"
+                  :placeholder="$t('category.Select Parent Category')"
                   clearable
                   :return-object="false"
                 />
@@ -103,7 +103,7 @@ async function onSubmit() {
               <VCol cols="12">
                 <VCheckbox
                   v-model="formData.is_active"
-                  :label="$t('Active')"
+                  :label="$t('category.Active')"
                   color="success"
                 />
               </VCol>
@@ -111,8 +111,8 @@ async function onSubmit() {
               <VCol cols="12">
                 <AppTextarea
                   v-model="formData.description"
-                  :label="$t('Description')"
-                  :placeholder="$t('Category description')"
+                  :label="$t('category.Description')"
+                  :placeholder="$t('category.Category Description')"
                   auto-grow
                 />
               </VCol>
@@ -123,7 +123,7 @@ async function onSubmit() {
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ $t('Submit') }}
+                  {{ $t('category.Submit') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -131,7 +131,7 @@ async function onSubmit() {
                   color="error"
                   @click="closeModal"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('category.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>

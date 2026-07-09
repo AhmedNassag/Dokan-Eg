@@ -2,10 +2,10 @@
 const { t } = useI18n()
 
 const stats = ref([
-  { title: t('Total Users'), value: '2,340', icon: 'tabler-users', color: 'primary' },
-  { title: t('Active Merchants'), value: '185', icon: 'tabler-building-store', color: 'success' },
-  { title: t('Total Orders'), value: '12,450', icon: 'tabler-shopping-cart', color: 'warning' },
-  { title: t('Revenue'), value: '$48,200', icon: 'tabler-currency-dollar', color: 'info' },
+  { title: t('adminDashboard.Total Users'), value: '2,340', icon: 'tabler-users', color: 'primary' },
+  { title: t('adminDashboard.Active Merchants'), value: '185', icon: 'tabler-building-store', color: 'success' },
+  { title: t('adminDashboard.Total Orders'), value: '12,450', icon: 'tabler-shopping-cart', color: 'warning' },
+  { title: t('adminDashboard.Revenue'), value: '$48,200', icon: 'tabler-currency-dollar', color: 'info' },
 ])
 </script>
 
@@ -14,10 +14,10 @@ const stats = ref([
     <VCol cols="12">
       <div>
         <h4 class="text-h4">
-          {{ $t('Admin Dashboard') }}
+          {{ $t('adminDashboard.Admin Dashboard') }}
         </h4>
         <p class="text-body-1 mb-0">
-          {{ $t('Welcome back, admin. Here is your overview.') }}
+          {{ $t('adminDashboard.Welcome Back, Admin. Here Is Your Overview.') }}
         </p>
       </div>
     </VCol>

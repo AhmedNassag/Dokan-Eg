@@ -7,15 +7,16 @@ function onConfirm() {
   emit('update:modelValue', false)
 }
 </script>
+
 <template>
   <VDialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" max-width="400">
     <VCard>
-      <VCardTitle>{{ $t('Delete Language') }}</VCardTitle>
-      <VCardText>{{ $t('Are you sure you want to delete this language?') }}</VCardText>
+      <VCardTitle>{{ $t('language.Delete Language') }}</VCardTitle>
+      <VCardText>{{ $t('language.Are You Sure You Want To Delete This Language?') }}</VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn variant="tonal" @click="$emit('update:modelValue', false)">{{ $t('Cancel') }}</VBtn>
-        <VBtn color="error" @click="onConfirm">{{ $t('Delete') }}</VBtn>
+        <VBtn variant="tonal" @click="$emit('update:modelValue', false)">{{ $t('language.Cancel') }}</VBtn>
+        <VBtn color="error" @click="onConfirm">{{ $t('language.Delete') }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>

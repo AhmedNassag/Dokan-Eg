@@ -37,7 +37,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || t('An error occurred')
+  return data?.message || err?.message || t('shippingCompany.An Error Occurred')
 }
 
 function openAddModal() { isAddModalOpen.value = true }
@@ -48,7 +48,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = t('Shipping company deleted successfully')
+    snackbarMessage.value = t('shippingCompany.Shipping Company Deleted Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -73,7 +73,7 @@ async function toggleStatus(company) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = t('Shipping company created successfully')
+    snackbarMessage.value = t('shippingCompany.Shipping Company Created Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -85,7 +85,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCompany.value.id, data)
-    snackbarMessage.value = t('Shipping company updated successfully')
+    snackbarMessage.value = t('shippingCompany.Shipping Company Updated Successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -104,17 +104,17 @@ fetchCompanies()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Shipping Companies') }}
+            {{ $t('shippingCompany.Shipping Companies') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your shipping companies and prices') }}
+            {{ $t('shippingCompany.Manage Your Shipping Companies And Prices') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('shippingCompany.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -124,7 +124,7 @@ fetchCompanies()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add Shipping Company') }}
+            {{ $t('shippingCompany.Add Shipping Company') }}
           </VBtn>
         </div>
       </div>
@@ -160,7 +160,7 @@ fetchCompanies()
                 size="small"
                 class="me-4"
               >
-                {{ company.status ? $t('Active') : $t('Inactive') }}
+                {{ company.status ? $t('shippingCompany.Active') : $t('shippingCompany.Inactive') }}
               </VChip>
             </div>
           </VExpansionPanelTitle>
@@ -168,10 +168,10 @@ fetchCompanies()
           <VExpansionPanelText>
             <VRow class="mb-4">
               <VCol cols="4">
-                <strong>{{ $t('Code') }}:</strong> {{ company.code }}
+                <strong>{{ $t('shippingCompany.Code') }}:</strong> {{ company.code }}
               </VCol>
               <VCol cols="4">
-                <strong>{{ $t('Phone') }}:</strong> {{ company.phone }}
+                <strong>{{ $t('shippingCompany.Phone') }}:</strong> {{ company.phone }}
               </VCol>
               <VCol
                 cols="4"
@@ -203,14 +203,14 @@ fetchCompanies()
 
             <VDivider class="mb-3" />
             <h6 class="text-h6 mb-3">
-              {{ $t('Shipping Prices') }}
+              {{ $t('shippingCompany.Shipping Prices') }}
             </h6>
 
             <VTable
               v-if="company.prices?.length"
               class="text-no-wrap"
             >
-              <thead><tr><th>{{ $t('City') }}</th><th>{{ $t('Price') }}</th></tr></thead>
+              <thead><tr><th>{{ $t('shippingCompany.City') }}</th><th>{{ $t('shippingCompany.Price') }}</th></tr></thead>
               <tbody>
                 <tr
                   v-for="price in company.prices"
@@ -218,7 +218,7 @@ fetchCompanies()
                 >
                   <td>{{ price.city?.name || '—' }}</td>
                   <td class="font-weight-medium">
-                    {{ Number(price.price).toFixed(2) }} {{ $t('EGP') }}
+                    {{ Number(price.price).toFixed(2) }} {{ $t('shippingCompany.EGP') }}
                   </td>
                 </tr>
               </tbody>
@@ -227,7 +227,7 @@ fetchCompanies()
               v-else
               class="text-body-2 text-medium-emphasis"
             >
-              {{ $t('No prices set') }}
+              {{ $t('shippingCompany.No prices set') }}
             </p>
           </VExpansionPanelText>
         </VExpansionPanel>
@@ -236,7 +236,7 @@ fetchCompanies()
           v-if="!items.length && !isLoading"
           disabled
         >
-          <VExpansionPanelTitle>{{ $t('No shipping companies found') }}</VExpansionPanelTitle>
+          <VExpansionPanelTitle>{{ $t('shippingCompany.No shipping companies found') }}</VExpansionPanelTitle>
         </VExpansionPanel>
       </VExpansionPanels>
     </VCol>
@@ -269,7 +269,7 @@ fetchCompanies()
         variant="text"
         @click="snackbar = false"
       >
-        {{ $t('Close') }}
+        {{ $t('shippingCompany.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

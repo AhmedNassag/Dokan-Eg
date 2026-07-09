@@ -26,10 +26,10 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: t('#'), key: 'id', sortable: false },
-  { title: t('Name'), key: 'name', sortable: false },
-  { title: t('Status'), key: 'status', sortable: false },
-  { title: t('Actions'), key: 'actions', sortable: false },
+  { title: t('country.#'), key: 'id', sortable: false },
+  { title: t('country.Name'), key: 'name', sortable: false },
+  { title: t('country.Status'), key: 'status', sortable: false },
+  { title: t('country.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchCountries() {
@@ -62,7 +62,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || t('An error occurred')
+  return data?.message || err?.message || t('country.An Error Occurred')
 }
 
 function openAddModal() {
@@ -83,7 +83,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = t('Country deleted successfully')
+    snackbarMessage.value = t('country.Country Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -113,7 +113,7 @@ async function toggleStatus(country) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = t('Country created successfully')
+    snackbarMessage.value = t('country.Country Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -127,7 +127,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCountry.value.id, data)
-    snackbarMessage.value = t('Country updated successfully')
+    snackbarMessage.value = t('country.Country Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -156,7 +156,7 @@ fetchCountries()
             {{ $t('country.Country Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('country.Manage your countries') }}
+            {{ $t('country.Manage Your Countries') }}
           </p>
         </div>
         <VSpacer />
