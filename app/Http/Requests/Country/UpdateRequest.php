@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Country;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCountryRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +23,17 @@ class StoreCountryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:countries',
-            'status' => 'required|boolean',
+            'name' => ['required', 'string', Rule::unique('countries', 'name')->ignore($this->route('id'))],
+            'status' => ['required', 'boolean'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'اسم الدوله مطلوب ',
-            'name.unique' => 'اسم الدولة موجود من قبل',
+            'name.required'   => 'اسم الدوله مطلوب ',
+            'name.unique'     => 'اسم الدولة موجود من قبل',
             'status.required' => 'حالة الدولة مطلوبة',
         ];
-    }   
+    }
 }

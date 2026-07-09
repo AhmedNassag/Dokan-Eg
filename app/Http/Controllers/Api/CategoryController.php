@@ -14,15 +14,17 @@ class CategoryController extends Controller
         $this->middleware('auth:sanctum');
 
         $this->middleware('permission:list-category', ['only' => ['index']]);
-        $this->middleware('permission:store-category', ['only' => ['store']]);
         $this->middleware('permission:show-category', ['only' => ['show']]);
+        $this->middleware('permission:store-category', ['only' => ['store']]);
         $this->middleware('permission:update-category', ['only' => ['update']]);
         $this->middleware('permission:destroy-category', ['only' => ['destroy']]);
     }
 
+
+
     public function index(Request $request)
     {
-        $user = Auth::user();
+        $user  = Auth::user();
         $query = Category::query()->with('parent');
 
         if (!$user->hasRole('admin')) {
@@ -36,59 +38,62 @@ class CategoryController extends Controller
             });
         }
 
-        $sortBy = $request->sortBy ?? 'id';
+        $sortBy  = $request->sortBy ?? 'id';
         $orderBy = $request->orderBy ?? 'desc';
         $query->orderBy($sortBy, $orderBy);
 
         $itemsPerPage = $request->itemsPerPage ?? 10;
-        $page = $request->page ?? 1;
-
-        $total = $query->count();
-        $categories = $query->skip(($page - 1) * $itemsPerPage)
-            ->take($itemsPerPage)
-            ->get();
+        $page         = $request->page ?? 1;
+        $total        = $query->count();
+        $categories   = $query->skip(($page - 1) * $itemsPerPage)->take($itemsPerPage)->get();
 
         return response()->json([
-            'data' => $categories,
+            'data'  => $categories,
             'total' => $total,
         ]);
     }
 
+
+
+    public function show($id)
+    {
+        $category = Category::with('parent')->findOrFail($id);
+        $this->authorizeAccess($category);
+
+        return response()->json($category);
+    }
+
+
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:categories,id',
-            'is_active' => 'nullable|boolean',
+            'parent_id'   => 'nullable|exists:categories,id',
+            'is_active'   => 'nullable|boolean',
         ]);
 
         $data['created_by'] = Auth::id();
-        $data['is_active'] = $request->boolean('is_active', true);
+        $data['is_active']  = $request->boolean('is_active', true);
 
         $category = Category::create($data)->load('parent');
 
         return response()->json($category, 201);
     }
 
-    public function show($id)
-    {
-        $category = Category::with('parent')->findOrFail($id);
-        // $this->authorizeAccess($category);
 
-        return response()->json($category);
-    }
 
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-        // $this->authorizeAccess($category);
+        $this->authorizeAccess($category);
 
         $data = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
+            'name'        => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:categories,id',
-            'is_active' => 'nullable|boolean',
+            'parent_id'   => 'nullable|exists:categories,id',
+            'is_active'   => 'nullable|boolean',
         ]);
 
         if ($request->has('is_active')) {
@@ -101,15 +106,19 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
+
+
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        // $this->authorizeAccess($category);
+        $this->authorizeAccess($category);
 
         $category->delete();
 
         return response()->json(null, 204);
     }
+
+
 
     private function authorizeAccess(Category $category)
     {

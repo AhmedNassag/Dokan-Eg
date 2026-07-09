@@ -19,11 +19,13 @@ class UserController extends Controller
         $this->middleware('auth:sanctum');
 
         $this->middleware('permission:list-user', ['only' => ['index']]);
-        $this->middleware('permission:store-user', ['only' => ['store']]);
         $this->middleware('permission:show-user', ['only' => ['show']]);
+        $this->middleware('permission:store-user', ['only' => ['store']]);
         $this->middleware('permission:update-user', ['only' => ['update']]);
         $this->middleware('permission:destroy-user', ['only' => ['destroy']]);
     }
+
+
 
     public function index(Request $request)
     {
@@ -36,12 +38,12 @@ class UserController extends Controller
             });
         }
 
-        $sortBy = $request->sortBy ?? 'id';
+        $sortBy  = $request->sortBy ?? 'id';
         $orderBy = $request->orderBy ?? 'asc';
         $query->orderBy($sortBy, $orderBy);
 
         $itemsPerPage = $request->itemsPerPage ?? 10;
-        $page = $request->page ?? 1;
+        $page         = $request->page ?? 1;
 
         $total = $query->count();
         $users = $query->skip(($page - 1) * $itemsPerPage)
@@ -52,20 +54,32 @@ class UserController extends Controller
             });
 
         return response()->json([
-            'data' => $users,
+            'data'  => $users,
             'total' => $total,
         ]);
     }
 
+
+
+    public function show($id)
+    {
+        $user = User::with('roles')->findOrFail($id);
+        $user->role_names = $user->getRoleNames();
+
+        return response()->json($user);
+    }
+
+
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users',
+            'password'  => 'required|string|min:8',
             'user_type' => ['required', new Enum(UserType::class)],
-            'status' => ['required', new Enum(Status::class)],
-            'role' => 'required|exists:roles,id',
+            'status'    => ['required', new Enum(Status::class)],
+            'role'      => 'required|exists:roles,id',
         ]);
 
         $data['password'] = Hash::make($data['password']);
@@ -82,25 +96,19 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    public function show($id)
-    {
-        $user = User::with('roles')->findOrFail($id);
-        $user->role_names = $user->getRoleNames();
 
-        return response()->json($user);
-    }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password'  => 'nullable|string|min:8',
             'user_type' => ['required', new Enum(UserType::class)],
-            'status' => ['required', new Enum(Status::class)],
-            'role' => 'sometimes|exists:roles,id',
+            'status'    => ['required', new Enum(Status::class)],
+            'role'      => 'sometimes|exists:roles,id',
         ]);
 
         if (empty($data['password'])) {
@@ -123,6 +131,8 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -135,6 +145,8 @@ class UserController extends Controller
 
         return response()->json(null, 204);
     }
+
+
 
     public function roles()
     {

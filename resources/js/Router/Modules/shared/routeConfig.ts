@@ -64,14 +64,14 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     action: 'list',
     subject: 'branch',
   },
-  'shipping-company': {
+  'shippingCompany': {
     title: 'Shipping Companies',
-    path: 'shipping-company',
-    namePrefix: 'shipping-company',
+    path: 'shippingCompany',
+    namePrefix: 'shippingCompany',
     component: () => import('@/views/pages/shared/ShippingCompany/ShippingCompany.vue'),
     icon: { icon: 'tabler-truck' },
     action: 'list',
-    subject: 'shipping-company',
+    subject: 'shippingCompany',
   },
   user: {
     title: 'Users',
@@ -166,7 +166,21 @@ export function createRoutesFromConfig(
 // Function to create navigation items from config (same as createNavItems)
 export function createNavItemsFromConfig(
   role: string,
-  sections: string[] = ['dashboard', 'category', 'user', 'role', 'permission', 'order']
+  sections: string[] = [
+    'dashboard',
+    'user',
+    'role',
+    'permission',
+    'category',
+    'country',
+    'city',
+    'area',
+    'branch',
+    'shippingCompany',
+    'language',
+    'translation',
+    'order',
+  ]
 ) {
   const items = [
     { heading: `${role.charAt(0).toUpperCase() + role.slice(1)} Panel` },

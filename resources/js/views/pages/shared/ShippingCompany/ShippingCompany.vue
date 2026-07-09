@@ -94,7 +94,7 @@ fetchCompanies()
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField v-model="searchQuery" :placeholder="$t('Search')" style="inline-size: 15.625rem;" clearable clear-icon="tabler-x" />
-          <VBtn v-if="$can('store', 'shipping-company')" prepend-icon="tabler-plus" @click="openAddModal">{{ $t('Add Shipping Company') }}</VBtn>
+          <VBtn v-if="$can('store', 'shippingCompany')" prepend-icon="tabler-plus" @click="openAddModal">{{ $t('Add Shipping Company') }}</VBtn>
         </div>
       </div>
     </VCol>
@@ -118,9 +118,9 @@ fetchCompanies()
               <VCol cols="4"><strong>{{ $t('Code') }}:</strong> {{ company.code }}</VCol>
               <VCol cols="4"><strong>{{ $t('Phone') }}:</strong> {{ company.phone }}</VCol>
               <VCol cols="4" class="text-end">
-                <IconBtn v-if="$can('update', 'shipping-company')" @click="openEditModal(company)"><VIcon icon="tabler-pencil" /></IconBtn>
-                <IconBtn v-if="$can('destroy', 'shipping-company')" @click="confirmDelete(company.id)"><VIcon icon="tabler-trash" /></IconBtn>
-                <VSwitch v-if="$can('update', 'shipping-company')" :model-value="company.status"
+                <IconBtn v-if="$can('update', 'shippingCompany')" @click="openEditModal(company)"><VIcon icon="tabler-pencil" /></IconBtn>
+                <IconBtn v-if="$can('destroy', 'shippingCompany')" @click="confirmDelete(company.id)"><VIcon icon="tabler-trash" /></IconBtn>
+                <VSwitch v-if="$can('update', 'shippingCompany')" :model-value="company.status"
                   @update:model-value="() => toggleStatus(company)" color="success" inset hide-details
                   class="d-inline-block ms-2" />
               </VCol>

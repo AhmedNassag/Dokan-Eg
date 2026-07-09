@@ -4,6 +4,7 @@ namespace Database\Seeders\Country;
 
 use App\Models\Country;
 use Illuminate\Database\Seeder;
+use Database\Seeders\Country\CountryPermissionSeeder;
 
 class CountrySeeder extends Seeder
 {
@@ -11,14 +12,8 @@ class CountrySeeder extends Seeder
     {
         $this->call(CountryPermissionSeeder::class);
 
-        $countries = [
-            ['name' => 'مصر', 'status' => true],
-            ['name' => 'السعودية', 'status' => true],
-            ['name' => 'الإمارات', 'status' => true],
-        ];
-
-        foreach ($countries as $data) {
-            Country::firstOrCreate(['name' => $data['name']], $data);
-        }
+        Country::create(['name' => 'مصر', 'status' => true]);
+        Country::create(['name' => 'السعودية', 'status' => true]);
+        Country::create(['name' => 'الإمارات', 'status' => true]);
     }
 }

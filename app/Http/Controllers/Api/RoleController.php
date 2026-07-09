@@ -15,11 +15,13 @@ class RoleController extends Controller
         $this->middleware('auth:sanctum');
 
         $this->middleware('permission:list-role', ['only' => ['index']]);
-        $this->middleware('permission:store-role', ['only' => ['store']]);
         $this->middleware('permission:show-role', ['only' => ['show']]);
+        $this->middleware('permission:store-role', ['only' => ['store']]);
         $this->middleware('permission:update-role', ['only' => ['update']]);
         $this->middleware('permission:destroy-role', ['only' => ['destroy']]);
     }
+
+
 
     public function index(Request $request)
     {
@@ -47,11 +49,22 @@ class RoleController extends Controller
         ]);
     }
 
+
+
+    public function show($id)
+    {
+        $role = Role::with('permissions')->findOrFail($id);
+
+        return response()->json($role);
+    }
+
+
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name',
-            'permissions' => 'nullable|array',
+            'name'          => 'required|string|max:255|unique:roles,name',
+            'permissions'   => 'nullable|array',
             'permissions.*' => 'exists:permissions,id',
         ]);
 
@@ -66,20 +79,15 @@ class RoleController extends Controller
         return response()->json($role, 201);
     }
 
-    public function show($id)
-    {
-        $role = Role::with('permissions')->findOrFail($id);
 
-        return response()->json($role);
-    }
 
     public function update(Request $request, $id)
     {
         $role = Role::findOrFail($id);
 
         $data = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $id,
-            'permissions' => 'nullable|array',
+            'name'          => 'required|string|max:255|unique:roles,name,' . $id,
+            'permissions'   => 'nullable|array',
             'permissions.*' => 'exists:permissions,id',
         ]);
 
@@ -93,6 +101,8 @@ class RoleController extends Controller
 
         return response()->json($role);
     }
+
+
 
     public function destroy($id)
     {

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code', 10)->unique();
             $table->enum('direction', ['ltr', 'rtl'])->default('ltr');
+            $table->boolean('is_default')->default(false);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

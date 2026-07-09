@@ -5,6 +5,7 @@ namespace Database\Seeders\Translation;
 use App\Models\Language;
 use App\Models\Translation;
 use Illuminate\Database\Seeder;
+use Database\Seeders\Translation\TranslationPermissionSeeder;
 
 class TranslationSeeder extends Seeder
 {
@@ -38,6 +39,8 @@ class TranslationSeeder extends Seeder
         }
     }
 
+
+    
     private function seedNested($languageId, $group, array $items, $prefix = '')
     {
         foreach ($items as $key => $value) {

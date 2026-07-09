@@ -13,10 +13,6 @@ class PermissionController extends Controller
         $this->middleware('auth:sanctum');
 
         $this->middleware('permission:list-permission', ['only' => ['index']]);
-        $this->middleware('permission:store-permission', ['only' => ['store']]);
-        $this->middleware('permission:show-permission', ['only' => ['show']]);
-        $this->middleware('permission:update-permission', ['only' => ['update']]);
-        $this->middleware('permission:destroy-permission', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)

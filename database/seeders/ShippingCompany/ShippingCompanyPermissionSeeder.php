@@ -10,9 +10,13 @@ class ShippingCompanyPermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'list-shipping-company', 'store-shipping-company', 'show-shipping-company',
-            'update-shipping-company', 'destroy-shipping-company',
+            'list-shippingCompany',
+            'show-shippingCompany',
+            'store-shippingCompany',
+            'update-shippingCompany',
+            'destroy-shippingCompany',
         ];
+
         foreach ($permissions as $p) {
             Permission::findOrCreate($p);
         }
