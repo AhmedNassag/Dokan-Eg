@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import brave from '@images/logos/brave.png'
 import chrome from '@images/logos/chrome.png'
 import firefox from '@images/logos/firefox.png'
@@ -9,37 +11,37 @@ import safari from '@images/logos/safari.png'
 const browserStates = [
   {
     avatarImg: chrome,
-    title: 'Google Chrome',
+    title: t('Google Chrome'),
     stats: '90.4',
     progress: 'secondary',
   },
   {
     avatarImg: safari,
-    title: 'Apple Safari',
+    title: t('Apple Safari'),
     stats: '70.6',
     progress: 'success',
   },
   {
     avatarImg: firefox,
-    title: 'Mozilla Firefox',
+    title: t('Mozilla Firefox'),
     stats: '35.5',
     progress: 'primary',
   },
   {
     avatarImg: operaMini,
-    title: 'Opera Mini',
+    title: t('Opera Mini'),
     stats: '80.0',
     progress: 'error',
   },
   {
     avatarImg: internetExplorer,
-    title: 'Internet Explorer',
+    title: t('Internet Explorer'),
     stats: '62.2',
     progress: 'info',
   },
   {
     avatarImg: brave,
-    title: 'Brave',
+    title: t('Brave'),
     stats: '46.3',
     progress: 'warning',
   },
@@ -47,15 +49,15 @@ const browserStates = [
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -63,8 +65,8 @@ const moreList = [
 
 <template>
   <VCard
-    title="Browser States"
-    subtitle="Counter April 2022"
+    :title="$t('Browser States')"
+    :subtitle="$t('Counter April 2022')"
   >
     <template #append>
       <div class="mt-n4 me-n2">

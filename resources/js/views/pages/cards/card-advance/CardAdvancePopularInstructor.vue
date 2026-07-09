@@ -7,7 +7,7 @@ import avatar4 from '@images/avatars/avatar-4.png'
 
 <template>
   <VCard>
-    <VCardItem title="Popular Instructors">
+    <VCardItem :title="$t('Popular Instructors')">
       <template #append>
         <MoreBtn />
       </template>
@@ -15,10 +15,10 @@ import avatar4 from '@images/avatars/avatar-4.png'
     <VDivider />
     <div class="d-flex justify-space-between py-4 px-6">
       <div class="text-body-1 text-uppercase">
-        instructors
+        {{ $t('instructors') }}
       </div>
       <div class="text-body-1 text-uppercase">
-        Courses
+        {{ $t('Courses') }}
       </div>
     </div>
     <VDivider />
@@ -26,10 +26,10 @@ import avatar4 from '@images/avatars/avatar-4.png'
       <VList class="card-list">
         <VListItem
           v-for="instructor in [
-            { name: 'Jordan Stevenson', profession: 'Business Intelligence', totalCourses: 33, avatar: avatar1 },
-            { name: 'Bentlee Emblin', profession: 'Digital Marketing', totalCourses: 52, avatar: avatar2 },
-            { name: 'Benedetto Rossiter', profession: 'UI/UX Design', totalCourses: 12, avatar: avatar3 },
-            { name: 'Beverlie Krabbe', profession: 'Vue', totalCourses: 8, avatar: avatar4 },
+            { name: 'Jordan Stevenson', profession: $t('Business Intelligence'), totalCourses: 33, avatar: avatar1 },
+            { name: 'Bentlee Emblin', profession: $t('Digital Marketing'), totalCourses: 52, avatar: avatar2 },
+            { name: 'Benedetto Rossiter', profession: $t('UI/UX Design'), totalCourses: 12, avatar: avatar3 },
+            { name: 'Beverlie Krabbe', profession: $t('Vue'), totalCourses: 8, avatar: avatar4 },
           ]"
           :key="instructor.name"
         >

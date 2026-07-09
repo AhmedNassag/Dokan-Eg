@@ -17,7 +17,7 @@ class TranslationController extends Controller
     {
         $this->translation = $translation;
 
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum', ['except' => ['export']]);
 
         $this->middleware('permission:list-translation', ['only' => ['index']]);
         $this->middleware('permission:show-translation', ['only' => ['show']]);

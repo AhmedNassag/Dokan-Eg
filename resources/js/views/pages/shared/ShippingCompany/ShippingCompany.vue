@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import ShippingCompanyAPI from '@/API/shared/ShippingCompany/shippingCompany'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -35,7 +37,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('An error occurred')
 }
 
 function openAddModal() { isAddModalOpen.value = true }
@@ -46,7 +48,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Shipping company deleted successfully'
+    snackbarMessage.value = t('Shipping company deleted successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -71,7 +73,7 @@ async function toggleStatus(company) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Shipping company created successfully'
+    snackbarMessage.value = t('Shipping company created successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -83,7 +85,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCompany.value.id, data)
-    snackbarMessage.value = 'Shipping company updated successfully'
+    snackbarMessage.value = t('Shipping company updated successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchCompanies()
   } catch (err) {
@@ -158,7 +160,7 @@ fetchCompanies()
                 size="small"
                 class="me-4"
               >
-                {{ company.status ? 'Active' : 'Inactive' }}
+                {{ company.status ? $t('Active') : $t('Inactive') }}
               </VChip>
             </div>
           </VExpansionPanelTitle>
@@ -267,7 +269,7 @@ fetchCompanies()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

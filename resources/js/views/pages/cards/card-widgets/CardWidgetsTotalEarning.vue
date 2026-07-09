@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 
 const vuetifyTheme = useTheme()
@@ -168,26 +170,26 @@ const totalEarnings = [
   {
     avatar: 'tabler-brand-paypal',
     avatarColor: 'primary',
-    title: 'Total Revenue',
-    subtitle: 'Client Payment',
+    title: t('Total Revenue'),
+    subtitle: t('Client Payment'),
     earning: '+$126',
   },
   {
     avatar: 'tabler-currency-dollar',
     avatarColor: 'secondary',
-    title: 'Total Sales',
-    subtitle: 'Total Sales',
+    title: t('Total Sales'),
+    subtitle: t('Total Sales'),
     earning: '+$98',
   },
 ]
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
@@ -196,7 +198,7 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem class="pb-0">
-      <VCardTitle>Total Earning</VCardTitle>
+      <VCardTitle>{{ $t('Total Earning') }}</VCardTitle>
 
       <div class="d-flex align-center mt-2">
         <h2 class="text-h2 me-2">

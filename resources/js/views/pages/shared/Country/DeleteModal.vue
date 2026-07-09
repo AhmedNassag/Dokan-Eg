@@ -21,11 +21,11 @@ function handleConfirm() {
 <template>
   <ConfirmDialog
     :is-dialog-visible="modelValue"
-    confirmation-question="Are you sure you want to delete this country?"
-    confirm-title="Deleted!"
-    confirm-msg="Country has been deleted successfully."
-    cancel-title="Cancelled"
-    cancel-msg="Country deletion cancelled."
+    :confirmation-question="$t('Are you sure you want to delete this country?')"
+    :confirm-title="$t('Deleted!')"
+    :confirm-msg="$t('Country has been deleted successfully.')"
+    :cancel-title="$t('Cancelled')"
+    :cancel-msg="$t('Country deletion cancelled.')"
     @update:is-dialog-visible="closeModal"
     @confirm="handleConfirm"
   />

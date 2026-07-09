@@ -70,7 +70,7 @@ fetchAreas()
     @update:model-value="closeModal"
   >
     <AppDrawerHeaderSection
-      :title="$t('Add Branch')"
+      :title="$t('branch.Add Branch')"
       @cancel="closeModal"
     />
 
@@ -89,8 +89,8 @@ fetchAreas()
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Name')"
-                  :placeholder="$t('Branch name')"
+                  :label="$t('branch.Name')"
+                  :placeholder="$t('branch.Branch Name')"
                 />
               </VCol>
 
@@ -98,8 +98,8 @@ fetchAreas()
                 <AppTextField
                   v-model="formData.code"
                   :rules="[requiredValidator]"
-                  :label="$t('Code')"
-                  :placeholder="$t('Branch code')"
+                  :label="$t('branch.Code')"
+                  :placeholder="$t('branch.Branch Code')"
                 />
               </VCol>
 
@@ -107,16 +107,16 @@ fetchAreas()
                 <AppTextField
                   v-model="formData.mobile"
                   :rules="[requiredValidator]"
-                  :label="$t('Mobile')"
-                  :placeholder="$t('Branch mobile')"
+                  :label="$t('branch.Mobile')"
+                  :placeholder="$t('branch.Branch Mobile')"
                 />
               </VCol>
 
               <VCol cols="12">
                 <AppTextField
                   v-model="formData.address"
-                  :label="$t('Address')"
-                  :placeholder="$t('Branch address')"
+                  :label="$t('branch.Address')"
+                  :placeholder="$t('branch.Branch Address')"
                 />
               </VCol>
 
@@ -126,8 +126,8 @@ fetchAreas()
                   :items="areas"
                   item-title="name"
                   item-value="id"
-                  :label="$t('Area')"
-                  :placeholder="$t('Select area')"
+                  :label="$t('branch.Area')"
+                  :placeholder="$t('branch.Select Area')"
                   :rules="[requiredValidator]"
                   clearable
                   :return-object="false"
@@ -137,7 +137,7 @@ fetchAreas()
               <VCol cols="12">
                 <VCheckbox
                   v-model="formData.status"
-                  :label="$t('Active')"
+                  :label="$t('branch.Active')"
                   color="success"
                 />
               </VCol>
@@ -148,7 +148,7 @@ fetchAreas()
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ $t('Submit') }}
+                  {{ $t('branch.Submit') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -156,7 +156,7 @@ fetchAreas()
                   color="error"
                   @click="closeModal"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('branch.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>

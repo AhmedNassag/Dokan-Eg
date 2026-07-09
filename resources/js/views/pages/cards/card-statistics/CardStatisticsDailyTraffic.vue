@@ -152,7 +152,7 @@ const chartOptions = computed(() => {
             2.84k
           </h4>
           <div class="text-subtitle-2">
-            Avg Daily Traffic
+            {{ $t('Avg Daily Traffic') }}
           </div>
         </div>
 

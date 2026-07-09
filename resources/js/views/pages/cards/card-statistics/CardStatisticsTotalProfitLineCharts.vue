@@ -79,10 +79,10 @@ const chartOptions = computed(() => {
   <VCard>
     <VCardItem class="pb-3">
       <VCardTitle>
-        Profit
+        {{ $t('Profit') }}
       </VCardTitle>
       <VCardSubtitle>
-        Last Month
+        {{ $t('Last Month') }}
       </VCardSubtitle>
     </VCardItem>
     <VCardText>

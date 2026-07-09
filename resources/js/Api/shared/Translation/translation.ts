@@ -1,4 +1,5 @@
 import API from '../../api'
+import { $api } from '@/utils/api'
 
 class TranslationAPI extends API {
   constructor() {
@@ -6,7 +7,7 @@ class TranslationAPI extends API {
   }
 
   exportByCode(code) {
-    return this.$api(`translations/export?code=${code}`)
+    return $api(`translations/export?code=${code}`)
   }
 }
 

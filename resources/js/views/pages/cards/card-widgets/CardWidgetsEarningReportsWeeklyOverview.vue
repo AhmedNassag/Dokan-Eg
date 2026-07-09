@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { hexToRgb } from '@layouts/utils'
 
@@ -89,21 +91,21 @@ const earningsReports = [
   {
     color: 'primary',
     icon: 'tabler-currency-dollar',
-    title: 'Earnings',
+    title: t('Earnings'),
     amount: '$545.69',
     progress: '55',
   },
   {
     color: 'info',
     icon: 'tabler-chart-pie-2',
-    title: 'Profit',
+    title: t('Profit'),
     amount: '$256.34',
     progress: '25',
   },
   {
     color: 'error',
     icon: 'tabler-brand-paypal',
-    title: 'Expense',
+    title: t('Expense'),
     amount: '$74.19',
     progress: '65',
   },
@@ -111,11 +113,11 @@ const earningsReports = [
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
@@ -124,8 +126,8 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem class="pb-sm-0">
-      <VCardTitle>Earning Reports</VCardTitle>
-      <VCardSubtitle>Weekly Earnings Overview</VCardSubtitle>
+      <VCardTitle>{{ $t('Earning Reports') }}</VCardTitle>
+      <VCardSubtitle>{{ $t('Weekly Earnings Overview') }}</VCardSubtitle>
 
       <template #append>
         <div class="mt-n4 me-n2">
@@ -156,7 +158,7 @@ const moreList = [
           </div>
 
           <span class="text-sm text-medium-emphasis">
-            You informed of this week compared to last week
+            {{ $t('You informed of this week compared to last week') }}
           </span>
         </VCol>
 

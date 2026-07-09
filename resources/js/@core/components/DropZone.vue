@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import {
   useDropZone,
   useFileDialog,
@@ -13,7 +15,7 @@ function onDrop(DroppedFiles) {
     if (file.type.slice(0, 6) !== 'image/') {
 
       // eslint-disable-next-line no-alert
-      alert('Only image files are allowed')
+      alert(t('Only image files are allowed'))
       
       return
     }
@@ -55,15 +57,15 @@ useDropZone(dropZoneRef, onDrop)
             <VIcon icon="tabler-upload" />
           </IconBtn>
           <h4 class="text-h4">
-            Drag and drop your image here.
+            {{ $t('Drag and drop your image here.') }}
           </h4>
-          <span class="text-disabled">or</span>
+          <span class="text-disabled">{{ $t('or') }}</span>
 
           <VBtn
             variant="tonal"
             size="small"
           >
-            Browse Images
+            {{ $t('Browse Images') }}
           </VBtn>
         </div>
 
@@ -106,7 +108,7 @@ useDropZone(dropZoneRef, onDrop)
                       block
                       @click.stop="fileData.splice(index, 1)"
                     >
-                      Remove File
+                      {{ $t('Remove File') }}
                     </VBtn>
                   </VCardActions>
                 </VCard>

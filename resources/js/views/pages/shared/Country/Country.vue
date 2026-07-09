@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import CountryAPI from '@/API/shared/Country/country'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -24,10 +26,10 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: false },
-  { title: 'Name', key: 'name', sortable: false },
-  { title: 'Status', key: 'status', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: false },
+  { title: t('Name'), key: 'name', sortable: false },
+  { title: t('Status'), key: 'status', sortable: false },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchCountries() {
@@ -60,7 +62,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('An error occurred')
 }
 
 function openAddModal() {
@@ -81,7 +83,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Country deleted successfully'
+    snackbarMessage.value = t('Country deleted successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -111,7 +113,7 @@ async function toggleStatus(country) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Country created successfully'
+    snackbarMessage.value = t('Country created successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -125,7 +127,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCountry.value.id, data)
-    snackbarMessage.value = 'Country updated successfully'
+    snackbarMessage.value = t('Country updated successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCountries()
@@ -151,17 +153,17 @@ fetchCountries()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Country Management') }}
+            {{ $t('country.Country Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your countries') }}
+            {{ $t('country.Manage your countries') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('country.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -171,7 +173,7 @@ fetchCountries()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add Country') }}
+            {{ $t('country.Add Country') }}
           </VBtn>
         </div>
       </div>
@@ -210,7 +212,7 @@ fetchCountries()
               :color="item.status ? 'success' : 'error'"
               size="small"
             >
-              {{ item.status ? 'Active' : 'Inactive' }}
+              {{ item.status ? $t('country.Active') : $t('country.Inactive') }}
             </VChip>
           </template>
 
@@ -272,7 +274,7 @@ fetchCountries()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('country.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

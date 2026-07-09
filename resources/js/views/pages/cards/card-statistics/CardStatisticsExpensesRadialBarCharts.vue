@@ -96,7 +96,7 @@ const chartOptions = computed(() => {
         82.5K
       </VCardTitle>
       <VCardSubtitle>
-        Expenses
+        {{ $t('Expenses') }}
       </VCardSubtitle>
     </VCardItem>
     <VCardText>
@@ -108,7 +108,7 @@ const chartOptions = computed(() => {
       />
 
       <div class="text-sm text-center clamp-text text-disabled mt-3">
-        $21k Expenses more than last month
+        {{ $t('$21k Expenses more than last month') }}
       </div>
     </VCardText>
   </VCard>

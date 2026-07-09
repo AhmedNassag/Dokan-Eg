@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import CityAPI from '@/API/shared/City/city'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -24,11 +26,11 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: false },
-  { title: 'Name', key: 'name', sortable: false },
-  { title: 'Country', key: 'country', sortable: false },
-  { title: 'Status', key: 'status', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: false },
+  { title: t('Name'), key: 'name', sortable: false },
+  { title: t('Country'), key: 'country', sortable: false },
+  { title: t('Status'), key: 'status', sortable: false },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchCities() {
@@ -61,7 +63,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('An error occurred')
 }
 
 function openAddModal() {
@@ -82,7 +84,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'City deleted successfully'
+    snackbarMessage.value = t('City deleted successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -112,7 +114,7 @@ async function toggleStatus(city) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'City created successfully'
+    snackbarMessage.value = t('City created successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -126,7 +128,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCity.value.id, data)
-    snackbarMessage.value = 'City updated successfully'
+    snackbarMessage.value = t('City updated successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCities()
@@ -215,7 +217,7 @@ fetchCities()
               :color="item.status ? 'success' : 'error'"
               size="small"
             >
-              {{ item.status ? 'Active' : 'Inactive' }}
+              {{ item.status ? $t('Active') : $t('Inactive') }}
             </VChip>
           </template>
 
@@ -277,7 +279,7 @@ fetchCities()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

@@ -1,31 +1,33 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const coursesData = [
   {
-    title: 'Videography Basic Design Course',
+    title: t('Videography Basic Design Course'),
     views: '1.2k',
     icon: 'tabler-brand-zoom',
     color: 'primary',
   },
   {
-    title: 'Basic Front-end Development Course',
+    title: t('Basic Front-end Development Course'),
     views: '834',
     icon: 'tabler-code',
     color: 'info',
   },
   {
-    title: 'Basic Fundamentals of Photography',
+    title: t('Basic Fundamentals of Photography'),
     views: '3.7k',
     icon: 'tabler-camera',
     color: 'success',
   },
   {
-    title: 'Advance Dribble Base Visual Design',
+    title: t('Advance Dribble Base Visual Design'),
     views: '2.5k',
     icon: 'tabler-brand-dribbble',
     color: 'warning',
   },
   {
-    title: 'Your First Singing Lesson',
+    title: t('Your First Singing Lesson'),
     views: '948',
     icon: 'tabler-microphone-2',
     color: 'error',
@@ -35,7 +37,7 @@ const coursesData = [
 
 <template>
   <VCard>
-    <VCardItem title="Top Courses">
+    <VCardItem :title="$t('Top Courses')">
       <template #append>
         <MoreBtn />
       </template>

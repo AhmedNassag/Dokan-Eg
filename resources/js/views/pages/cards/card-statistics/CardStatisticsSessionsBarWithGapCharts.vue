@@ -211,10 +211,10 @@ const chartOptions = computed(() => {
   <VCard>
     <VCardItem class="pb-3">
       <VCardTitle>
-        Sessions
+        {{ $t('Sessions') }}
       </VCardTitle>
       <VCardSubtitle>
-        This Month
+        {{ $t('This Month') }}
       </VCardSubtitle>
     </VCardItem>
 

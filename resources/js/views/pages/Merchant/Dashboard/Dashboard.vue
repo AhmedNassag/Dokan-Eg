@@ -1,9 +1,11 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const stats = ref([
-  { title: 'Total Products', value: '342', icon: 'tabler-box', color: 'primary' },
-  { title: 'Active Orders', value: '56', icon: 'tabler-shopping-cart', color: 'success' },
-  { title: 'Total Sales', value: '$12,430', icon: 'tabler-currency-dollar', color: 'warning' },
-  { title: 'Avg Rating', value: '4.5', icon: 'tabler-star', color: 'info' },
+  { title: t('Total Products'), value: '342', icon: 'tabler-box', color: 'primary' },
+  { title: t('Active Orders'), value: '56', icon: 'tabler-shopping-cart', color: 'success' },
+  { title: t('Total Sales'), value: '$12,430', icon: 'tabler-currency-dollar', color: 'warning' },
+  { title: t('Avg Rating'), value: '4.5', icon: 'tabler-star', color: 'info' },
 ])
 </script>
 

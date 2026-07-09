@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import avatar1 from '@images/avatars/avatar-1.png'
 
 const accountData = {
@@ -21,7 +23,7 @@ const refInputEl = ref()
 const isConfirmDialogOpen = ref(false)
 const accountDataLocal = ref(structuredClone(accountData))
 const isAccountDeactivated = ref(false)
-const validateAccountDeactivation = [v => !!v || 'Please confirm account deactivation']
+const validateAccountDeactivation = [v => !!v || t('Please confirm account deactivation')]
 
 const resetForm = () => {
   accountDataLocal.value = structuredClone(accountData)
@@ -127,7 +129,7 @@ const currencies = [
                   icon="tabler-cloud-upload"
                   class="d-sm-none"
                 />
-                <span class="d-none d-sm-block">Upload new photo</span>
+                <span class="d-none d-sm-block">{{ $t('Upload new photo') }}</span>
               </VBtn>
 
               <input
@@ -146,7 +148,7 @@ const currencies = [
                 variant="tonal"
                 @click="resetAvatar"
               >
-                <span class="d-none d-sm-block">Reset</span>
+                <span class="d-none d-sm-block">{{ $t('Reset') }}</span>
                 <VIcon
                   icon="tabler-refresh"
                   class="d-sm-none"
@@ -155,7 +157,7 @@ const currencies = [
             </div>
 
             <p class="text-body-1 mb-0">
-              Allowed JPG, GIF or PNG. Max size of 800K
+              {{ $t('Allowed JPG, GIF or PNG. Max size of 800K') }}
             </p>
           </form>
         </VCardText>
@@ -171,8 +173,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.firstName"
-                  placeholder="John"
-                  label="First Name"
+                  :placeholder="$t('John')"
+                  :label="$t('First Name')"
                 />
               </VCol>
 
@@ -183,8 +185,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.lastName"
-                  placeholder="Doe"
-                  label="Last Name"
+                  :placeholder="$t('Doe')"
+                  :label="$t('Last Name')"
                 />
               </VCol>
 
@@ -195,7 +197,7 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.email"
-                  label="E-mail"
+                  :label="$t('E-mail')"
                   placeholder="johndoe@gmail.com"
                   type="email"
                 />
@@ -208,8 +210,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.org"
-                  label="Organization"
-                  placeholder="Pixinvent"
+                  :label="$t('Organization')"
+                  :placeholder="$t('Pixinvent')"
                 />
               </VCol>
 
@@ -220,8 +222,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.phone"
-                  label="Phone Number"
-                  placeholder="+1 (917) 543-9876"
+                  :label="$t('Phone Number')"
+                  :placeholder="$t('+1 (917) 543-9876')"
                 />
               </VCol>
 
@@ -232,8 +234,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.address"
-                  label="Address"
-                  placeholder="123 Main St, New York, NY 10001"
+                  :label="$t('Address')"
+                  :placeholder="$t('123 Main St, New York, NY 10001')"
                 />
               </VCol>
 
@@ -244,8 +246,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.state"
-                  label="State"
-                  placeholder="New York"
+                  :label="$t('State')"
+                  :placeholder="$t('New York')"
                 />
               </VCol>
 
@@ -256,8 +258,8 @@ const currencies = [
               >
                 <AppTextField
                   v-model="accountDataLocal.zip"
-                  label="Zip Code"
-                  placeholder="10001"
+                  :label="$t('Zip Code')"
+                  :placeholder="$t('10001')"
                 />
               </VCol>
 
@@ -268,9 +270,9 @@ const currencies = [
               >
                 <AppSelect
                   v-model="accountDataLocal.country"
-                  label="Country"
-                  :items="['USA', 'Canada', 'UK', 'India', 'Australia']"
-                  placeholder="Select Country"
+                  :label="$t('Country')"
+                  :items="[$t('USA'), $t('Canada'), $t('UK'), $t('India'), $t('Australia')]"
+                  :placeholder="$t('Select Country')"
                 />
               </VCol>
 
@@ -281,9 +283,9 @@ const currencies = [
               >
                 <AppSelect
                   v-model="accountDataLocal.language"
-                  label="Language"
-                  placeholder="Select Language"
-                  :items="['English', 'Spanish', 'Arabic', 'Hindi', 'Urdu']"
+                  :label="$t('Language')"
+                  :placeholder="$t('Select Language')"
+                  :items="[$t('English'), $t('Spanish'), $t('Arabic'), $t('Hindi'), $t('Urdu')]"
                 />
               </VCol>
 
@@ -294,8 +296,8 @@ const currencies = [
               >
                 <AppSelect
                   v-model="accountDataLocal.timezone"
-                  label="Timezone"
-                  placeholder="Select Timezone"
+                  :label="$t('Timezone')"
+                  :placeholder="$t('Select Timezone')"
                   :items="timezones"
                   :menu-props="{ maxHeight: 200 }"
                 />
@@ -308,8 +310,8 @@ const currencies = [
               >
                 <AppSelect
                   v-model="accountDataLocal.currency"
-                  label="Currency"
-                  placeholder="Select Currency"
+                  :label="$t('Currency')"
+                  :placeholder="$t('Select Currency')"
                   :items="currencies"
                   :menu-props="{ maxHeight: 200 }"
                 />
@@ -320,7 +322,7 @@ const currencies = [
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
-                <VBtn>Save changes</VBtn>
+                <VBtn>{{ $t('Save changes') }}</VBtn>
 
                 <VBtn
                   color="secondary"
@@ -328,7 +330,7 @@ const currencies = [
                   type="reset"
                   @click.prevent="resetForm"
                 >
-                  Cancel
+                  {{ $t('Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>
@@ -339,14 +341,14 @@ const currencies = [
 
     <VCol cols="12">
       <!-- 👉 Delete Account -->
-      <VCard title="Delete Account">
+      <VCard :title="$t('Delete Account')">
         <VCardText>
           <!-- 👉 Checkbox and Button  -->
           <div>
             <VCheckbox
               v-model="isAccountDeactivated"
               :rules="validateAccountDeactivation"
-              label="I confirm my account deactivation"
+              :label="$t('I confirm my account deactivation')"
             />
           </div>
 
@@ -356,7 +358,7 @@ const currencies = [
             class="mt-6"
             @click="isConfirmDialogOpen = true"
           >
-            Deactivate Account
+            {{ $t('Deactivate Account') }}
           </VBtn>
         </VCardText>
       </VCard>
@@ -366,10 +368,10 @@ const currencies = [
   <!-- Confirm Dialog -->
   <ConfirmDialog
     v-model:is-dialog-visible="isConfirmDialogOpen"
-    confirmation-question="Are you sure you want to deactivate your account?"
-    confirm-title="Deactivated!"
-    confirm-msg="Your account has been deactivated successfully."
-    cancel-title="Cancelled"
-    cancel-msg="Account Deactivation Cancelled!"
+    :confirmation-question="$t('Are you sure you want to deactivate your account?')"
+    :confirm-title="$t('Deactivated!')"
+    :confirm-msg="$t('Your account has been deactivated successfully.')"
+    :cancel-title="$t('Cancelled')"
+    :cancel-msg="$t('Account Deactivation Cancelled!')"
   />
 </template>

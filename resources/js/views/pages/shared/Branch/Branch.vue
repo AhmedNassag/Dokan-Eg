@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import BranchAPI from '@/API/shared/Branch/branch'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -24,13 +26,13 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: false },
-  { title: 'Name', key: 'name', sortable: false },
-  { title: 'Code', key: 'code', sortable: false },
-  { title: 'Mobile', key: 'mobile', sortable: false },
-  { title: 'Area', key: 'area', sortable: false },
-  { title: 'Status', key: 'status', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: false },
+  { title: t('branch.Name'), key: 'name', sortable: false },
+  { title: t('branch.Code'), key: 'code', sortable: false },
+  { title: t('branch.Mobile'), key: 'mobile', sortable: false },
+  { title: t('branch.Area'), key: 'area', sortable: false },
+  { title: t('branch.Status'), key: 'status', sortable: false },
+  { title: t('branch.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchBranches() {
@@ -63,7 +65,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('branch.An Error Occurred')
 }
 
 function openAddModal() {
@@ -84,7 +86,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Branch deleted successfully'
+    snackbarMessage.value = t('branch.Branch Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchBranches()
@@ -114,7 +116,7 @@ async function toggleStatus(branch) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Branch created successfully'
+    snackbarMessage.value = t('branch.Branch Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchBranches()
@@ -128,7 +130,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedBranch.value.id, data)
-    snackbarMessage.value = 'Branch updated successfully'
+    snackbarMessage.value = t('branch.Branch Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchBranches()
@@ -154,17 +156,17 @@ fetchBranches()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Branch Management') }}
+            {{ $t('branch.Branch Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your branches') }}
+            {{ $t('branch.Manage Your Branches') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('branch.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -174,7 +176,7 @@ fetchBranches()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add Branch') }}
+            {{ $t('branch.Add Branch') }}
           </VBtn>
         </div>
       </div>
@@ -225,7 +227,7 @@ fetchBranches()
               :color="item.status ? 'success' : 'error'"
               size="small"
             >
-              {{ item.status ? 'Active' : 'Inactive' }}
+              {{ item.status ? $t('branch.Active') : $t('branch.Inactive') }}
             </VChip>
           </template>
 
@@ -287,7 +289,7 @@ fetchBranches()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('branch.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

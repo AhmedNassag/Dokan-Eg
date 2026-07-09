@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import bootstrapLogo from '@images/icons/brands/bootstrap-logo.png'
 import figmaLogo from '@images/icons/brands/figma-logo.png'
 import laravelLogo from '@images/icons/brands/laravel-logo.png'
@@ -9,43 +11,43 @@ import vuejsLogo from '@images/icons/brands/vuejs-logo.png'
 const activeProjects = [
   {
     avatarImg: laravelLogo,
-    title: 'Laravel',
-    subtitle: 'Ecommerce',
+    title: t('Laravel'),
+    subtitle: t('Ecommerce'),
     stats: '65',
     progressColor: 'error',
   },
   {
     avatarImg: figmaLogo,
-    title: 'Figma',
-    subtitle: 'App UI Kit',
+    title: t('Figma'),
+    subtitle: t('App UI Kit'),
     stats: '86',
     progressColor: 'primary',
   },
   {
     avatarImg: vuejsLogo,
-    title: 'VueJs',
-    subtitle: 'Calendar App',
+    title: t('VueJs'),
+    subtitle: t('Calendar App'),
     stats: '90',
     progressColor: 'success',
   },
   {
     avatarImg: reactLogo,
-    title: 'React',
-    subtitle: 'Dashboard',
+    title: t('React'),
+    subtitle: t('Dashboard'),
     stats: '37',
     progressColor: 'info',
   },
   {
     avatarImg: bootstrapLogo,
-    title: 'Bootstrap',
-    subtitle: 'Website',
+    title: t('Bootstrap'),
+    subtitle: t('Website'),
     stats: '22',
     progressColor: 'primary',
   },
   {
     avatarImg: sketchLogo,
-    title: 'Sketch',
-    subtitle: 'Website Design',
+    title: t('Sketch'),
+    subtitle: t('Website Design'),
     stats: '29',
     progressColor: 'warning',
   },
@@ -53,15 +55,15 @@ const activeProjects = [
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -70,9 +72,9 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>Active Projects</VCardTitle>
+      <VCardTitle>{{ $t('Active Projects') }}</VCardTitle>
       <VCardSubtitle>
-        Average 72% completed
+        {{ $t('Average 72% completed') }}
       </VCardSubtitle>
       <template #append>
         <div class="mt-n4 me-n2">

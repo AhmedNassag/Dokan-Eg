@@ -1,18 +1,20 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const currentTab = ref('New')
 
 const tabsData = [
-  'New',
-  'Preparing',
-  'Shipping',
+  t('New'),
+  t('Preparing'),
+  t('Shipping'),
 ]
 </script>
 
 <template>
   <VCard class="country-order-card">
     <VCardItem
-      title="Orders by countries"
-      subtitle="62 deliveries in progress"
+      :title="$t('Orders by countries')"
+      :subtitle="$t('62 deliveries in progress')"
       class="pb-4"
     >
       <template #append>
@@ -54,7 +56,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Myrtle Ullrich
@@ -72,7 +74,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Barry Schowalter
@@ -103,7 +105,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Veronica Herman
@@ -122,7 +124,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Helen Jacobs
@@ -154,7 +156,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Myrtle Ullrich
@@ -172,7 +174,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Barry Schowalter
@@ -203,7 +205,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Veronica Herman
@@ -222,7 +224,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Helen Jacobs
@@ -254,7 +256,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Myrtle Ullrich
@@ -272,7 +274,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Barry Schowalter
@@ -303,7 +305,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-uppercase text-success">
-                  Sender
+                  {{ $t('Sender') }}
                 </div>
                 <div class="app-timeline-title">
                   Veronica Herman
@@ -322,7 +324,7 @@ const tabsData = [
                 :elevation="0"
               >
                 <div class="text-body-2 text-primary text-uppercase">
-                  Receiver
+                  {{ $t('Receiver') }}
                 </div>
                 <div class="app-timeline-title">
                   Helen Jacobs

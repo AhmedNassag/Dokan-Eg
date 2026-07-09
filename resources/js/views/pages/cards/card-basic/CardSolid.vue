@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import avatar1 from '@images/avatars/avatar-1.png'
 import avatar4 from '@images/avatars/avatar-4.png'
 import avatar8 from '@images/avatars/avatar-8.png'
@@ -6,7 +8,7 @@ import avatar8 from '@images/avatars/avatar-8.png'
 const solidCardData = [
   {
     cardBg: '#16B1FF',
-    title: 'Twitter Card',
+    title: t('Twitter Card'),
     icon: 'tabler-brand-twitter',
     text: '"Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."',
     avatarImg: avatar4,
@@ -16,7 +18,7 @@ const solidCardData = [
   },
   {
     cardBg: '#3B5998',
-    title: 'Facebook Card',
+    title: t('Facebook Card'),
     icon: 'tabler-brand-facebook',
     text: 'You\'ve read about the importance of being courageous, rebellious and imaginative. These are all vital ingredients in an.',
     avatarImg: avatar1,
@@ -26,7 +28,7 @@ const solidCardData = [
   },
   {
     cardBg: '#007BB6',
-    title: 'LinkedIn Card',
+    title: t('LinkedIn Card'),
     icon: 'tabler-brand-linkedin',
     text: 'With the Internet spreading like wildfire and reaching every part of our daily life, more and more traffic is directed.',
     avatarImg: avatar8,

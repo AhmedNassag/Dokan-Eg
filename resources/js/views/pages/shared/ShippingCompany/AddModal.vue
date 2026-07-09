@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import CityAPI from '@/Api/shared/City/city'
 
@@ -30,7 +32,7 @@ function availableCities(currentIndex) {
   return cities.value.filter(c => !selectedIds.includes(c.id))
 }
 
-const nonNegativeRule = v => v === null || v === '' || Number(v) >= 0 || 'Price cannot be negative'
+const nonNegativeRule = v => v === null || v === '' || Number(v) >= 0 || t('Price cannot be negative')
 
 function addRow() {
   priceRows.value.push({ city_id: null, price: null })

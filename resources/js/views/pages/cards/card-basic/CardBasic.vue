@@ -35,11 +35,11 @@ const isCardDetailsVisible = ref(false)
         />
 
         <VCardItem>
-          <VCardTitle>Influencing The Influencer</VCardTitle>
+          <VCardTitle>{{ $t('Influencing The Influencer') }}</VCardTitle>
         </VCardItem>
 
         <VCardText>
-          Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister predicts Cancun will draw as many visitors in 2006 as it did two years ago.
+          {{ $t('Cancun is back, better than ever! Over a hundred Mexico resorts have reopened and the state tourism minister predicts Cancun will draw as many visitors in 2006 as it did two years ago.') }}
         </VCardText>
       </VCard>
     </VCol>
@@ -65,18 +65,18 @@ const isCardDetailsVisible = ref(false)
           <div class="d-flex justify-space-between flex-wrap pt-8">
             <div class="me-2 mb-2">
               <VCardTitle class="pa-0">
-                Robert Meyer
+                {{ $t('Robert Meyer') }}
               </VCardTitle>
               <VCardSubtitle class="text-caption pa-0">
-                London, UK
+                {{ $t('London, UK') }}
               </VCardSubtitle>
             </div>
-            <VBtn>send request</VBtn>
+            <VBtn>{{ $t('send request') }}</VBtn>
           </div>
 
           <!--  Mutual Friends -->
           <div class="d-flex justify-space-between align-center mt-8">
-            <span class="font-weight-medium">18 mutual friends</span>
+            <span class="font-weight-medium">{{ $t('18 mutual friends') }}</span>
 
             <div class="v-avatar-group">
               <VAvatar
@@ -101,16 +101,16 @@ const isCardDetailsVisible = ref(false)
         <VImg :src="pages3" />
 
         <VCardItem>
-          <VCardTitle>Popular Uses Of The Internet</VCardTitle>
+          <VCardTitle>{{ $t('Popular Uses Of The Internet') }}</VCardTitle>
         </VCardItem>
 
         <VCardText>
-          Although cards can support multiple actions, UI controls, and an overflow menu.
+          {{ $t('Although cards can support multiple actions, UI controls, and an overflow menu.') }}
         </VCardText>
 
         <VCardActions>
           <VBtn @click="isCardDetailsVisible = !isCardDetailsVisible">
-            Details
+            {{ $t('Details') }}
           </VBtn>
 
           <VSpacer />
@@ -128,7 +128,7 @@ const isCardDetailsVisible = ref(false)
           <div v-show="isCardDetailsVisible">
             <VDivider />
             <VCardText>
-              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+              {{ $t('I\'m a thing. But, like most politicians, he promised more than he could deliver. You won\'t have time for sleeping, soldier, not with all the bed making you\'ll be doing. Then we\'ll go with that data file! Hey, you add a one and two zeros to that or we walk! You\'re going to do his laundry? I\'ve got to find a way to escape.') }}
             </VCardText>
           </div>
         </VExpandTransition>
@@ -154,21 +154,21 @@ const isCardDetailsVisible = ref(false)
 
           <div>
             <VCardItem>
-              <VCardTitle>Apple iPhone 11 Pro</VCardTitle>
+              <VCardTitle>{{ $t('Apple iPhone 11 Pro') }}</VCardTitle>
             </VCardItem>
 
             <VCardText>
-              Apple iPhone 11 Pro smartphone. Announced Sep 2019. Features 5.8″ display Apple A13 Bionic
+              {{ $t('Apple iPhone 11 Pro smartphone. Announced Sep 2019. Features 5.8″ display Apple A13 Bionic') }}
             </VCardText>
 
             <VCardText class="text-subtitle-1">
-              <span>Price :</span> <span class="font-weight-medium">$899</span>
+              <span>{{ $t('Price :') }}</span> <span class="font-weight-medium">$899</span>
             </VCardText>
 
             <VCardActions class="justify-space-between">
               <VBtn>
                 <VIcon icon="tabler-shopping-cart-plus" />
-                <span class="ms-2">Add to cart</span>
+                <span class="ms-2">{{ $t('Add to cart') }}</span>
               </VBtn>
 
               <IconBtn
@@ -190,7 +190,7 @@ const isCardDetailsVisible = ref(false)
         <div class="d-flex flex-column-reverse flex-md-row">
           <div>
             <VCardItem>
-              <VCardTitle>Stumptown Roasters</VCardTitle>
+              <VCardTitle>{{ $t('Stumptown Roasters') }}</VCardTitle>
             </VCardItem>
 
             <VCardText class="d-flex align-center flex-wrap text-body-1">
@@ -200,16 +200,16 @@ const isCardDetailsVisible = ref(false)
                 class="me-3"
                 density="compact"
               />
-              <span>5 Star | 98 reviews</span>
+              <span>{{ $t('5 Star | 98 reviews') }}</span>
             </VCardText>
 
             <VCardText>
-              Before there was a United States of America, there were coffee houses, because how are you supposed to build.
+              {{ $t('Before there was a United States of America, there were coffee houses, because how are you supposed to build.') }}
             </VCardText>
 
             <VCardActions>
-              <VBtn>Location</VBtn>
-              <VBtn>Reviews</VBtn>
+              <VBtn>{{ $t('Location') }}</VBtn>
+              <VBtn>{{ $t('Reviews') }}</VBtn>
             </VCardActions>
           </div>
 
@@ -234,7 +234,7 @@ const isCardDetailsVisible = ref(false)
         <VImg :src="pages6" />
 
         <VCardItem>
-          <VCardTitle>Apple Watch</VCardTitle>
+          <VCardTitle>{{ $t('Apple Watch') }}</VCardTitle>
         </VCardItem>
 
         <VCardText>
@@ -243,7 +243,7 @@ const isCardDetailsVisible = ref(false)
           </p>
 
           <p class="mb-0">
-            3.1GHz 6-core 10th-generation Intel Core i5 processor, Turbo Boost up to 4.5GHz
+            {{ $t('3.1GHz 6-core 10th-generation Intel Core i5 processor, Turbo Boost up to 4.5GHz') }}
           </p>
         </VCardText>
 
@@ -251,7 +251,7 @@ const isCardDetailsVisible = ref(false)
           block
           class="rounded-t-0"
         >
-          Add to cart
+          {{ $t('Add to cart') }}
         </VBtn>
       </VCard>
     </VCol>
@@ -273,11 +273,11 @@ const isCardDetailsVisible = ref(false)
             order-lg="1"
           >
             <VCardItem>
-              <VCardTitle>Lifetime Membership</VCardTitle>
+              <VCardTitle>{{ $t('Lifetime Membership') }}</VCardTitle>
             </VCardItem>
 
             <VCardText>
-              Here, I focus on a range of items and features that we use in life without giving them a second thought such as Coca Cola, body muscles and holding ones own breath. Though, most of these notes are not fundamentally necessary, they are such that you can use them for a good laugh, at a drinks party or for picking up women or men.
+              {{ $t('Here, I focus on a range of items and features that we use in life without giving them a second thought such as Coca Cola, body muscles and holding ones own breath. Though, most of these notes are not fundamentally necessary, they are such that you can use them for a good laugh, at a drinks party or for picking up women or men.') }}
             </VCardText>
 
             <VCardText>
@@ -292,7 +292,7 @@ const isCardDetailsVisible = ref(false)
                     icon="tabler-lock-open"
                     size="22"
                   />
-                  <span class="ms-3">Full Access</span>
+                  <span class="ms-3">{{ $t('Full Access') }}</span>
                 </p>
 
                 <p class="d-flex align-center mb-0">
@@ -301,7 +301,7 @@ const isCardDetailsVisible = ref(false)
                     icon="tabler-user"
                     size="22"
                   />
-                  <span class="ms-3">15 Members</span>
+                  <span class="ms-3">{{ $t('15 Members') }}</span>
                 </p>
               </div>
 
@@ -318,7 +318,7 @@ const isCardDetailsVisible = ref(false)
                     icon="tabler-star"
                     size="22"
                   />
-                  <span class="ms-3">Access all Features</span>
+                  <span class="ms-3">{{ $t('Access all Features') }}</span>
                 </p>
 
                 <p class="d-flex align-center mb-0">
@@ -327,7 +327,7 @@ const isCardDetailsVisible = ref(false)
                     icon="tabler-trending-up"
                     size="22"
                   />
-                  <span class="ms-3">Lifetime Free Update</span>
+                  <span class="ms-3">{{ $t('Lifetime Free Update') }}</span>
                 </p>
               </div>
             </VCardText>
@@ -350,11 +350,11 @@ const isCardDetailsVisible = ref(false)
               </p>
 
               <p class="text-sm">
-                5 Tips For Offshore <br> Software Development
+                {{ $t('5 Tips For Offshore') }} <br> {{ $t('Software Development') }}
               </p>
 
               <VBtn class="mt-8">
-                Contact Now
+                {{ $t('Contact Now') }}
               </VBtn>
             </div>
           </VCol>
@@ -368,17 +368,17 @@ const isCardDetailsVisible = ref(false)
       lg="4"
       md="6"
     >
-      <VCard title="Influencing The Influencer">
+      <VCard :title="$t('Influencing The Influencer')">
         <VCardText>
-          Computers have become ubiquitous in almost every facet of our lives. At work, desk jockeys spend hours in front of their desktops, while delivery people scan bar codes with handhelds and workers in the field stay in touch.
+          {{ $t('Computers have become ubiquitous in almost every facet of our lives. At work, desk jockeys spend hours in front of their desktops, while delivery people scan bar codes with handhelds and workers in the field stay in touch.') }}
         </VCardText>
 
         <VCardText>
-          If you're in the market for new desktops, notebooks, or PDAs, there are a myriad of choices.
+          {{ $t('If you\'re in the market for new desktops, notebooks, or PDAs, there are a myriad of choices.') }}
         </VCardText>
 
         <VCardActions>
-          <VBtn>Read More</VBtn>
+          <VBtn>{{ $t('Read More') }}</VBtn>
         </VCardActions>
       </VCard>
     </VCol>
@@ -389,7 +389,7 @@ const isCardDetailsVisible = ref(false)
       lg="4"
       md="6"
     >
-      <VCard title="The Best Answers">
+      <VCard :title="$t('The Best Answers')">
         <VCardText class="d-flex align-center flex-wrap">
           <VRating
             :model-value="5"
@@ -397,20 +397,20 @@ const isCardDetailsVisible = ref(false)
             density="compact"
             class="me-3"
           />
-          <span class="text-subtitle-2">5 Star | 98 reviews</span>
+          <span class="text-subtitle-2">{{ $t('5 Star | 98 reviews') }}</span>
         </VCardText>
 
         <VCardText>
-          If you are looking for a new way to promote your business that won't cost you more money, maybe printing is one of the options you won't resist.
+          {{ $t('If you are looking for a new way to promote your business that won\'t cost you more money, maybe printing is one of the options you won\'t resist.') }}
         </VCardText>
 
         <VCardText>
-          become fast, easy and simple. If you want your promotional material to be an eye-catching
+          {{ $t('become fast, easy and simple. If you want your promotional material to be an eye-catching') }}
         </VCardText>
 
         <VCardActions>
-          <VBtn>Location</VBtn>
-          <VBtn>Reviews</VBtn>
+          <VBtn>{{ $t('Location') }}</VBtn>
+          <VBtn>{{ $t('Reviews') }}</VBtn>
         </VCardActions>
       </VCard>
     </VCol>
@@ -436,19 +436,19 @@ const isCardDetailsVisible = ref(false)
           </VAvatar>
 
           <h6 class="text-h6">
-            Support
+            {{ $t('Support') }}
           </h6>
         </VCardText>
 
         <VCardText>
           <p>
-            According to us blisters are a very common thing and we come across them very often in our daily lives. It is a very common occurrence like cold or fever depending upon your lifestyle.
+            {{ $t('According to us blisters are a very common thing and we come across them very often in our daily lives. It is a very common occurrence like cold or fever depending upon your lifestyle.') }}
           </p>
         </VCardText>
 
         <VCardText class="justify-center">
           <VBtn variant="elevated">
-            Contact Now
+            {{ $t('Contact Now') }}
           </VBtn>
         </VCardText>
       </VCard>

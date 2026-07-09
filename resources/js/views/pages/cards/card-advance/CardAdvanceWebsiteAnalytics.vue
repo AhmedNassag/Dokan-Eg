@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { VIcon } from 'vuetify/components/VIcon'
 import sliderBar1 from '@images/illustrations/sidebar-pic-1.png'
 import sliderBar2 from '@images/illustrations/sidebar-pic-2.png'
@@ -6,68 +8,68 @@ import sliderBar3 from '@images/illustrations/sidebar-pic-3.png'
 
 const websiteAnalytics = [
   {
-    name: 'Traffic',
+    name: t('Traffic'),
     slideImg: sliderBar1,
     data: [
       {
         number: '1.5k',
-        text: 'Sessions',
+        text: t('Sessions'),
       },
       {
         number: '3.1k',
-        text: 'Page Views',
+        text: t('Page Views'),
       },
       {
         number: '1.2k',
-        text: 'Leads',
+        text: t('Leads'),
       },
       {
         number: '12%',
-        text: 'Conversions',
+        text: t('Conversions'),
       },
     ],
   },
   {
-    name: 'Spending',
+        name: t('Spending'),
     slideImg: sliderBar2,
     data: [
       {
         number: '12h',
-        text: 'Spend',
+        text: t('Spend'),
       },
       {
         number: '182',
-        text: 'Order Size',
+        text: t('Order Size'),
       },
       {
         number: '127',
-        text: 'Order',
+        text: t('Order'),
       },
       {
         number: '23k',
-        text: 'Items',
+        text: t('Items'),
       },
     ],
   },
   {
-    name: 'Revenue Sources',
+        name: t('Revenue Sources'),
     slideImg: sliderBar3,
     data: [
       {
         number: '268',
-        text: 'Direct',
+        text: t('Direct'),
       },
       {
         number: '890',
-        text: 'Organic',
+        text: t('Organic'),
       },
       {
         number: '622',
-        text: 'Referral',
+        text: t('Referral'),
       },
       {
         number: '1.2k',
-        text: 'Campaign',
+        text: t('Campaign'),
       },
     ],
   },
@@ -93,10 +95,10 @@ const websiteAnalytics = [
           <VRow>
             <VCol cols="12">
               <h5 class="text-h5 text-white">
-                Website Analytics
+                {{ $t('Website Analytics') }}
               </h5>
               <p class="text-sm mb-0">
-                Total 28.5% Conversion Rate
+                {{ $t('Total 28.5% Conversion Rate') }}
               </p>
             </VCol>
 

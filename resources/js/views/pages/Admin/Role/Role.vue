@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import RoleAPI from '@/Api/Admin/Role/role'
 import PermissionAPI from '@/Api/Admin/Permission/permission'
@@ -30,10 +32,10 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Role', key: 'name', sortable: true },
-  { title: 'Permissions', key: 'permissions', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: true },
+  { title: t('Role'), key: 'name', sortable: true },
+  { title: t('Permissions'), key: 'permissions', sortable: false },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 const updateOptions = options => {
@@ -168,17 +170,17 @@ async function onSubmit() {
     try {
       if (selectedRole.value) {
         await roleApi.update(selectedRole.value.id, formData.value)
-        snackbarMessage.value = 'Role updated successfully'
+        snackbarMessage.value = t('Role updated successfully')
       } else {
         await roleApi.create(formData.value)
-        snackbarMessage.value = 'Role created successfully'
+        snackbarMessage.value = t('Role created successfully')
       }
       snackbarColor.value = 'success'
       snackbar.value = true
       closeFormDialog()
       await fetchRoles()
     } catch (err) {
-      snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+      snackbarMessage.value = err?.response?._data?.message || err?.message || t('An error occurred')
       snackbarColor.value = 'error'
       snackbar.value = true
     } finally {
@@ -420,11 +422,11 @@ fetchAllPermissions()
 
   <ConfirmDialog
     :is-dialog-visible="isConfirmDialogOpen"
-    confirmation-question="Are you sure you want to delete this role?"
-    confirm-title="Deleted!"
-    confirm-msg="Role has been deleted successfully."
-    cancel-title="Cancelled"
-    cancel-msg="Role deletion cancelled."
+    :confirmation-question="$t('Are you sure you want to delete this role?')"
+    :confirm-title="$t('Deleted!')"
+    :confirm-msg="$t('Role has been deleted successfully.')"
+    :cancel-title="$t('Cancelled')"
+    :cancel-msg="$t('Role deletion cancelled.')"
     @update:is-dialog-visible="isConfirmDialogOpen = $event"
     @confirm="handleDelete"
   />
@@ -442,7 +444,7 @@ fetchAllPermissions()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

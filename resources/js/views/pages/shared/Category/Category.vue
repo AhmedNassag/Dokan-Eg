@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import CategoryAPI from '@/API/shared/Category/category'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -26,12 +28,12 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Name', key: 'name', sortable: true },
-  { title: 'Parent', key: 'parent', sortable: false },
-  { title: 'Active', key: 'is_active', sortable: true },
-  { title: 'Description', key: 'description', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: true },
+  { title: t('Name'), key: 'name', sortable: true },
+  { title: t('Parent'), key: 'parent', sortable: false },
+  { title: t('Active'), key: 'is_active', sortable: true },
+  { title: t('Description'), key: 'description', sortable: false },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 const updateOptions = options => {
@@ -71,7 +73,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('An error occurred')
 }
 
 function openAddModal() {
@@ -92,7 +94,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Category deleted successfully'
+    snackbarMessage.value = t('Category deleted successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -122,7 +124,7 @@ async function toggleActive(category) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Category created successfully'
+    snackbarMessage.value = t('Category created successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -136,7 +138,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedCategory.value.id, data)
-    snackbarMessage.value = 'Category updated successfully'
+    snackbarMessage.value = t('Category updated successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchCategories()
@@ -226,7 +228,7 @@ fetchCategories()
               :color="item.is_active ? 'success' : 'error'"
               size="small"
             >
-              {{ item.is_active ? 'Yes' : 'No' }}
+              {{ item.is_active ? $t('Yes') : $t('No') }}
             </VChip>
           </template>
 
@@ -294,7 +296,7 @@ fetchCategories()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

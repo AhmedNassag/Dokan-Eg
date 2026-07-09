@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import UserAPI from '@/Api/Admin/User/user'
 
@@ -35,26 +37,26 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Name', key: 'name', sortable: true },
-  { title: 'Email', key: 'email', sortable: true },
-  { title: 'Type', key: 'user_type', sortable: true },
-  { title: 'Status', key: 'status', sortable: true },
-  { title: 'Role', key: 'role', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: true },
+  { title: t('Name'), key: 'name', sortable: true },
+  { title: t('Email'), key: 'email', sortable: true },
+  { title: t('Type'), key: 'user_type', sortable: true },
+  { title: t('Status'), key: 'status', sortable: true },
+  { title: t('Role'), key: 'role', sortable: false },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 const userTypeOptions = [
-  { title: 'Admin', value: 'admin' },
-  { title: 'Merchant', value: 'merchant' },
-  { title: 'Marketer', value: 'marketer' },
+  { title: t('Admin'), value: 'admin' },
+  { title: t('Merchant'), value: 'merchant' },
+  { title: t('Marketer'), value: 'marketer' },
 ]
 
 const statusOptions = [
-  { title: 'Approved', value: 'approved' },
-  { title: 'Pending', value: 'pending' },
-  { title: 'Rejected', value: 'rejected' },
-  { title: 'Suspended', value: 'suspended' },
+  { title: t('Approved'), value: 'approved' },
+  { title: t('Pending'), value: 'pending' },
+  { title: t('Rejected'), value: 'rejected' },
+  { title: t('Suspended'), value: 'suspended' },
 ]
 
 const statusColorMap = {
@@ -159,17 +161,17 @@ async function onSubmit() {
     try {
       if (selectedUser.value) {
         await api.update(selectedUser.value.id, formData.value)
-        snackbarMessage.value = 'User updated successfully'
+        snackbarMessage.value = t('User updated successfully')
       } else {
         await api.create(formData.value)
-        snackbarMessage.value = 'User created successfully'
+        snackbarMessage.value = t('User created successfully')
       }
       snackbarColor.value = 'success'
       snackbar.value = true
       closeFormDialog()
       await fetchUsers()
     } catch (err) {
-      snackbarMessage.value = err?.response?._data?.message || err?.message || 'An error occurred'
+      snackbarMessage.value = err?.response?._data?.message || err?.message || t('An error occurred')
       snackbarColor.value = 'error'
       snackbar.value = true
     } finally {
@@ -435,11 +437,11 @@ fetchRoles()
 
   <ConfirmDialog
     :is-dialog-visible="isConfirmDialogOpen"
-    confirmation-question="Are you sure you want to delete this user?"
-    confirm-title="Deleted!"
-    confirm-msg="User has been deleted successfully."
-    cancel-title="Cancelled"
-    cancel-msg="User deletion cancelled."
+    :confirmation-question="$t('Are you sure you want to delete this user?')"
+    :confirm-title="$t('Deleted!')"
+    :confirm-msg="$t('User has been deleted successfully.')"
+    :cancel-title="$t('Cancelled')"
+    :cancel-msg="$t('User deletion cancelled.')"
     @update:is-dialog-visible="isConfirmDialogOpen = $event"
     @confirm="handleDelete"
   />
@@ -457,7 +459,7 @@ fetchRoles()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

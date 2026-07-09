@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import PermissionAPI from '@/Api/Admin/Permission/permission'
 
 const api = new PermissionAPI()
@@ -17,8 +19,8 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Permission', key: 'name', sortable: true },
+  { title: t('#'), key: 'id', sortable: true },
+  { title: t('Permission'), key: 'name', sortable: true },
 ]
 
 const updateOptions = options => {
@@ -131,7 +133,7 @@ fetchPermissions()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('Close') }}
       </VBtn>
     </template>
   </VSnackbar>

@@ -1,36 +1,38 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const assignmentData = [
   {
-    title: 'Incorrect Address',
-    subtitle: 'all exceptions',
+    title: t('Incorrect Address'),
+    subtitle: t('all exceptions'),
     color: 'success',
     progress: 83,
     badgeValue: '+10%',
   },
   {
-    title: 'Good',
-    subtitle: '24 vehicles',
+    title: t('Good'),
+    subtitle: t('24 vehicles'),
     color: 'info',
     progress: 17,
     badgeValue: '8.1',
   },
   {
-    title: 'Average',
-    subtitle: '14 vehicles',
+    title: t('Average'),
+    subtitle: t('14 vehicles'),
     color: 'primary',
     progress: 8,
     badgeValue: '-2.5%',
   },
   {
-    title: 'Bad',
-    subtitle: '8 vehicles',
+    title: t('Bad'),
+    subtitle: t('8 vehicles'),
     color: 'warning',
     progress: 6,
     badgeValue: '-3.4%',
   },
   {
-    title: 'Not Working',
-    subtitle: '4 vehicles',
+    title: t('Not Working'),
+    subtitle: t('4 vehicles'),
     color: 'error',
     progress: 2,
     badgeValue: '+12.6%',
@@ -40,7 +42,7 @@ const assignmentData = [
 
 <template>
   <VCard>
-    <VCardItem title="Vehicle Condition">
+    <VCardItem :title="$t('Vehicle Condition')">
       <template #append>
         <MoreBtn />
       </template>

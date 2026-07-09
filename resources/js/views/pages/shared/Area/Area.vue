@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import AreaAPI from '@/API/shared/Area/area'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -24,11 +26,11 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: false },
-  { title: 'Name', key: 'name', sortable: false },
-  { title: 'City', key: 'city', sortable: false },
-  { title: 'Status', key: 'status', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('#'), key: 'id', sortable: false },
+  { title: t('area.Name'), key: 'name', sortable: false },
+  { title: t('area.City'), key: 'city', sortable: false },
+  { title: t('area.Status'), key: 'status', sortable: false },
+  { title: t('area.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchAreas() {
@@ -61,7 +63,7 @@ function formatError(err) {
     return Object.values(data.errors).flat().join(', ')
   }
   
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('area.An Error Occurred')
 }
 
 function openAddModal() {
@@ -82,7 +84,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Area deleted successfully'
+    snackbarMessage.value = t('area.Area Deleted Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
@@ -112,7 +114,7 @@ async function toggleStatus(area) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Area created successfully'
+    snackbarMessage.value = t('area.Area Created Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
@@ -126,7 +128,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedArea.value.id, data)
-    snackbarMessage.value = 'Area updated successfully'
+    snackbarMessage.value = t('area.Area Updated Successfully')
     snackbarColor.value = 'success'
     snackbar.value = true
     await fetchAreas()
@@ -152,17 +154,17 @@ fetchAreas()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Area Management') }}
+            {{ $t('area.Area Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage your areas') }}
+            {{ $t('area.Manage Your Areas') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('area.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -172,7 +174,7 @@ fetchAreas()
             prepend-icon="tabler-plus"
             @click="openAddModal"
           >
-            {{ $t('Add Area') }}
+            {{ $t('area.Add Area') }}
           </VBtn>
         </div>
       </div>
@@ -215,7 +217,7 @@ fetchAreas()
               :color="item.status ? 'success' : 'error'"
               size="small"
             >
-              {{ item.status ? 'Active' : 'Inactive' }}
+              {{ item.status ? $t('area.Active') : $t('area.Inactive') }}
             </VChip>
           </template>
 
@@ -277,7 +279,7 @@ fetchAreas()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('area.Close') }}
       </VBtn>
     </template>
   </VSnackbar>

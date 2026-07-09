@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import LanguageAPI from '@/Api/shared/Language/language'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
@@ -22,12 +24,12 @@ const itemsPerPage = ref(10)
 const totalLanguages = ref(0)
 
 const headers = [
-  { title: 'Name', key: 'name' },
-  { title: 'Code', key: 'code' },
-  { title: 'Direction', key: 'direction' },
-  { title: 'Default', key: 'is_default' },
-  { title: 'Status', key: 'status' },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('Name'), key: 'name' },
+  { title: t('Code'), key: 'code' },
+  { title: t('Direction'), key: 'direction' },
+  { title: t('Default'), key: 'is_default' },
+  { title: t('Status'), key: 'status' },
+  { title: t('Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchItems() {
@@ -52,7 +54,7 @@ function formatError(err) {
   if (data?.errors) {
     return Object.values(data.errors).flat().join(', ')
   }
-  return data?.message || err?.message || 'An error occurred'
+  return data?.message || err?.message || t('An error occurred')
 }
 
 function openAddModal() { isAddModalOpen.value = true }
@@ -63,7 +65,7 @@ async function handleDelete() {
   if (deleteId.value == null) return
   try {
     await api.delete(deleteId.value)
-    snackbarMessage.value = 'Language deleted successfully'
+    snackbarMessage.value = t('Language deleted successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -101,7 +103,7 @@ async function toggleDefault(item) {
 async function handleAddSubmit(data) {
   try {
     await api.create(data)
-    snackbarMessage.value = 'Language created successfully'
+    snackbarMessage.value = t('Language created successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -113,7 +115,7 @@ async function handleAddSubmit(data) {
 async function handleEditSubmit(data) {
   try {
     await api.update(selectedItem.value.id, data)
-    snackbarMessage.value = 'Language updated successfully'
+    snackbarMessage.value = t('Language updated successfully')
     snackbarColor.value = 'success'; snackbar.value = true
     await fetchItems()
   } catch (err) {
@@ -163,13 +165,13 @@ fetchItems()
         <template #item.is_default="{ item }">
           <VSwitch v-if="$can('update', 'language')" :model-value="item.is_default"
             @update:model-value="() => toggleDefault(item)" color="primary" inset hide-details />
-          <VChip v-else :color="item.is_default ? 'primary' : 'default'" size="small">{{ item.is_default ? 'Yes' : 'No' }}</VChip>
+          <VChip v-else :color="item.is_default ? 'primary' : 'default'" size="small">{{ item.is_default ? $t('Yes') : $t('No') }}</VChip>
         </template>
 
         <template #item.status="{ item }">
           <VSwitch v-if="$can('update', 'language')" :model-value="item.status"
             @update:model-value="() => toggleStatus(item)" color="success" inset hide-details />
-          <VChip v-else :color="item.status ? 'success' : 'error'" size="small">{{ item.status ? 'Active' : 'Inactive' }}</VChip>
+          <VChip v-else :color="item.status ? 'success' : 'error'" size="small">{{ item.status ? $t('Active') : $t('Inactive') }}</VChip>
         </template>
 
         <template #item.actions="{ item }">
@@ -190,6 +192,6 @@ fetchItems()
 
   <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
     {{ snackbarMessage }}
-    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">Close</VBtn></template>
+    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">{{ $t('Close') }}</VBtn></template>
   </VSnackbar>
 </template>

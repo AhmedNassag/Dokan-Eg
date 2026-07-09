@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { hexToRgb } from '@layouts/utils'
 
@@ -32,10 +34,10 @@ const chartOptions = computed(() => {
       type: 'donut',
     },
     labels: [
-      'Electronic',
-      'Sports',
-      'Decor',
-      'Fashion',
+      t('Electronic'),
+      t('Sports'),
+      t('Decor'),
+      t('Fashion'),
     ],
     colors: [
       chartColors.donut.series1,
@@ -105,10 +107,10 @@ const chartOptions = computed(() => {
       <div class="d-flex flex-column">
         <div class="mb-auto">
           <h5 class="text-h5 text-no-wrap">
-            Generated Leads
+            {{ $t('Generated Leads') }}
           </h5>
           <div class="text-body-1">
-            Monthly Report
+            {{ $t('Monthly Report') }}
           </div>
         </div>
 

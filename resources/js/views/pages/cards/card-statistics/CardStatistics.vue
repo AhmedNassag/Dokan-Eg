@@ -1,7 +1,7 @@
 <template>
   <VCard>
     <VCardItem class="pb-2">
-      <VCardTitle>Statistics</VCardTitle>
+      <VCardTitle>{{ $t('Statistics') }}</VCardTitle>
 
       <template #append>
         <div class="me-n3">
@@ -15,7 +15,7 @@
     <VCardText>
       <div class="d-flex justify-space-between align-center mb-2">
         <h6 class="text-h6">
-          Subscribers Gained
+          {{ $t('Subscribers Gained') }}
         </h6>
         <VChip
           label
@@ -28,7 +28,7 @@
 
       <div class="d-flex justify-space-between align-center mb-1">
         <div class="text-base">
-          1.2k new subscriber
+           {{ $t('1.2k new subscriber') }}
         </div>
 
         <div class="text-disabled text-sm">
@@ -45,7 +45,7 @@
 
       <div class="d-flex justify-space-between align-center mb-2 mt-6">
         <h6 class="text-h6">
-          Orders Received
+          {{ $t('Orders Received') }}
         </h6>
         <VChip
           label
@@ -58,7 +58,7 @@
 
       <div class="d-flex justify-space-between mb-1">
         <div class="text-base">
-          2.4k new orders
+           {{ $t('2.4k new orders') }}
         </div>
 
         <div class="text-disabled text-sm">
