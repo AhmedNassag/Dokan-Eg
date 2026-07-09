@@ -16,6 +16,8 @@ class AreaRepository implements AreaInterface
         return new Area();
     }
 
+
+    
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -41,6 +43,8 @@ class AreaRepository implements AreaInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         try {
@@ -56,9 +60,11 @@ class AreaRepository implements AreaInterface
         }
     }
 
-    public function show($areaId)
+
+
+    public function show($id)
     {
-        $area = $this->getModel()->with('city')->find($areaId);
+        $area = $this->getModel()->with('city')->find($id);
 
         if (!$area) {
             return $this->isError(__('area Not Found'))
@@ -70,10 +76,12 @@ class AreaRepository implements AreaInterface
             ->build();
     }
 
-    public function update($areaId, $request)
+
+
+    public function update($id, $request)
     {
         try {
-            $area = $this->getModel()->find($areaId);
+            $area = $this->getModel()->find($id);
             if (!$area) {
                 return $this->isError(__('area Not Found'))
                     ->setStatus(404)
@@ -91,9 +99,11 @@ class AreaRepository implements AreaInterface
         }
     }
 
-    public function destroy($areaId)
+
+
+    public function destroy($id)
     {
-        $area = $this->getModel()->find($areaId);
+        $area = $this->getModel()->find($id);
 
         if (!$area) {
             return $this->isError(__('area Not Found'))

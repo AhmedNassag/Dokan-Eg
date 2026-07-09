@@ -36,9 +36,9 @@ class BranchController extends Controller
 
     
 
-    public function show($branchId)
+    public function show($id)
     {
-        return $this->branch->show($branchId);
+        return $this->branch->show($id);
     }
 
 
@@ -50,15 +50,15 @@ class BranchController extends Controller
 
 
 
-    public function update($branchId, UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
-        return $this->branch->update($branchId, $request);
+        return $this->branch->update($id, $request);
     }
 
 
 
-    public function destroy($branchId)
+    public function destroy($id)
     {
-        return $this->branch->destroy($branchId);
+        return $this->branch->destroy($id);
     }
 }

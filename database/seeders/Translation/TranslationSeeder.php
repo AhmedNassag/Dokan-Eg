@@ -41,15 +41,15 @@ class TranslationSeeder extends Seeder
 
 
     
-    private function seedNested($languageId, $group, array $items, $prefix = '')
+    private function seedNested($id, $group, array $items, $prefix = '')
     {
         foreach ($items as $key => $value) {
             $fullKey = $prefix ? "{$prefix}.{$key}" : $key;
             if (is_array($value)) {
-                $this->seedNested($languageId, $group, $value, $fullKey);
+                $this->seedNested($id, $group, $value, $fullKey);
             } else {
                 Translation::firstOrCreate(
-                    ['language_id' => $languageId, 'group' => $group, 'key' => $fullKey],
+                    ['language_id' => $id, 'group' => $group, 'key' => $fullKey],
                     ['value' => $value]
                 );
             }

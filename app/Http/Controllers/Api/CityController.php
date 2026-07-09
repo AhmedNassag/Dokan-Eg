@@ -35,9 +35,9 @@ class CityController extends Controller
 
 
 
-    public function show($cityId)
+    public function show($id)
     {
-        return $this->city->show($cityId);
+        return $this->city->show($id);
     }
 
 
@@ -49,15 +49,15 @@ class CityController extends Controller
 
 
 
-    public function update($cityId, UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
-        return $this->city->update($cityId, $request);
+        return $this->city->update($id, $request);
     }
 
 
 
-    public function destroy($cityId)
+    public function destroy($id)
     {
-        return $this->city->destroy($cityId);
+        return $this->city->destroy($id);
     }
 }

@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Category;
+use App\Filters\Api\Category\CategoryFilter;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
+use App\Repositories\Category\CategoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+    protected $category;
+
+    public function __construct(CategoryInterface $category)
     {
+        $this->category = $category;
+
         $this->middleware('auth:sanctum');
 
         $this->middleware('permission:list-category', ['only' => ['index']]);
@@ -22,110 +28,36 @@ class CategoryController extends Controller
 
 
 
-    public function index(Request $request)
+    public function index(Request $request, CategoryFilter $filter)
     {
-        $user  = Auth::user();
-        $query = Category::query()->with('parent');
-
-        if (!$user->hasRole('admin')) {
-            $query->where('created_by', $user->id);
-        }
-
-        if ($search = $request->q) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-
-        $sortBy  = $request->sortBy ?? 'id';
-        $orderBy = $request->orderBy ?? 'desc';
-        $query->orderBy($sortBy, $orderBy);
-
-        $itemsPerPage = $request->itemsPerPage ?? 10;
-        $page         = $request->page ?? 1;
-        $total        = $query->count();
-        $categories   = $query->skip(($page - 1) * $itemsPerPage)->take($itemsPerPage)->get();
-
-        return response()->json([
-            'data'  => $categories,
-            'total' => $total,
-        ]);
+        return $this->category->index($request, $filter);
     }
 
 
 
     public function show($id)
     {
-        $category = Category::with('parent')->findOrFail($id);
-        $this->authorizeAccess($category);
-
-        return response()->json($category);
+        return $this->category->show($id);
     }
 
 
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $data = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'parent_id'   => 'nullable|exists:categories,id',
-            'is_active'   => 'nullable|boolean',
-        ]);
-
-        $data['created_by'] = Auth::id();
-        $data['is_active']  = $request->boolean('is_active', true);
-
-        $category = Category::create($data)->load('parent');
-
-        return response()->json($category, 201);
+        return $this->category->store($request);
     }
 
 
 
-    public function update(Request $request, $id)
+    public function update($id, UpdateRequest $request)
     {
-        $category = Category::findOrFail($id);
-        $this->authorizeAccess($category);
-
-        $data = $request->validate([
-            'name'        => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'parent_id'   => 'nullable|exists:categories,id',
-            'is_active'   => 'nullable|boolean',
-        ]);
-
-        if ($request->has('is_active')) {
-            $data['is_active'] = $request->boolean('is_active');
-        }
-
-        $category->update($data);
-        $category->load('parent');
-
-        return response()->json($category);
+        return $this->category->update($id, $request);
     }
 
-
+    
 
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
-        $this->authorizeAccess($category);
-
-        $category->delete();
-
-        return response()->json(null, 204);
-    }
-
-
-
-    private function authorizeAccess(Category $category)
-    {
-        $user = Auth::user();
-
-        if (!$user->hasRole('admin') && $category->created_by !== $user->id) {
-            abort(403, 'Forbidden');
-        }
+        return $this->category->destroy($id);
     }
 }

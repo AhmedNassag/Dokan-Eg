@@ -16,6 +16,8 @@ class LanguageRepository implements LanguageInterface
         return new Language();
     }
 
+
+
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -40,6 +42,8 @@ class LanguageRepository implements LanguageInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         $language = $this->getModel()->create($request->validated());
@@ -47,6 +51,8 @@ class LanguageRepository implements LanguageInterface
             ->setData(LanguageResource::make($language))
             ->build();
     }
+
+
 
     public function show($id)
     {
@@ -58,6 +64,8 @@ class LanguageRepository implements LanguageInterface
             ->setData(LanguageResource::make($language))
             ->build();
     }
+
+
 
     public function update($id, $request)
     {
@@ -71,6 +79,8 @@ class LanguageRepository implements LanguageInterface
             ->build();
     }
 
+
+    
     public function destroy($id)
     {
         $language = $this->getModel()->find($id);

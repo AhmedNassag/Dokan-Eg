@@ -20,13 +20,6 @@ class CountryRepository implements CountryInterface
         return new Country();
     }
 
-    // public function get()
-    // {
-    //     return response()->json([
-    //         'countrys' => "TEST",
-    //     ]);
-    // }
-
 
 
     public function index($request, $filter): \Illuminate\Http\JsonResponse
@@ -53,6 +46,8 @@ class CountryRepository implements CountryInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         try {
@@ -69,9 +64,9 @@ class CountryRepository implements CountryInterface
 
 
 
-    public function show($countryId)
+    public function show($id)
     {
-        $country = $this->getModel()->find($countryId);
+        $country = $this->getModel()->find($id);
 
         if (!$country) {
             return $this->isError(__('country Not Found'))
@@ -83,10 +78,12 @@ class CountryRepository implements CountryInterface
             ->build();
     }
 
-    public function update($countryId, $request)
+
+
+    public function update($id, $request)
     {
         try {
-            $country = $this->getModel()->find($countryId);
+            $country = $this->getModel()->find($id);
             if (!$country) {
                 return $this->isError(__('country Not Found'))
                     ->setStatus(404)
@@ -103,9 +100,11 @@ class CountryRepository implements CountryInterface
         }
     }
 
-    public function destroy($countryId)
+
+    
+    public function destroy($id)
     {
-        $country = $this->getModel()->find($countryId);
+        $country = $this->getModel()->find($id);
 
         if (!$country) {
             return $this->isError(__('country Not Found'))

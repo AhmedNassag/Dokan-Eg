@@ -5,8 +5,13 @@ namespace App\Repositories\City;
 interface CityInterface
 {
     public function index($request, $filter);
-    public function show($cityId);
+    
+    public function show($id);
+    
     public function store($request);
-    public function update($cityId, $request);
-    public function destroy($cityId);
+    
+    public function update($id, $request);
+    
+    public function destroy($id);
+    
 }

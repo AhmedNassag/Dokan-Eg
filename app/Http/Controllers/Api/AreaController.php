@@ -35,9 +35,9 @@ class AreaController extends Controller
 
 
 
-    public function show($areaId)
+    public function show($id)
     {
-        return $this->area->show($areaId);
+        return $this->area->show($id);
     }
 
 
@@ -49,15 +49,15 @@ class AreaController extends Controller
 
 
 
-    public function update($areaId, UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
-        return $this->area->update($areaId, $request);
+        return $this->area->update($id, $request);
     }
 
 
 
-    public function destroy($areaId)
+    public function destroy($id)
     {
-        return $this->area->destroy($areaId);
+        return $this->area->destroy($id);
     }
 }

@@ -6,11 +6,11 @@ interface CountryInterface
 {
     // public function get();
     public function index($request, $filter);
-    public function show($countryId);
+    public function show($id);
 
     public function store($request);
 
-    public function update($countryId,$request);
+    public function update($id,$request);
 
-    public function destroy($countryId);
+    public function destroy($id);
 }

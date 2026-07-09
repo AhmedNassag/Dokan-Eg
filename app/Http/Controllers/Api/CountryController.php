@@ -35,9 +35,9 @@ class CountryController extends Controller
 
 
     
-    public function show($countryId)
+    public function show($id)
     {
-        return $this->country->show($countryId);
+        return $this->country->show($id);
     }
 
 
@@ -49,15 +49,15 @@ class CountryController extends Controller
 
 
 
-    public function update($countryId, UpdateRequest $request)
+    public function update($id, UpdateRequest $request)
     {
-        return $this->country->update($countryId, $request);
+        return $this->country->update($id, $request);
     }
 
 
 
-    public function destroy($countryId)
+    public function destroy($id)
     {
-        return $this->country->destroy($countryId);
+        return $this->country->destroy($id);
     }
 }
