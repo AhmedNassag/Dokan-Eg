@@ -8,6 +8,20 @@ export const adminRoutes = [
     meta: {
       title: 'Admin',
     },
-    children: createRoutesFromConfig('admin', ['dashboard', 'category', 'country', 'city', 'area', 'branch', 'shippingCompany', 'language', 'translation', 'user', 'role', 'permission', 'order']),
+    children: createRoutesFromConfig('admin', [
+      'dashboard',
+      'user',
+      'role',
+      'permission',
+      'language',
+      'translation',
+      'category',
+      'country',
+      'city',
+      'area',
+      'branch',
+      'shippingCompany',
+      'order',
+    ]),
   },
 ]
