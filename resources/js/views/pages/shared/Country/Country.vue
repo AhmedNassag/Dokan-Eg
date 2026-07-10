@@ -1,7 +1,7 @@
 <script setup>import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import CountryAPI from '@/API/shared/Country/country'
+import CountryAPI from '@/Api/shared/Country/country'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'

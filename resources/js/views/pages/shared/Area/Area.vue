@@ -1,7 +1,7 @@
 <script setup>import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import AreaAPI from '@/API/shared/Area/area'
+import AreaAPI from '@/Api/shared/Area/area'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -62,7 +62,7 @@ function formatError(err) {
   if (data?.errors) {
     return Object.values(data.errors).flat().join(', ')
   }
-  
+
   return data?.message || err?.message || t('area.An Error Occurred')
 }
 
@@ -162,18 +162,9 @@ fetchAreas()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField
-            v-model="searchQuery"
-            :placeholder="$t('area.Search')"
-            style="inline-size: 15.625rem;"
-            clearable
-            clear-icon="tabler-x"
-          />
-          <VBtn
-            v-if="$can('store', 'area')"
-            prepend-icon="tabler-plus"
-            @click="openAddModal"
-          >
+          <AppTextField v-model="searchQuery" :placeholder="$t('area.Search')" style="inline-size: 15.625rem;" clearable
+            clear-icon="tabler-x" />
+          <VBtn v-if="$can('store', 'area')" prepend-icon="tabler-plus" @click="openAddModal">
             {{ $t('area.Add Area') }}
           </VBtn>
         </div>
@@ -182,15 +173,8 @@ fetchAreas()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer
-          v-model:items-per-page="itemsPerPage"
-          v-model:page="page"
-          :items="areas"
-          :items-length="totalAreas"
-          :headers="headers"
-          :loading="isLoading"
-          class="text-no-wrap"
-        >
+        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="areas"
+          :items-length="totalAreas" :headers="headers" :loading="isLoading" class="text-no-wrap">
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -204,81 +188,42 @@ fetchAreas()
           </template>
 
           <template #item.status="{ item }">
-            <VSwitch
-              v-if="$can('update', 'area')"
-              :model-value="item.status"
-              color="success"
-              inset
-              hide-details
-              @update:model-value="() => toggleStatus(item)"
-            />
-            <VChip
-              v-else
-              :color="item.status ? 'success' : 'error'"
-              size="small"
-            >
+            <VSwitch v-if="$can('update', 'area')" :model-value="item.status" color="success" inset hide-details
+              @update:model-value="() => toggleStatus(item)" />
+            <VChip v-else :color="item.status ? 'success' : 'error'" size="small">
               {{ item.status ? $t('area.Active') : $t('area.Inactive') }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn
-                v-if="$can('update', 'area')"
-                @click="openEditModal(item)"
-              >
+              <IconBtn v-if="$can('update', 'area')" @click="openEditModal(item)">
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn
-                v-if="$can('destroy', 'area')"
-                @click="confirmDelete(item.id)"
-              >
+              <IconBtn v-if="$can('destroy', 'area')" @click="confirmDelete(item.id)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination
-              v-model:page="page"
-              :items-per-page="itemsPerPage"
-              :total-items="totalAreas"
-            />
+            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalAreas" />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal
-    v-model="isAddModalOpen"
-    @submit="handleAddSubmit"
-  />
+  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
 
-  <EditModal
-    v-model="isEditModalOpen"
-    :area="selectedArea"
-    @submit="handleEditSubmit"
-  />
+  <EditModal v-model="isEditModalOpen" :area="selectedArea" @submit="handleEditSubmit" />
 
-  <DeleteModal
-    v-model="isDeleteModalOpen"
-    @confirm="handleDelete"
-  />
+  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
 
-  <VSnackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    timeout="3000"
-  >
+  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn
-        color="white"
-        variant="text"
-        @click="snackbar = false"
-      >
+      <VBtn color="white" variant="text" @click="snackbar = false">
         {{ $t('area.Close') }}
       </VBtn>
     </template>

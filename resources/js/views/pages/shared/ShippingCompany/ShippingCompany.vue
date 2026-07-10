@@ -1,7 +1,7 @@
 <script setup>import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import ShippingCompanyAPI from '@/API/shared/ShippingCompany/shippingCompany'
+import ShippingCompanyAPI from '@/Api/shared/ShippingCompany/shippingCompany'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -27,7 +27,8 @@ async function fetchCompanies() {
     const data = res.data?.items ?? res.data ?? []
 
     items.value = data.map(c => ({ ...c, status: Boolean(c.status) }))
-  } catch { items.value = []
+  } catch {
+    items.value = []
   } finally { isLoading.value = false }
 }
 
@@ -36,7 +37,7 @@ function formatError(err) {
   if (data?.errors) {
     return Object.values(data.errors).flat().join(', ')
   }
-  
+
   return data?.message || err?.message || t('shippingCompany.An Error Occurred')
 }
 
@@ -112,18 +113,9 @@ fetchCompanies()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField
-            v-model="searchQuery"
-            :placeholder="$t('shippingCompany.Search')"
-            style="inline-size: 15.625rem;"
-            clearable
-            clear-icon="tabler-x"
-          />
-          <VBtn
-            v-if="$can('store', 'shippingCompany')"
-            prepend-icon="tabler-plus"
-            @click="openAddModal"
-          >
+          <AppTextField v-model="searchQuery" :placeholder="$t('shippingCompany.Search')"
+            style="inline-size: 15.625rem;" clearable clear-icon="tabler-x" />
+          <VBtn v-if="$can('store', 'shippingCompany')" prepend-icon="tabler-plus" @click="openAddModal">
             {{ $t('shippingCompany.Add Shipping Company') }}
           </VBtn>
         </div>
@@ -131,35 +123,16 @@ fetchCompanies()
     </VCol>
 
     <VCol cols="12">
-      <VProgressLinear
-        v-if="isLoading"
-        indeterminate
-        color="primary"
-      />
+      <VProgressLinear v-if="isLoading" indeterminate color="primary" />
 
-      <VExpansionPanels
-        v-else
-        variant="accordion"
-        class="mt-2"
-      >
-        <VExpansionPanel
-          v-for="company in items"
-          :key="company.id"
-        >
+      <VExpansionPanels v-else variant="accordion" class="mt-2">
+        <VExpansionPanel v-for="company in items" :key="company.id">
           <VExpansionPanelTitle class="font-weight-medium">
-            <div
-              class="d-flex align-center w-100"
-              style="justify-content: space-between;"
-            >
-              <span><VIcon
-                icon="tabler-building"
-                class="me-2"
-              />{{ company.name }}</span>
-              <VChip
-                :color="company.status ? 'success' : 'error'"
-                size="small"
-                class="me-4"
-              >
+            <div class="d-flex align-center w-100" style="justify-content: space-between;">
+              <span>
+                <VIcon icon="tabler-building" class="me-2" />{{ company.name }}
+              </span>
+              <VChip :color="company.status ? 'success' : 'error'" size="small" class="me-4">
                 {{ company.status ? $t('shippingCompany.Active') : $t('shippingCompany.Inactive') }}
               </VChip>
             </div>
@@ -173,31 +146,15 @@ fetchCompanies()
               <VCol cols="4">
                 <strong>{{ $t('shippingCompany.Phone') }}:</strong> {{ company.phone }}
               </VCol>
-              <VCol
-                cols="4"
-                class="text-end"
-              >
-                <IconBtn
-                  v-if="$can('update', 'shippingCompany')"
-                  @click="openEditModal(company)"
-                >
+              <VCol cols="4" class="text-end">
+                <IconBtn v-if="$can('update', 'shippingCompany')" @click="openEditModal(company)">
                   <VIcon icon="tabler-pencil" />
                 </IconBtn>
-                <IconBtn
-                  v-if="$can('destroy', 'shippingCompany')"
-                  @click="confirmDelete(company.id)"
-                >
+                <IconBtn v-if="$can('destroy', 'shippingCompany')" @click="confirmDelete(company.id)">
                   <VIcon icon="tabler-trash" />
                 </IconBtn>
-                <VSwitch
-                  v-if="$can('update', 'shippingCompany')"
-                  :model-value="company.status"
-                  color="success"
-                  inset
-                  hide-details
-                  class="d-inline-block ms-2"
-                  @update:model-value="() => toggleStatus(company)"
-                />
+                <VSwitch v-if="$can('update', 'shippingCompany')" :model-value="company.status" color="success" inset
+                  hide-details class="d-inline-block ms-2" @update:model-value="() => toggleStatus(company)" />
               </VCol>
             </VRow>
 
@@ -206,16 +163,15 @@ fetchCompanies()
               {{ $t('shippingCompany.Shipping Prices') }}
             </h6>
 
-            <VTable
-              v-if="company.prices?.length"
-              class="text-no-wrap"
-            >
-              <thead><tr><th>{{ $t('shippingCompany.City') }}</th><th>{{ $t('shippingCompany.Price') }}</th></tr></thead>
+            <VTable v-if="company.prices?.length" class="text-no-wrap">
+              <thead>
+                <tr>
+                  <th>{{ $t('shippingCompany.City') }}</th>
+                  <th>{{ $t('shippingCompany.Price') }}</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr
-                  v-for="price in company.prices"
-                  :key="price.id"
-                >
+                <tr v-for="price in company.prices" :key="price.id">
                   <td>{{ price.city?.name || '—' }}</td>
                   <td class="font-weight-medium">
                     {{ Number(price.price).toFixed(2) }} {{ $t('shippingCompany.EGP') }}
@@ -223,52 +179,27 @@ fetchCompanies()
                 </tr>
               </tbody>
             </VTable>
-            <p
-              v-else
-              class="text-body-2 text-medium-emphasis"
-            >
+            <p v-else class="text-body-2 text-medium-emphasis">
               {{ $t('shippingCompany.No prices set') }}
             </p>
           </VExpansionPanelText>
         </VExpansionPanel>
 
-        <VExpansionPanel
-          v-if="!items.length && !isLoading"
-          disabled
-        >
+        <VExpansionPanel v-if="!items.length && !isLoading" disabled>
           <VExpansionPanelTitle>{{ $t('shippingCompany.No shipping companies found') }}</VExpansionPanelTitle>
         </VExpansionPanel>
       </VExpansionPanels>
     </VCol>
   </VRow>
 
-  <AddModal
-    v-model="isAddModalOpen"
-    @submit="handleAddSubmit"
-  />
-  <EditModal
-    v-model="isEditModalOpen"
-    :company="selectedCompany"
-    @submit="handleEditSubmit"
-  />
-  <DeleteModal
-    v-model="isDeleteModalOpen"
-    @confirm="handleDelete"
-  />
+  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
+  <EditModal v-model="isEditModalOpen" :company="selectedCompany" @submit="handleEditSubmit" />
+  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
 
-  <VSnackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    timeout="3000"
-  >
+  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn
-        color="white"
-        variant="text"
-        @click="snackbar = false"
-      >
+      <VBtn color="white" variant="text" @click="snackbar = false">
         {{ $t('shippingCompany.Close') }}
       </VBtn>
     </template>

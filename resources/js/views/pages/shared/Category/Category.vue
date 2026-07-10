@@ -1,7 +1,7 @@
 <script setup>import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import CategoryAPI from '@/API/shared/Category/category'
+import CategoryAPI from '@/Api/shared/Category/category'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'

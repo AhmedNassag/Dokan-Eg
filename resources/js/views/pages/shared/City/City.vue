@@ -1,7 +1,7 @@
 <script setup>import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import CityAPI from '@/API/shared/City/city'
+import CityAPI from '@/Api/shared/City/city'
 import AddModal from './AddModal.vue'
 import DeleteModal from './DeleteModal.vue'
 import EditModal from './EditModal.vue'
@@ -62,7 +62,7 @@ function formatError(err) {
   if (data?.errors) {
     return Object.values(data.errors).flat().join(', ')
   }
-  
+
   return data?.message || err?.message || t('city.An Error Occurred')
 }
 
@@ -162,18 +162,9 @@ fetchCities()
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
-          <AppTextField
-            v-model="searchQuery"
-            :placeholder="$t('city.Search')"
-            style="inline-size: 15.625rem;"
-            clearable
-            clear-icon="tabler-x"
-          />
-          <VBtn
-            v-if="$can('store', 'city')"
-            prepend-icon="tabler-plus"
-            @click="openAddModal"
-          >
+          <AppTextField v-model="searchQuery" :placeholder="$t('city.Search')" style="inline-size: 15.625rem;" clearable
+            clear-icon="tabler-x" />
+          <VBtn v-if="$can('store', 'city')" prepend-icon="tabler-plus" @click="openAddModal">
             {{ $t('city.Add City') }}
           </VBtn>
         </div>
@@ -182,15 +173,8 @@ fetchCities()
 
     <VCol cols="12">
       <VCard>
-        <VDataTableServer
-          v-model:items-per-page="itemsPerPage"
-          v-model:page="page"
-          :items="cities"
-          :items-length="totalCities"
-          :headers="headers"
-          :loading="isLoading"
-          class="text-no-wrap"
-        >
+        <VDataTableServer v-model:items-per-page="itemsPerPage" v-model:page="page" :items="cities"
+          :items-length="totalCities" :headers="headers" :loading="isLoading" class="text-no-wrap">
           <template #item.id="{ item }">
             <span class="text-body-1 text-high-emphasis">{{ item.id }}</span>
           </template>
@@ -204,81 +188,42 @@ fetchCities()
           </template>
 
           <template #item.status="{ item }">
-            <VSwitch
-              v-if="$can('update', 'city')"
-              :model-value="item.status"
-              color="success"
-              inset
-              hide-details
-              @update:model-value="() => toggleStatus(item)"
-            />
-            <VChip
-              v-else
-              :color="item.status ? 'success' : 'error'"
-              size="small"
-            >
+            <VSwitch v-if="$can('update', 'city')" :model-value="item.status" color="success" inset hide-details
+              @update:model-value="() => toggleStatus(item)" />
+            <VChip v-else :color="item.status ? 'success' : 'error'" size="small">
               {{ item.status ? $t('city.Active') : $t('city.Inactive') }}
             </VChip>
           </template>
 
           <template #item.actions="{ item }">
             <div class="d-flex gap-1">
-              <IconBtn
-                v-if="$can('update', 'city')"
-                @click="openEditModal(item)"
-              >
+              <IconBtn v-if="$can('update', 'city')" @click="openEditModal(item)">
                 <VIcon icon="tabler-pencil" />
               </IconBtn>
-              <IconBtn
-                v-if="$can('destroy', 'city')"
-                @click="confirmDelete(item.id)"
-              >
+              <IconBtn v-if="$can('destroy', 'city')" @click="confirmDelete(item.id)">
                 <VIcon icon="tabler-trash" />
               </IconBtn>
             </div>
           </template>
 
           <template #bottom>
-            <TablePagination
-              v-model:page="page"
-              :items-per-page="itemsPerPage"
-              :total-items="totalCities"
-            />
+            <TablePagination v-model:page="page" :items-per-page="itemsPerPage" :total-items="totalCities" />
           </template>
         </VDataTableServer>
       </VCard>
     </VCol>
   </VRow>
 
-  <AddModal
-    v-model="isAddModalOpen"
-    @submit="handleAddSubmit"
-  />
+  <AddModal v-model="isAddModalOpen" @submit="handleAddSubmit" />
 
-  <EditModal
-    v-model="isEditModalOpen"
-    :city="selectedCity"
-    @submit="handleEditSubmit"
-  />
+  <EditModal v-model="isEditModalOpen" :city="selectedCity" @submit="handleEditSubmit" />
 
-  <DeleteModal
-    v-model="isDeleteModalOpen"
-    @confirm="handleDelete"
-  />
+  <DeleteModal v-model="isDeleteModalOpen" @confirm="handleDelete" />
 
-  <VSnackbar
-    v-model="snackbar"
-    :color="snackbarColor"
-    location="top"
-    timeout="3000"
-  >
+  <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="3000">
     {{ snackbarMessage }}
     <template #actions>
-      <VBtn
-        color="white"
-        variant="text"
-        @click="snackbar = false"
-      >
+      <VBtn color="white" variant="text" @click="snackbar = false">
         {{ $t('city.Close') }}
       </VBtn>
     </template>
