@@ -16,7 +16,7 @@ class PermissionRepository implements PermissionInterface
     public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
         $query = $this->getModel()
-            ->ordering($request->ordering)
+            // ->ordering($request->ordering)
             // ->filter($filter)
             ;
 

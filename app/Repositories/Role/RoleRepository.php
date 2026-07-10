@@ -17,7 +17,7 @@ class RoleRepository implements RoleInterface
     {
 
         $query = $this->getModel()->with('permissions')
-            ->ordering($request->ordering)
+            // ->ordering($request->ordering)
             // ->filter($filter)
             ;
 
@@ -39,9 +39,9 @@ class RoleRepository implements RoleInterface
         ]);
     }
 
-    public function show($roleId)
+    public function show($id)
     {
-        $role = $this->getModel()->with('permissions')->find($roleId);
+        $role = $this->getModel()->with('permissions')->find($id);
 
         if (!$role) {
             return response()->json(['message' => 'Not Found'], 404);
@@ -64,9 +64,9 @@ class RoleRepository implements RoleInterface
         return response()->json(RoleResource::make($role), 201);
     }
 
-    public function update($roleId, $request)
+    public function update($id, $request)
     {
-        $role = $this->getModel()->find($roleId);
+        $role = $this->getModel()->find($id);
 
         if (!$role) {
             return response()->json(['message' => 'Not Found'], 404);
@@ -84,9 +84,9 @@ class RoleRepository implements RoleInterface
         return response()->json(RoleResource::make($role));
     }
 
-    public function destroy($roleId)
+    public function destroy($id)
     {
-        $role = $this->getModel()->find($roleId);
+        $role = $this->getModel()->find($id);
 
         if (!$role) {
             return response()->json(['message' => 'Not Found'], 404);
