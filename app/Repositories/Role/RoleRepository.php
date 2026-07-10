@@ -13,11 +13,13 @@ class RoleRepository implements RoleInterface
         return new Role();
     }
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
-        $query = $filter->apply(
-            $this->getModel()->with('permissions')
-        );
+
+        $query = $this->getModel()->with('permissions')
+            ->ordering($request->ordering)
+            // ->filter($filter)
+            ;
 
         $sortBy  = $request['sortBy'] ?? 'id';
         $orderBy = $request['orderBy'] ?? 'asc';

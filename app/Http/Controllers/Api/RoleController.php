@@ -28,9 +28,9 @@ class RoleController extends Controller
 
 
 
-    public function index(Request $request, RoleFilter $filter)
+    public function index(Request $request/*, RoleFilter $filter*/)
     {
-        return $this->role->index($request, $filter);
+        return $this->role->index($request/*, $filter*/);
     }
 
 

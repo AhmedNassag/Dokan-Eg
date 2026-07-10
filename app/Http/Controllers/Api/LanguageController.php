@@ -28,9 +28,9 @@ class LanguageController extends Controller
 
 
 
-    public function index(Request $request, LanguageFilter $filter)
+    public function index(Request $request/*, LanguageFilter $filter*/)
     {
-        return $this->language->index($request, $filter);
+        return $this->language->index($request/*, $filter*/);
     }
 
 

@@ -28,9 +28,9 @@ class CategoryController extends Controller
 
 
 
-    public function index(Request $request, CategoryFilter $filter)
+    public function index(Request $request/*, CategoryFilter $filter*/)
     {
-        return $this->category->index($request, $filter);
+        return $this->category->index($request/*, $filter*/);
     }
 
 

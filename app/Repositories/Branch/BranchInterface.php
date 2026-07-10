@@ -4,7 +4,7 @@ namespace App\Repositories\Branch;
 
 interface BranchInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
     
     public function show($id);
     

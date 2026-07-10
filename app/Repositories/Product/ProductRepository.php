@@ -21,7 +21,7 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
 
@@ -31,7 +31,8 @@ class ProductRepository implements ProductInterface
 
             $collection = $this->getModel()
                 ->ordering($request->ordering)
-                ->filter($filter);
+                // ->filter($filter)
+                ;
 
             $data = $perPage == -1
                 ? $collection->get()

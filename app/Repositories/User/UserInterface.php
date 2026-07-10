@@ -4,7 +4,7 @@ namespace App\Repositories\User;
 
 interface UserInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
 
     public function show($id);
 

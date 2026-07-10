@@ -4,7 +4,7 @@ namespace App\Repositories\Translation;
 
 interface TranslationInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
 
     public function store($request);
 

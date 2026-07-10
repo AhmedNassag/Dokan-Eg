@@ -14,12 +14,13 @@ class CategoryRepository implements CategoryInterface
         return new Category();
     }
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
 
-        $query = $this->getModel()->with('parent');
-        $query = $filter->apply($query);
+        $query = $this->getModel()->with('parent')
+        // ->filter($filter)
+        ;
 
         if (!$user->hasRole('admin')) {
             $query->where('created_by', $user->id);

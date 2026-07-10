@@ -4,8 +4,8 @@ namespace App\Repositories\Country;
 
 interface CountryInterface
 {
-    // public function get();
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
+
     public function show($id);
 
     public function store($request);

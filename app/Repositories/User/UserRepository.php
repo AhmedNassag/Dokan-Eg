@@ -15,10 +15,11 @@ class UserRepository implements UserInterface
         return new User();
     }
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
-        $query = $this->getModel()->with('roles');
-        $query = $filter->apply($query);
+        $query = $this->getModel()->with('roles')
+            // ->filter($filter)
+            ;
 
         $sortBy  = $request['sortBy'] ?? 'id';
         $orderBy = $request['orderBy'] ?? 'asc';

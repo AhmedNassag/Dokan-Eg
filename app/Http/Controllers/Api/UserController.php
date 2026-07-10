@@ -26,9 +26,9 @@ class UserController extends Controller
         $this->middleware('permission:destroy-user', ['only' => ['destroy']]);
     }
 
-    public function index(Request $request, UserFilter $filter)
+    public function index(Request $request/*, UserFilter $filter*/)
     {
-        return $this->user->index($request, $filter);
+        return $this->user->index($request/*, $filter*/);
     }
 
     public function show($id)

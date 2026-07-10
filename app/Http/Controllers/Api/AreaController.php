@@ -28,9 +28,9 @@ class AreaController extends Controller
 
 
 
-    public function index(Request $request, AreaFilter $filter)
+    public function index(Request $request/*, AreaFilter $filter*/)
     {
-        return $this->area->index($request, $filter);
+        return $this->area->index($request/*, $filter*/);
     }
 
 

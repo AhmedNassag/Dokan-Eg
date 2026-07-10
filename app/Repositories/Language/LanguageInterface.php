@@ -4,7 +4,7 @@ namespace App\Repositories\Language;
 
 interface LanguageInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
 
     public function store($request);
 

@@ -4,7 +4,7 @@ namespace App\Repositories\Category;
 
 interface CategoryInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
 
     public function show($id);
 

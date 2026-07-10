@@ -13,11 +13,12 @@ class PermissionRepository implements PermissionInterface
         return new Permission();
     }
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
-        $query = $filter->apply(
-            $this->getModel()
-        );
+        $query = $this->getModel()
+            ->ordering($request->ordering)
+            // ->filter($filter)
+            ;
 
         $sortBy  = $request['sortBy'] ?? 'id';
         $orderBy = $request['orderBy'] ?? 'asc';

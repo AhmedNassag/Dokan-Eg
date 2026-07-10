@@ -28,9 +28,9 @@ class TranslationController extends Controller
 
 
 
-    public function index(Request $request, TranslationFilter $filter)
+    public function index(Request $request/*, TranslationFilter $filter*/)
     {
-        return $this->translation->index($request, $filter);
+        return $this->translation->index($request/*, $filter*/);
     }
 
 

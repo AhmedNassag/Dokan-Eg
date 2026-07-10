@@ -28,9 +28,9 @@ class CountryController extends Controller
 
 
 
-    public function index(Request $request, CountryFilter $filter)
+    public function index(Request $request/*, CountryFilter $filter*/)
     {
-        return $this->country->index($request, $filter);
+        return $this->country->index($request/*, $filter*/);
     }
 
 

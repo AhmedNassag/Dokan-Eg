@@ -4,7 +4,7 @@ namespace App\Repositories\Area;
 
 interface AreaInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
     
     public function show($id);
     

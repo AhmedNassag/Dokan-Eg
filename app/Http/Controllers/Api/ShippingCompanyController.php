@@ -28,9 +28,9 @@ class ShippingCompanyController extends Controller
 
 
 
-    public function index(Request $request, ShippingCompanyFilter $filter)
+    public function index(Request $request/*, ShippingCompanyFilter $filter*/)
     {
-        return $this->shippingCompany->index($request, $filter);
+        return $this->shippingCompany->index($request/*, $filter*/);
     }
 
 

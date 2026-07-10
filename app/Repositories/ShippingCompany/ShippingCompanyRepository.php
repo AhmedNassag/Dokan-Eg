@@ -20,14 +20,15 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
 
 
 
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
 
         $query = $this->getModel()
             ->with(['prices.city'])
             ->ordering($request->ordering)
-            ->filter($filter);
+            // ->filter($filter)
+            ;
 
         $data = $perPage == -1
             ? $query->get()

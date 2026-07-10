@@ -4,7 +4,7 @@ namespace App\Repositories\Api\Product;
 
 interface ProductInterface
 {
-    public function index($request, $filter);
+    public function index($request/*, $filter*/);
 
     public function show($id);
 

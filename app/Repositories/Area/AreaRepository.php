@@ -18,14 +18,15 @@ class AreaRepository implements AreaInterface
 
 
     
-    public function index($request, $filter): \Illuminate\Http\JsonResponse
+    public function index($request/*, $filter*/): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
 
         $query = $this->getModel()
             ->with('city')
             ->ordering($request->ordering)
-            ->filter($filter);
+            // ->filter($filter)
+            ;
 
         $data = $perPage == -1
             ? $query->get()

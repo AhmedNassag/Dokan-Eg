@@ -28,9 +28,9 @@ class CityController extends Controller
 
 
 
-    public function index(Request $request, CityFilter $filter)
+    public function index(Request $request/*, CityFilter $filter*/)
     {
-        return $this->city->index($request, $filter);
+        return $this->city->index($request/*, $filter*/);
     }
 
 

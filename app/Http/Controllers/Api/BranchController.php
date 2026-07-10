@@ -29,9 +29,9 @@ class BranchController extends Controller
 
 
 
-    public function index(Request $request, BranchFilter $filter)
+    public function index(Request $request/*, BranchFilter $filter*/)
     {
-        return $this->branch->index($request, $filter);
+        return $this->branch->index($request/*, $filter*/);
     }
 
     

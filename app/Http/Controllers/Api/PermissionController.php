@@ -22,8 +22,8 @@ class PermissionController extends Controller
 
 
     
-    public function index(Request $request, PermissionFilter $filter)
+    public function index(Request $request/*, PermissionFilter $filter*/)
     {
-        return $this->permission->index($request, $filter);
+        return $this->permission->index($request/*, $filter*/);
     }
 }
