@@ -19,6 +19,51 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     action: 'read',
     subject: 'dashboard',
   },
+  user: {
+    title: 'Users',
+    path: 'user',
+    namePrefix: 'user',
+    component: () => import('@/views/pages/Admin/User/User.vue'),
+    icon: { icon: 'tabler-users' },
+    action: 'list',
+    subject: 'user',
+  },
+  role: {
+    title: 'Roles',
+    path: 'role',
+    namePrefix: 'role',
+    component: () => import('@/views/pages/Admin/Role/Role.vue'),
+    icon: { icon: 'tabler-shield' },
+    action: 'list',
+    subject: 'role',
+  },
+  permission: {
+    title: 'Permissions',
+    path: 'permission',
+    namePrefix: 'permission',
+    component: () => import('@/views/pages/Admin/Permission/Permission.vue'),
+    icon: { icon: 'tabler-lock' },
+    action: 'list',
+    subject: 'permission',
+  },
+  language: {
+    title: 'Languages',
+    path: 'language',
+    namePrefix: 'language',
+    component: () => import('@/views/pages/shared/Language/Language.vue'),
+    icon: { icon: 'tabler-language' },
+    action: 'list',
+    subject: 'language',
+  },
+  translation: {
+    title: 'Translations',
+    path: 'translation',
+    namePrefix: 'translation',
+    component: () => import('@/views/pages/shared/Translation/Translation.vue'),
+    icon: { icon: 'tabler-file-text' },
+    action: 'list',
+    subject: 'translation',
+  },
   category: {
     title: 'Categories',
     path: 'category',
@@ -64,41 +109,14 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     action: 'list',
     subject: 'branch',
   },
-  'shipping-company': {
+  shippingCompany: {
     title: 'Shipping Companies',
-    path: 'shipping-company',
-    namePrefix: 'shipping-company',
+    path: 'shippingCompany',
+    namePrefix: 'shippingCompany',
     component: () => import('@/views/pages/shared/ShippingCompany/ShippingCompany.vue'),
     icon: { icon: 'tabler-truck' },
     action: 'list',
-    subject: 'shipping-company',
-  },
-  user: {
-    title: 'Users',
-    path: 'user',
-    namePrefix: 'user',
-    component: () => import('@/views/pages/Admin/User/User.vue'),
-    icon: { icon: 'tabler-users' },
-    action: 'list',
-    subject: 'user',
-  },
-  role: {
-    title: 'Roles',
-    path: 'role',
-    namePrefix: 'role',
-    component: () => import('@/views/pages/Admin/Role/Role.vue'),
-    icon: { icon: 'tabler-shield' },
-    action: 'list',
-    subject: 'role',
-  },
-  permission: {
-    title: 'Permissions',
-    path: 'permission',
-    namePrefix: 'permission',
-    component: () => import('@/views/pages/Admin/Permission/Permission.vue'),
-    icon: { icon: 'tabler-lock' },
-    action: 'list',
-    subject: 'permission',
+    subject: 'shippingCompany',
   },
   order: {
     title: 'Orders',
@@ -108,24 +126,6 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     icon: { icon: 'tabler-shopping-cart' },
     action: 'list',
     subject: 'order',
-  },
-  language: {
-    title: 'Languages',
-    path: 'language',
-    namePrefix: 'language',
-    component: () => import('@/views/pages/shared/Language/Language.vue'),
-    icon: { icon: 'tabler-language' },
-    action: 'list',
-    subject: 'language',
-  },
-  translation: {
-    title: 'Translations',
-    path: 'translation',
-    namePrefix: 'translation',
-    component: () => import('@/views/pages/shared/Translation/Translation.vue'),
-    icon: { icon: 'tabler-file-text' },
-    action: 'list',
-    subject: 'translation',
   },
 }
 
@@ -139,7 +139,21 @@ export const dashboardComponents = {
 // Function to create routes from config
 export function createRoutesFromConfig(
   role: string,
-  sections: string[] = ['dashboard', 'category', 'user', 'role', 'permission', 'order']
+  sections: string[] = [
+    'dashboard',
+    'user',
+    'role',
+    'permission',
+    'language',
+    'translation',
+    'category',
+    'country',
+    'city',
+    'area',
+    'branch',
+    'shippingCompany',
+    'order',
+  ]
 ) {
   return sections.map(key => {
     const config = routeConfigMap[key]
@@ -166,7 +180,21 @@ export function createRoutesFromConfig(
 // Function to create navigation items from config (same as createNavItems)
 export function createNavItemsFromConfig(
   role: string,
-  sections: string[] = ['dashboard', 'category', 'user', 'role', 'permission', 'order']
+  sections: string[] = [
+    'dashboard',
+    'user',
+    'role',
+    'permission',
+    'language',
+    'translation',
+    'category',
+    'country',
+    'city',
+    'area',
+    'branch',
+    'shippingCompany',
+    'order',
+  ]
 ) {
   const items = [
     { heading: `${role.charAt(0).toUpperCase() + role.slice(1)} Panel` },

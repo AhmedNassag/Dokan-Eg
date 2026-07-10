@@ -65,7 +65,7 @@ async function onSubmit() {
     @update:model-value="closeModal"
   >
     <AppDrawerHeaderSection
-      :title="$t('Edit Country')"
+      :title="$t('country.Edit Country')"
       @cancel="closeModal"
     />
 
@@ -84,15 +84,15 @@ async function onSubmit() {
                 <AppTextField
                   v-model="formData.name"
                   :rules="[requiredValidator]"
-                  :label="$t('Name')"
-                  :placeholder="$t('Country name')"
+                  :label="$t('country.Name')"
+                  :placeholder="$t('country.Country Name')"
                 />
               </VCol>
 
               <VCol cols="12">
                 <VCheckbox
                   v-model="formData.status"
-                  :label="$t('Active')"
+                  :label="$t('country.Active')"
                   color="success"
                 />
               </VCol>
@@ -103,7 +103,7 @@ async function onSubmit() {
                   :loading="isSubmitting"
                   class="me-3"
                 >
-                  {{ $t('Update') }}
+                  {{ $t('country.Update') }}
                 </VBtn>
                 <VBtn
                   type="reset"
@@ -111,7 +111,7 @@ async function onSubmit() {
                   color="error"
                   @click="closeModal"
                 >
-                  {{ $t('Cancel') }}
+                  {{ $t('country.Cancel') }}
                 </VBtn>
               </VCol>
             </VRow>

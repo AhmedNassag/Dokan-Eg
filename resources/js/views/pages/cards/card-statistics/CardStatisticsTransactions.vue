@@ -1,25 +1,27 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const statistics = [
   {
-    title: 'Sales',
+    title: t('Sales'),
     stats: '230k',
     icon: 'tabler-chart-pie-2',
     color: 'primary',
   },
   {
-    title: 'Customers',
+    title: t('Customers'),
     stats: '8.549k',
     icon: 'tabler-users',
     color: 'info',
   },
   {
-    title: 'Products',
+    title: t('Products'),
     stats: '1.423k',
     icon: 'tabler-shopping-cart',
     color: 'error',
   },
   {
-    title: 'Revenue',
+    title: t('Revenue'),
     stats: '$9745',
     icon: 'tabler-currency-dollar',
     color: 'success',
@@ -28,9 +30,9 @@ const statistics = [
 </script>
 
 <template>
-  <VCard title="Statistics">
+  <VCard :title="$t('Statistics')">
     <template #append>
-      <span class="text-disabled text-subtitle-2">Updated 1 month ago</span>
+      <span class="text-disabled text-subtitle-2">{{ $t('Updated 1 month ago') }}</span>
     </template>
 
     <VCardText>

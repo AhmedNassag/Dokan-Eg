@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { Underline } from '@tiptap/extension-underline'
@@ -33,7 +35,7 @@ const editor = useEditor({
         'paragraph',
       ],
     }),
-    Placeholder.configure({ placeholder: props.placeholder ?? 'Write something here...' }),
+    Placeholder.configure({ placeholder: props.placeholder ?? t('Write something here...') }),
     Underline,
   ],
   onUpdate() {

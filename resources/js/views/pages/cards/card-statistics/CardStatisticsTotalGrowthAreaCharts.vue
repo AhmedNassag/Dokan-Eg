@@ -64,9 +64,9 @@ const chartOptions = {
   <VCard>
     <VCardText class="pb-2">
       <h6 class="text-h6">
-        Sales
+        {{ $t('Sales') }}
       </h6>
-      <span class="text-body-2">Last Year</span>
+      <span class="text-body-2">{{ $t('Last Year') }}</span>
     </VCardText>
 
     <VueApexCharts

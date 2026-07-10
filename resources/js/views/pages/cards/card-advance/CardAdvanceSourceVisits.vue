@@ -1,44 +1,46 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const sourceVisits = [
   {
     avatarIcon: 'tabler-shadow',
-    title: 'Direct Source',
-    subtitle: 'Direct link click',
+    title: t('Direct Source'),
+    subtitle: t('Direct link click'),
     stats: '1.2k',
     profitLoss: 4.2,
   },
   {
     avatarIcon: 'tabler-globe',
-    title: 'Social Network',
-    subtitle: 'Social Channels',
+    title: t('Social Network'),
+    subtitle: t('Social Channels'),
     stats: '31.5k',
     profitLoss: 8.2,
   },
   {
     avatarIcon: 'tabler-mail',
-    title: 'Email Newsletter',
-    subtitle: 'Mail Campaigns',
+    title: t('Email Newsletter'),
+    subtitle: t('Mail Campaigns'),
     stats: '893',
     profitLoss: 2.4,
   },
   {
     avatarIcon: 'tabler-external-link',
-    title: 'Referrals',
-    subtitle: 'Impact Radius Visits',
+    title: t('Referrals'),
+    subtitle: t('Impact Radius Visits'),
     stats: '342',
     profitLoss: -0.4,
   },
   {
     avatarIcon: 'tabler-discount',
-    title: 'ADVT',
-    subtitle: 'Google ADVT',
+    title: t('ADVT'),
+    subtitle: t('Google ADVT'),
     stats: '2.15k',
     profitLoss: 9.1,
   },
   {
     avatarIcon: 'tabler-star',
-    title: 'Other',
-    subtitle: 'Many Sources',
+    title: t('Other'),
+    subtitle: t('Many Sources'),
     stats: '12.5k',
     profitLoss: 6.2,
   },
@@ -46,15 +48,15 @@ const sourceVisits = [
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -63,9 +65,9 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>Source Visits</VCardTitle>
+      <VCardTitle>{{ $t('Source Visits') }}</VCardTitle>
       <VCardSubtitle>
-        38.4k Visitors
+        {{ $t('38.4k Visitors') }}
       </VCardSubtitle>
       <template #append>
         <div class="mt-n4 me-n2">

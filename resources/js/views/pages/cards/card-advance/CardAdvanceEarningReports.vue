@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { hexToRgb } from '@layouts/utils'
 
@@ -85,24 +87,24 @@ const earningReports = [
   {
     avatarIcon: 'tabler-chart-pie-2',
     avatarColor: 'primary',
-    title: 'Net Profit',
-    subtitle: '12.4k Sales',
+    title: t('Net Profit'),
+    subtitle: t('12.4k Sales'),
     earnings: '$1,619',
     percentage: '18.6%',
   },
   {
     avatarIcon: 'tabler-currency-dollar',
     avatarColor: 'success',
-    title: 'Total Income',
-    subtitle: 'Sales, Affiliation',
+    title: t('Total Income'),
+    subtitle: t('Sales, Affiliation'),
     earnings: '$3,571',
     percentage: '39.6%',
   },
   {
     avatarIcon: 'tabler-credit-card',
     avatarColor: 'secondary',
-    title: 'Total Expenses',
-    subtitle: 'ADVT, Marketing',
+    title: t('Total Expenses'),
+    subtitle: t('ADVT, Marketing'),
     earnings: '$430',
     percentage: '52.8%',
   },
@@ -110,15 +112,15 @@ const earningReports = [
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -126,8 +128,8 @@ const moreList = [
 
 <template>
   <VCard
-    title="Earning Reports"
-    subtitle="Weekly Earnings Overview"
+    :title="$t('Earning Reports')"
+    :subtitle="$t('Weekly Earnings Overview')"
   >
     <template #append>
       <div class="mt-n4 me-n2">

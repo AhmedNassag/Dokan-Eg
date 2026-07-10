@@ -5,6 +5,7 @@ namespace Database\Seeders\ShippingCompany;
 use App\Models\ShippingCompany;
 use App\Models\ShippingCompanyPrice;
 use Illuminate\Database\Seeder;
+use Database\Seeders\ShippingCompany\ShippingCompanyPermissionSeeder;
 
 class ShippingCompanySeeder extends Seeder
 {
@@ -12,29 +13,23 @@ class ShippingCompanySeeder extends Seeder
     {
         $this->call(ShippingCompanyPermissionSeeder::class);
 
-        $companies = [
-            ['name' => 'شركة الشحن السريع', 'code' => 'SHIP-001', 'phone' => '01000000100', 'status' => true],
-            ['name' => 'شركة البريد الممتاز', 'code' => 'SHIP-002', 'phone' => '01000000200', 'status' => true],
-        ];
+        $shippingCompany1 =ShippingCompany::create(['name' => 'شركة الشحن السريع', 'code' => 'SHIP-001', 'phone' => '01000000100','status' => true]);
+        $shippingCompany2 =ShippingCompany::create(['name' => 'شركة البريد الممتاز', 'code' => 'SHIP-002', 'phone' => '01000000200','status' => true]);
 
-        foreach ($companies as $data) {
-            ShippingCompany::firstOrCreate(['code' => $data['code']], $data);
-        }
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 1, 'price' => 100]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 2, 'price' => 200]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 3, 'price' => 300]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 4, 'price' => 400]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 5, 'price' => 500]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 6, 'price' => 600]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany1->id, 'city_id' => 7, 'price' => 700]);
 
-        $prices = [
-            ['shipping_company_id' => 1, 'city_id' => 1, 'price' => 50],
-            ['shipping_company_id' => 1, 'city_id' => 2, 'price' => 55],
-            ['shipping_company_id' => 1, 'city_id' => 3, 'price' => 65],
-            ['shipping_company_id' => 1, 'city_id' => 4, 'price' => 120],
-            ['shipping_company_id' => 1, 'city_id' => 5, 'price' => 130],
-            ['shipping_company_id' => 1, 'city_id' => 6, 'price' => 150],
-        ];
-
-        foreach ($prices as $data) {
-            ShippingCompanyPrice::firstOrCreate(
-                ['shipping_company_id' => $data['shipping_company_id'], 'city_id' => $data['city_id']],
-                $data
-            );
-        }
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 1, 'price' => 150]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 2, 'price' => 250]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 3, 'price' => 350]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 4, 'price' => 450]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 5, 'price' => 550]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 6, 'price' => 650]);
+        ShippingCompanyPrice::create(['shipping_company_id' => $shippingCompany2->id, 'city_id' => 7, 'price' => 750]);
     }
 }

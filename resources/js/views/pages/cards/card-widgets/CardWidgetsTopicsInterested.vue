@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const borderColor = 'rgba(var(--v-border-color), var(--v-border-opacity))'
 
 const topicsChartConfig = {
@@ -48,12 +50,12 @@ const topicsChartConfig = {
     },
   },
   labels: [
-    'UI Design',
-    'UX Design',
-    'Music',
-    'Animation',
-    'Vue',
-    'SEO',
+    t('UI Design'),
+    t('UX Design'),
+    t('Music'),
+    t('Animation'),
+    t('Vue'),
+    t('SEO'),
   ],
   xaxis: {
     categories: [
@@ -106,32 +108,32 @@ const topicsChartSeries = [{
 
 const topicsData = [
   {
-    title: 'UI Design',
+    title: t('UI Design'),
     value: 35,
     color: 'primary',
   },
   {
-    title: 'UX Design',
+    title: t('UX Design'),
     value: 20,
     color: 'info',
   },
   {
-    title: 'Music',
+    title: t('Music'),
     value: 14,
     color: 'success',
   },
   {
-    title: 'Animation',
+    title: t('Animation'),
     value: 12,
     color: 'secondary',
   },
   {
-    title: 'Vue',
+    title: t('Vue'),
     value: 10,
     color: 'error',
   },
   {
-    title: 'SEO',
+    title: t('SEO'),
     value: 9,
     color: 'warning',
   },
@@ -141,7 +143,7 @@ const topicsData = [
 <template>
   <!-- 👉 Topic You are Interested in -->
   <VCard>
-    <VCardItem title="Topic you are interested in">
+    <VCardItem :title="$t('Topic you are interested in')">
       <template #append>
         <MoreBtn />
       </template>

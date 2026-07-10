@@ -301,10 +301,10 @@ const resetCustomizer = async () => {
       <div class="customizer-heading d-flex align-center justify-space-between">
         <div>
           <h6 class="text-h6">
-            Theme Customizer
+            {{ $t('Theme Customizer') }}
           </h6>
           <p class="text-body-2 mb-0">
-            Customize & Preview in Real Time
+            {{ $t('Customize & Preview in Real Time') }}
           </p>
         </div>
 
@@ -355,13 +355,13 @@ const resetCustomizer = async () => {
       >
         <!-- SECTION Theming -->
         <CustomizerSection
-          title="Theming"
+          :title="$t('Theming')"
           :divider="false"
         >
           <!-- 👉 Primary Color -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-h6">
-              Primary Color
+{{ $t('Primary Color') }}
             </h6>
 
             <div
@@ -433,7 +433,7 @@ const resetCustomizer = async () => {
           <!-- 👉 Theme -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-h6">
-              Theme
+{{ $t('Theme') }}
             </h6>
 
             <CustomRadiosWithImage
@@ -444,7 +444,7 @@ const resetCustomizer = async () => {
               class="customizer-skins"
             >
               <template #label="item">
-                <span class="text-sm text-medium-emphasis mt-1">{{ item?.label }}</span>
+                <span class="text-sm text-medium-emphasis mt-1">{{ $t(item?.label) }}</span>
               </template>
 
               <template #content="{ item }">
@@ -465,7 +465,7 @@ const resetCustomizer = async () => {
           <!-- 👉 Skin -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-h6">
-              Skins
+{{ $t('Skins') }}
             </h6>
 
             <CustomRadiosWithImage
@@ -475,7 +475,7 @@ const resetCustomizer = async () => {
               :grid-column="{ cols: '4' }"
             >
               <template #label="item">
-                <span class="text-sm text-medium-emphasis">{{ item?.label }}</span>
+                <span class="text-sm text-medium-emphasis">{{ $t(item?.label) }}</span>
               </template>
             </CustomRadiosWithImage>
           </div>
@@ -489,7 +489,7 @@ const resetCustomizer = async () => {
               for="customizer-semi-dark"
               class="text-h6 text-high-emphasis"
             >
-              Semi Dark Menu
+              {{ $t('Semi Dark Menu') }}
             </VLabel>
 
             <div>
@@ -504,11 +504,11 @@ const resetCustomizer = async () => {
         <!-- !SECTION -->
 
         <!-- SECTION LAYOUT -->
-        <CustomizerSection title="Layout">
+        <CustomizerSection :title="$t('Layout')">
           <!-- 👉 Layouts -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-base font-weight-medium">
-              Layout
+{{ $t('Layout') }}
             </h6>
 
             <CustomRadiosWithImage
@@ -518,7 +518,7 @@ const resetCustomizer = async () => {
               :grid-column="{ cols: '4' }"
             >
               <template #label="item">
-                <span class="text-sm text-medium-emphasis">{{ item.label }}</span>
+                <span class="text-sm text-medium-emphasis">{{ $t(item.label) }}</span>
               </template>
             </CustomRadiosWithImage>
           </div>
@@ -526,7 +526,7 @@ const resetCustomizer = async () => {
           <!-- 👉 Content Width -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-base font-weight-medium">
-              Content
+{{ $t('Content') }}
             </h6>
 
             <CustomRadiosWithImage
@@ -536,7 +536,7 @@ const resetCustomizer = async () => {
               :grid-column="{ cols: '4' }"
             >
               <template #label="item">
-                <span class="text-sm text-medium-emphasis">{{ item.label }}</span>
+                <span class="text-sm text-medium-emphasis">{{ $t(item.label) }}</span>
               </template>
             </CustomRadiosWithImage>
           </div>
@@ -544,7 +544,7 @@ const resetCustomizer = async () => {
           <!-- 👉 Direction -->
           <div class="d-flex flex-column gap-2">
             <h6 class="text-base font-weight-medium">
-              Direction
+{{ $t('Direction') }}
             </h6>
 
             <CustomRadiosWithImage
@@ -554,7 +554,7 @@ const resetCustomizer = async () => {
               :grid-column="{ cols: '4' }"
             >
               <template #label="item">
-                <span class="text-sm text-medium-emphasis">{{ item?.label }}</span>
+                <span class="text-sm text-medium-emphasis">{{ $t(item?.label) }}</span>
               </template>
             </CustomRadiosWithImage>
           </div>

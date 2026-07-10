@@ -13,8 +13,8 @@ class CategoryPermissionSeeder extends Seeder
     {
         $permissions = [
             'list-category',
-            'store-category',
             'show-category',
+            'store-category',
             'update-category',
             'destroy-category',
         ];

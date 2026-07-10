@@ -18,6 +18,8 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
         return new ShippingCompany();
     }
 
+
+
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -42,6 +44,8 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
             )
             ->build();
     }
+
+
 
     public function store($request)
     {
@@ -73,6 +77,8 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
         }
     }
 
+
+
     public function show($id)
     {
         $company = $this->getModel()->with('prices.city')->find($id);
@@ -83,6 +89,8 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
             ->setData(ShippingCompanyResource::make($company))
             ->build();
     }
+
+
 
     public function update($id, $request)
     {
@@ -120,6 +128,8 @@ class ShippingCompanyRepository implements ShippingCompanyInterface
         }
     }
 
+
+    
     public function destroy($id)
     {
         $company = $this->getModel()->find($id);

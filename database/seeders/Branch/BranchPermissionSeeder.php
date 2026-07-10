@@ -11,11 +11,13 @@ class BranchPermissionSeeder extends Seeder
     {
         $permissions = [
             'list-branch',
-            'store-branch',
             'show-branch',
+            'store-branch',
             'update-branch',
             'destroy-branch',
         ];
+
+
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission);

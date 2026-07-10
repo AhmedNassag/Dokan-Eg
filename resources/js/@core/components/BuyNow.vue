@@ -16,7 +16,7 @@ watch(buyNowUrl, val => {
     :href="buyNowUrl"
     target="_blank"
   >
-    Buy Now
+    {{ $t('Buy Now') }}
     <span class="button-inner" />
   </a>
 </template>

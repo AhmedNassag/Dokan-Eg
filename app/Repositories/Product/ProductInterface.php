@@ -4,16 +4,17 @@ namespace App\Repositories\Api\Product;
 
 interface ProductInterface
 {
-    // public function get();
     public function index($request, $filter);
-    public function show($productId);
+
+    public function show($id);
 
     public function store($request);
 
-    public function update($request,$productId);
+    public function update($request,$id);
 
-    public function destroy($productId);
+    public function destroy($id);
 
-    public function adjustStock($productId, $request);
+    public function adjustStock($id, $request);
+
     public function lowStock($request);
 }

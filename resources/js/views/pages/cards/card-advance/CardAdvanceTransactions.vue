@@ -1,58 +1,60 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const transitions = [
   {
     avatarIcon: 'tabler-wallet',
     avatarColor: 'primary',
-    title: 'Wallet',
-    subtitle: 'Starbucks',
+    title: t('Wallet'),
+    subtitle: t('Starbucks'),
     stats: '-$75',
     profit: false,
   },
   {
     avatarIcon: 'tabler-building-bank',
     avatarColor: 'success',
-    title: 'Bank Transfer',
-    subtitle: 'Add Money',
+    title: t('Bank Transfer'),
+    subtitle: t('Add Money'),
     stats: '+$480',
     profit: true,
   },
   {
     avatarIcon: 'tabler-brand-paypal',
     avatarColor: 'error',
-    title: 'PayPal',
-    subtitle: 'Client Payment',
+    title: t('PayPal'),
+    subtitle: t('Client Payment'),
     stats: '+$268',
     profit: true,
   },
   {
     avatarIcon: 'tabler-credit-card',
     avatarColor: 'secondary',
-    title: 'Master Card',
-    subtitle: 'Ordered iPhone 13',
+    title: t('Master Card'),
+    subtitle: t('Ordered iPhone 13'),
     stats: '-$699',
     profit: false,
   },
   {
     avatarIcon: 'tabler-currency-dollar',
     avatarColor: 'info',
-    title: 'Bank Transactions',
-    subtitle: 'Refund',
+    title: t('Bank Transactions'),
+    subtitle: t('Refund'),
     stats: '+$98',
     profit: true,
   },
   {
     avatarIcon: 'tabler-brand-paypal',
     avatarColor: 'error',
-    title: 'PayPal',
-    subtitle: 'Client Payment',
+    title: t('PayPal'),
+    subtitle: t('Client Payment'),
     stats: '+$126',
     profit: true,
   },
   {
     avatarIcon: 'tabler-building-bank',
     avatarColor: 'success',
-    title: 'Bank Transfer',
-    subtitle: 'Pay Office Rent',
+    title: t('Bank Transfer'),
+    subtitle: t('Pay Office Rent'),
     stats: '-$1290',
     profit: false,
   },
@@ -60,15 +62,15 @@ const transitions = [
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -76,8 +78,8 @@ const moreList = [
 
 <template>
   <VCard
-    title="Transactions"
-    subtitle="Total 58 Transactions done in this Month"
+    :title="$t('Transactions')"
+    :subtitle="$t('Total 58 Transactions done in this Month')"
   >
     <template #append>
       <div class="mt-n4 me-n2">

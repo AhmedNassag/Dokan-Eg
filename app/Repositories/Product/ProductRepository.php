@@ -19,13 +19,6 @@ class ProductRepository implements ProductInterface
         return new Product();
     }
 
-    // public function get()
-    // {
-    //     return response()->json([
-    //         'products' => "TEST",
-    //     ]);
-    // }
-
 
 
     public function index($request, $filter): \Illuminate\Http\JsonResponse
@@ -62,6 +55,8 @@ class ProductRepository implements ProductInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         try {
@@ -81,12 +76,12 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function show($productId)
+    public function show($id)
     {
-        $cacheKey = 'product_show_' . $productId;
+        $cacheKey = 'product_show_' . $id;
 
-        $product = Cache::tags(['products'])->remember($cacheKey, 3600, function () use ($productId) {
-            return $this->getModel()->find($productId);
+        $product = Cache::tags(['products'])->remember($cacheKey, 3600, function () use ($id) {
+            return $this->getModel()->find($id);
         });
 
         if (!$product) {
@@ -102,10 +97,10 @@ class ProductRepository implements ProductInterface
 
 
 
-    public function update($productId, $request)
+    public function update($id, $request)
     {
         try {
-            $product = $this->getModel()->find($productId);
+            $product = $this->getModel()->find($id);
 
             if (!$product) {
                 return $this->isError(__('Product Not Found'))
@@ -129,9 +124,11 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function destroy($productId)
+
+    
+    public function destroy($id)
     {
-        $product = $this->getModel()->find($productId);
+        $product = $this->getModel()->find($id);
 
         if (!$product) {
             return $this->isError(__('Product Not Found'))
@@ -147,9 +144,11 @@ class ProductRepository implements ProductInterface
             ->build();
     }
 
-    public function adjustStock($productId, $request)
+
+
+    public function adjustStock($id, $request)
     {
-        $product = $this->getModel()->find($productId);
+        $product = $this->getModel()->find($id);
 
         if (!$product) {
             return $this->isError(__('Product Not Found'))
@@ -193,6 +192,8 @@ class ProductRepository implements ProductInterface
             ->setData(ProductResource::make($product))
             ->build();
     }
+
+
 
     public function lowStock($request)
     {

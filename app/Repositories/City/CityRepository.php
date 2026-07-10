@@ -16,6 +16,8 @@ class CityRepository implements CityInterface
         return new City();
     }
 
+
+
     public function index($request, $filter): \Illuminate\Http\JsonResponse
     {
         $perPage = $request['per_page'] ?? config('pagination.per_page');
@@ -41,6 +43,8 @@ class CityRepository implements CityInterface
             ->build();
     }
 
+
+
     public function store($request)
     {
         try {
@@ -56,9 +60,11 @@ class CityRepository implements CityInterface
         }
     }
 
-    public function show($cityId)
+
+
+    public function show($id)
     {
-        $city = $this->getModel()->with('country')->find($cityId);
+        $city = $this->getModel()->with('country')->find($id);
 
         if (!$city) {
             return $this->isError(__('city Not Found'))
@@ -70,10 +76,12 @@ class CityRepository implements CityInterface
             ->build();
     }
 
-    public function update($cityId, $request)
+
+
+    public function update($id, $request)
     {
         try {
-            $city = $this->getModel()->find($cityId);
+            $city = $this->getModel()->find($id);
             if (!$city) {
                 return $this->isError(__('city Not Found'))
                     ->setStatus(404)
@@ -91,9 +99,11 @@ class CityRepository implements CityInterface
         }
     }
 
-    public function destroy($cityId)
+
+    
+    public function destroy($id)
     {
-        $city = $this->getModel()->find($cityId);
+        $city = $this->getModel()->find($id);
 
         if (!$city) {
             return $this->isError(__('city Not Found'))

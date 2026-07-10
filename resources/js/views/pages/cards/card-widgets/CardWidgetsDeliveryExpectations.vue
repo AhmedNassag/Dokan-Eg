@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const chartColors = {
   donut: {
     series1: '#28C76F',
@@ -20,10 +22,10 @@ const deliveryExceptionsChartSeries = [
 
 const deliveryExceptionsChartConfig = {
   labels: [
-    'Incorrect address',
-    'Weather conditions',
-    'Federal Holidays',
-    'Damage during transit',
+    t('Incorrect address'),
+    t('Weather conditions'),
+    t('Federal Holidays'),
+    t('Damage during transit'),
   ],
   colors: [
     chartColors.donut.series1,
@@ -129,7 +131,7 @@ const deliveryExceptionsChartConfig = {
 
 <template>
   <VCard>
-    <VCardItem title="Delivery exceptions">
+    <VCardItem :title="$t('Delivery exceptions')">
       <template #append>
         <MoreBtn />
       </template>

@@ -21,17 +21,17 @@ class DatabaseSeeder extends Seeder
     {
         $permissionNames = [
             'read-dashboard',
+            'list-user',
+            'show-user',
+            'store-user',
+            'update-user',
+            'destroy-user',
             'list-role',
-            'store-role',
             'show-role',
+            'store-role',
             'update-role',
             'destroy-role',
             'list-permission',
-            'list-user',
-            'store-user',
-            'show-user',
-            'update-user',
-            'destroy-user',
         ];
 
         foreach ($permissionNames as $name) {
@@ -39,15 +39,15 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(UserSeeder::class);
+        $this->call(LanguageSeeder::class);
+        $this->call(TranslationSeeder::class);
         $this->call(CategorySeeder::class);
-        $this->call(PermissionSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(CitySeeder::class);
         $this->call(AreaSeeder::class);
         $this->call(BranchSeeder::class);
-
-        $this->call(LanguageSeeder::class);
-        $this->call(TranslationSeeder::class);
         $this->call(ShippingCompanySeeder::class);
+        
+        $this->call(PermissionSeeder::class);
     }
 }

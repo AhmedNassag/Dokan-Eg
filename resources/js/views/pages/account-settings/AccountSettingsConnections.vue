@@ -91,8 +91,8 @@ const socialAccounts = ref([
       >
         <!-- 👉 Connected Accounts -->
         <VCard
-          title="Connected Accounts"
-          subtitle="Display content from your connected accounts on your site"
+          :title="$t('Connected Accounts')"
+          :subtitle="$t('Display content from your connected accounts on your site')"
           flat
         >
           <VCardText>
@@ -138,8 +138,8 @@ const socialAccounts = ref([
       >
         <!-- 👉 Social Accounts -->
         <VCard
-          title="Social Accounts"
-          subtitle="Display content from social accounts on your site"
+          :title="$t('Social Accounts')"
+          :subtitle="$t('Display content from social accounts on your site')"
           flat
         >
           <VCardText>
@@ -172,7 +172,7 @@ const socialAccounts = ref([
                   v-else
                   class="text-xs"
                 >
-                  Not Connected
+                  {{ $t('Not Connected') }}
                 </VListItemSubtitle>
                 <template #append>
                   <VListItemAction>

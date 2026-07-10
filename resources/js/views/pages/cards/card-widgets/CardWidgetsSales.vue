@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { hexToRgb } from '@layouts/utils'
 
@@ -127,11 +129,11 @@ const chartOptions = computed(() => {
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
@@ -140,8 +142,8 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem class="pb-4">
-      <VCardTitle>Sales</VCardTitle>
-      <VCardSubtitle>Last 6 Months</VCardSubtitle>
+      <VCardTitle>{{ $t('Sales') }}</VCardTitle>
+      <VCardSubtitle>{{ $t('Last 6 Months') }}</VCardSubtitle>
 
       <template #append>
         <div class="mt-n4 me-n2">

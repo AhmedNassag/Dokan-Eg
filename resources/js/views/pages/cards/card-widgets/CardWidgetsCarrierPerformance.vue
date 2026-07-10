@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const colors = {
   series1: '#7367F0',
   series2: '#8F85F3',
@@ -154,11 +156,11 @@ const chartOptions = {
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
@@ -167,7 +169,7 @@ const moreList = [
 <template>
   <VCard>
     <VCardItem class="pb-0">
-      <VCardTitle>Carrier Performance</VCardTitle>
+      <VCardTitle>{{ $t('Carrier Performance') }}</VCardTitle>
 
       <template #append>
         <MoreBtn :menu-list="moreList" />

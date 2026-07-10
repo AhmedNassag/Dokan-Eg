@@ -6,11 +6,11 @@ const isSubmitting = ref(false)
 const refForm = ref()
 const isFormValid = ref(false)
 
-const formData = ref({ name: '', code: '', direction: 'ltr', status: true })
+const formData = ref({ name: '', code: '', direction: 'ltr', is_default: false, status: true })
 
 watch(() => props.item, (newVal) => {
   if (newVal) {
-    formData.value = { name: newVal.name ?? '', code: newVal.code ?? '', direction: newVal.direction ?? 'ltr', status: Boolean(newVal.status) }
+    formData.value = { name: newVal.name ?? '', code: newVal.code ?? '', direction: newVal.direction ?? 'ltr', is_default: Boolean(newVal.is_default), status: Boolean(newVal.status) }
     nextTick(() => refForm.value?.resetValidation())
   }
 }, { immediate: true })
@@ -19,7 +19,7 @@ function closeModal() {
   emit('update:modelValue', false)
   nextTick(() => {
     refForm.value?.reset(); refForm.value?.resetValidation()
-    formData.value = { name: '', code: '', direction: 'ltr', status: true }
+    formData.value = { name: '', code: '', direction: 'ltr', is_default: false, status: true }
   })
 }
 
@@ -34,26 +34,33 @@ async function onSubmit() {
   })
 }
 </script>
+
 <template>
   <VDialog :model-value="modelValue" @update:model-value="closeModal" max-width="500">
     <VCard>
-      <VCardTitle>{{ $t('Edit Language') }}</VCardTitle>
+      <VCardTitle>{{ $t('language.Edit Language') }}</VCardTitle>
       <VCardText>
         <VForm ref="refForm" v-model="isFormValid" @submit.prevent="onSubmit">
           <VRow>
-            <VCol cols="12"><AppTextField v-model="formData.name" :rules="[requiredValidator]"
-              :label="$t('Language Name')" :placeholder="$t('Language name')" /></VCol>
-            <VCol cols="6"><AppTextField v-model="formData.code" :rules="[requiredValidator]"
-              :label="$t('Code')" :placeholder="$t('e.g. en')" /></VCol>
-            <VCol cols="6">
-              <VSelect v-model="formData.direction" :items="['ltr', 'rtl']"
-                :label="$t('Direction')" hide-details />
+            <VCol cols="12">
+              <AppTextField v-model="formData.name" :rules="[requiredValidator]" :label="$t('language.Language Name')" :placeholder="$t('language.Language Name')" />
             </VCol>
-            <VCol cols="12"><VCheckbox v-model="formData.status" :label="$t('Active')" color="success" /></VCol>
+            <VCol cols="6">
+              <AppTextField v-model="formData.code" :rules="[requiredValidator]" :label="$t('language.Code')" :placeholder="$t('language.en-ar-fr')" />
+            </VCol>
+            <VCol cols="6">
+              <VSelect v-model="formData.direction" :items="['ltr', 'rtl']" :label="$t('language.Direction')" hide-details />
+            </VCol>
+            <VCol cols="12">
+              <VCheckbox v-model="formData.is_default" :label="$t('language.Default')" color="primary" />
+            </VCol>
+            <VCol cols="12">
+              <VCheckbox v-model="formData.status" :label="$t('language.Active')" color="success" />
+            </VCol>
           </VRow>
           <VRow class="mt-2"><VCol cols="12">
-            <VBtn type="submit" :loading="isSubmitting" class="me-3">{{ $t('Update') }}</VBtn>
-            <VBtn variant="tonal" color="error" @click="closeModal">{{ $t('Cancel') }}</VBtn>
+            <VBtn type="submit" :loading="isSubmitting" class="me-3">{{ $t('language.Update') }}</VBtn>
+            <VBtn variant="tonal" color="error" @click="closeModal">{{ $t('language.Cancel') }}</VBtn>
           </VCol></VRow>
         </VForm>
       </VCardText>

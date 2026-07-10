@@ -10,8 +10,11 @@ class LanguagePermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'list-language', 'store-language', 'show-language',
-            'update-language', 'destroy-language',
+            'list-language',
+            'show-language',
+            'store-language',
+            'update-language',
+            'destroy-language',
         ];
 
         foreach ($permissions as $permission) {

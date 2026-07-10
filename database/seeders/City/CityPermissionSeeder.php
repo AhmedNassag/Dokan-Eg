@@ -11,11 +11,13 @@ class CityPermissionSeeder extends Seeder
     {
         $permissions = [
             'list-city',
-            'store-city',
             'show-city',
+            'store-city',
             'update-city',
             'destroy-city',
         ];
+
+
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission);

@@ -71,7 +71,7 @@ const props = defineProps({
               class="text-base d-flex align-center font-weight-medium d-inline-block"
             >
               <span class="d-inline-block">
-                See All Articles
+                {{ $t('See All Articles') }}
               </span>
 
               <VIcon

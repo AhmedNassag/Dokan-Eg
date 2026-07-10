@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { useTheme } from 'vuetify'
 import { prefixWithPlus } from '@core/utils/formatters'
 
@@ -78,12 +80,12 @@ const chartOptions = computed(() => {
 
 const projectStatus = [
   {
-    title: 'Donates',
+    title: t('Donates'),
     amount: '$756.26',
     lossProfit: -139.34,
   },
   {
-    title: 'Podcasts',
+    title: t('Podcasts'),
     amount: '$2,207.03',
     lossProfit: +576.24,
   },
@@ -91,18 +93,18 @@ const projectStatus = [
 
 const moreList = [
   {
-    title: 'View More',
+    title: t('View More'),
     value: 'View More',
   },
   {
-    title: 'Delete',
+    title: t('Delete'),
     value: 'Delete',
   },
 ]
 </script>
 
 <template>
-  <VCard title="Project Status">
+  <VCard :title="$t('Project Status')">
     <template #append>
       <div class="mt-n4 me-n2">
         <MoreBtn :menu-list="moreList" />
@@ -124,7 +126,7 @@ const moreList = [
             />
           </template>
           <VListItemSubtitle>
-            Your Earnings
+            {{ $t('Your Earnings') }}
           </VListItemSubtitle>
 
           <template #append>

@@ -1,9 +1,11 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 const stats = ref([
-  { title: 'Campaigns', value: '12', icon: 'tabler-bullhorn', color: 'primary' },
-  { title: 'Leads Generated', value: '1,240', icon: 'tabler-users', color: 'success' },
-  { title: 'Conversion Rate', value: '3.2%', icon: 'tabler-trending-up', color: 'warning' },
-  { title: 'ROI', value: '185%', icon: 'tabler-percentage', color: 'info' },
+  { title: t('marketerDashboard.Campaigns'), value: '12', icon: 'tabler-bullhorn', color: 'primary' },
+  { title: t('marketerDashboard.Leads Generated'), value: '1,240', icon: 'tabler-users', color: 'success' },
+  { title: t('marketerDashboard.Conversion Rate'), value: '3.2%', icon: 'tabler-trending-up', color: 'warning' },
+  { title: t('marketerDashboard.ROI'), value: '185%', icon: 'tabler-percentage', color: 'info' },
 ])
 </script>
 
@@ -12,10 +14,10 @@ const stats = ref([
     <VCol cols="12">
       <div>
         <h4 class="text-h4">
-          {{ $t('Marketer Dashboard') }}
+          {{ $t('marketerDashboard.Marketer Dashboard') }}
         </h4>
         <p class="text-body-1 mb-0">
-          {{ $t('Welcome back! Here is your marketing overview.') }}
+          {{ $t('marketerDashboard.Welcome back! Here Is Your Marketing Overview.') }}
         </p>
       </div>
     </VCol>

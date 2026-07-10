@@ -85,17 +85,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('branch/{id}', [BranchController::class, 'destroy']);
 
     // ShippingCompany CRUD — permission-managed
-    Route::get('shipping-company', [ShippingCompanyController::class, 'index']);
-    Route::post('shipping-company', [ShippingCompanyController::class, 'store']);
-    Route::get('shipping-company/{id}', [ShippingCompanyController::class, 'show']);
-    Route::put('shipping-company/{id}', [ShippingCompanyController::class, 'update']);
-    Route::delete('shipping-company/{id}', [ShippingCompanyController::class, 'destroy']);
+    Route::get('shippingCompany', [ShippingCompanyController::class, 'index']);
+    Route::post('shippingCompany', [ShippingCompanyController::class, 'store']);
+    Route::get('shippingCompany/{id}', [ShippingCompanyController::class, 'show']);
+    Route::put('shippingCompany/{id}', [ShippingCompanyController::class, 'update']);
+    Route::delete('shippingCompany/{id}', [ShippingCompanyController::class, 'destroy']);
 
     // Language CRUD — permission-managed
     Route::get('language', [LanguageController::class, 'index']);
     Route::post('language', [LanguageController::class, 'store']);
     Route::get('language/{id}', [LanguageController::class, 'show']);
     Route::put('language/{id}', [LanguageController::class, 'update']);
+    Route::put('language/{id}/set-default', [LanguageController::class, 'setDefault']);
     Route::delete('language/{id}', [LanguageController::class, 'destroy']);
 
     // Translation CRUD — permission-managed

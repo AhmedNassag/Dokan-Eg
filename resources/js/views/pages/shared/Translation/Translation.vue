@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t, locale, mergeLocaleMessage } = useI18n()
+
 import LanguageAPI from '@/Api/shared/Language/language'
 import TranslationAPI from '@/Api/shared/Translation/translation'
 
@@ -11,21 +13,21 @@ const items = ref([])
 const isLoading = ref(false)
 const groupFilter = ref('')
 const searchKey = ref('')
-const editingId = ref(null)
-const editValue = ref('')
 const snackbar = ref(false)
 const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 const isAddDialogOpen = ref(false)
-const addForm = ref({ group: '', key: '', value: '' })
+const isEditDialogOpen = ref(false)
+const addForm = ref({ group: '', key: '', values: {} })
+const editForm = ref({ group: '', key: '', values: {}, ids: {} })
 const page = ref(1)
 const itemsPerPage = ref(10)
 const totalFiltered = ref(0)
 
 const headers = [
-  { title: 'Key', key: 'key', sortable: false },
-  { title: 'Value', key: 'value', sortable: false },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: t('translation.Key'), key: 'key', sortable: false },
+  { title: t('translation.Value'), key: 'value', sortable: false },
+  { title: t('translation.Actions'), key: 'actions', sortable: false },
 ]
 
 async function fetchLanguages() {
@@ -35,7 +37,14 @@ async function fetchLanguages() {
     if (languages.value.length && !selectedLang.value) {
       selectedLang.value = languages.value[0].id
     }
+    initAddFormValues()
   } catch { languages.value = [] }
+}
+
+function initAddFormValues() {
+  const values = {}
+  languages.value.forEach(l => { values[l.id] = '' })
+  addForm.value.values = values
 }
 
 async function fetchTranslations() {
@@ -72,7 +81,7 @@ watchEffect(() => { totalFiltered.value = filteredItems.value.length })
 
 const groupOptions = computed(() => {
   const g = [...new Set(items.value.map(t => t.group).filter(Boolean))].sort()
-  return [{ title: 'All Groups', value: '' }, ...g.map(name => ({ title: name, value: name }))]
+  return [{ title: t('translation.All Groups'), value: '' }, ...g.map(name => ({ title: name, value: name }))]
 })
 
 const paginatedItems = computed(() => {
@@ -83,57 +92,111 @@ const paginatedItems = computed(() => {
 watch(selectedLang, () => { fetchTranslations() })
 watch([groupFilter, searchKey], () => { page.value = 1 })
 
-function startEdit(item) {
-  editingId.value = item.id
-  editValue.value = item.value ?? ''
-}
-
-async function saveEdit(item) {
+async function openEditDialog(item) {
   try {
-    await transApi.update(item.id, { ...item, value: editValue.value })
-    item.value = editValue.value
-    editingId.value = null
-    snackbarMessage.value = 'Translation updated'
-    snackbarColor.value = 'success'; snackbar.value = true
-  } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'Error'
+    const res = await transApi.getAll({ group: item.group, key: item.key, per_page: -1 })
+    const allLangTranslations = Array.isArray(res.data?.items) ? res.data.items : Array.isArray(res.data) ? res.data : []
+    const values = {}
+    const ids = {}
+    allLangTranslations.forEach(t => {
+      ids[t.language_id] = t.id
+      values[t.language_id] = t.value ?? ''
+    })
+    languages.value.forEach(l => {
+      if (!(l.id in values)) values[l.id] = ''
+      if (!(l.id in ids)) ids[l.id] = null
+    })
+    editForm.value = { group: item.group, key: item.key, values, ids }
+    isEditDialogOpen.value = true
+  } catch {
+    snackbarMessage.value = t('translation.Error Loading Translations')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
 
-function cancelEdit() {
-  editingId.value = null
-  editValue.value = ''
+async function saveEditDialog() {
+  try {
+    const promises = languages.value
+      .filter(lang => editForm.value.values[lang.id])
+      .map(lang => {
+        const id = editForm.value.ids[lang.id]
+        const payload = {
+          language_id: lang.id,
+          group: editForm.value.group || null,
+          key: editForm.value.key,
+          value: editForm.value.values[lang.id],
+        }
+        return id
+          ? transApi.update(id, { ...payload, id })
+          : transApi.create(payload)
+      })
+
+    await Promise.all(promises)
+
+    await fetchTranslations()
+
+    const exportRes = await transApi.exportByCode(locale.value)
+    const exportData = exportRes.data ?? {}
+    if (Object.keys(exportData).length) {
+      mergeLocaleMessage(locale.value, exportData)
+    }
+
+    isEditDialogOpen.value = false
+    snackbarMessage.value = t('translation.Translations Updated')
+    snackbarColor.value = 'success'; snackbar.value = true
+  } catch (err) {
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
+    snackbarColor.value = 'error'; snackbar.value = true
+  }
 }
 
 async function deleteTranslation(id) {
   try {
     await transApi.delete(id)
     items.value = items.value.filter(t => t.id !== id)
-    snackbarMessage.value = 'Translation deleted'
+
+    const exportRes = await transApi.exportByCode(locale.value)
+    const exportData = exportRes.data ?? {}
+    if (Object.keys(exportData).length) {
+      mergeLocaleMessage(locale.value, exportData)
+    }
+
+    snackbarMessage.value = t('translation.Translation Deleted')
     snackbarColor.value = 'success'; snackbar.value = true
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'Error'
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
 
 async function addTranslation() {
   try {
-    const res = await transApi.create({
-      language_id: selectedLang.value,
-      group: addForm.value.group || null,
-      key: addForm.value.key,
-      value: addForm.value.value,
-    })
-    const newItem = res.data ?? { id: Date.now(), language_id: selectedLang.value, group: addForm.value.group || '', key: addForm.value.key, value: addForm.value.value }
-    items.value.push(newItem)
+    const promises = languages.value
+      .filter(lang => addForm.value.values[lang.id])
+      .map(lang => transApi.create({
+        language_id: lang.id,
+        group: addForm.value.group || null,
+        key: addForm.value.key,
+        value: addForm.value.values[lang.id],
+      }))
+
+    await Promise.all(promises)
+
+    await fetchTranslations()
+
+    const exportRes = await transApi.exportByCode(locale.value)
+    const exportData = exportRes.data ?? {}
+    if (Object.keys(exportData).length) {
+      mergeLocaleMessage(locale.value, exportData)
+    }
+
     isAddDialogOpen.value = false
-    addForm.value = { group: '', key: '', value: '' }
-    snackbarMessage.value = 'Translation added'
+    addForm.value = { group: '', key: '', values: {} }
+    initAddFormValues()
+    snackbarMessage.value = t('translation.Translations Added')
     snackbarColor.value = 'success'; snackbar.value = true
   } catch (err) {
-    snackbarMessage.value = err?.response?._data?.message || err?.message || 'Error'
+    snackbarMessage.value = err?.response?._data?.message || err?.message || t('translation.Error')
     snackbarColor.value = 'error'; snackbar.value = true
   }
 }
@@ -146,12 +209,12 @@ fetchLanguages()
     <VCol cols="12">
       <div class="d-flex flex-wrap align-center">
         <div>
-          <h4 class="text-h4">{{ $t('Translations') }}</h4>
-          <p class="text-body-1 mb-0">{{ $t('Manage translation keys and values') }}</p>
+          <h4 class="text-h4">{{ $t('translation.Translations') }}</h4>
+          <p class="text-body-1 mb-0">{{ $t('translation.Manage Translation Keys And Values') }}</p>
         </div>
         <VSpacer />
         <VBtn v-if="$can('store', 'translation')" prepend-icon="tabler-plus" @click="isAddDialogOpen = true">
-          {{ $t('Add Translation Key') }}
+          {{ $t('translation.Add Translation Key') }}
         </VBtn>
       </div>
     </VCol>
@@ -159,12 +222,9 @@ fetchLanguages()
     <VCol cols="12">
       <VCard>
         <VCardText class="d-flex flex-wrap align-center gap-4">
-          <VSelect v-model="selectedLang" :items="languages" item-title="name" item-value="id"
-            :label="$t('Language')" style="inline-size: 200px;" hide-details clearable />
-          <VSelect v-model="groupFilter" :items="groupOptions" item-title="title" item-value="value"
-            :label="$t('Group')" style="inline-size: 200px;" hide-details clearable />
-          <AppTextField v-model="searchKey" :placeholder="$t('Search key or value')"
-            style="inline-size: 250px;" clearable hide-details />
+          <VSelect v-model="selectedLang" :items="languages" item-title="name" item-value="id" :label="$t('translation.Language')" style="inline-size: 200px;" hide-details clearable />
+          <VSelect v-model="groupFilter" :items="groupOptions" item-title="title" item-value="value" :label="$t('translation.Group')" style="inline-size: 200px;" hide-details clearable />
+          <AppTextField v-model="searchKey" :placeholder="$t('translation.Search Key Or Value')" style="inline-size: 250px;" clearable hide-details />
         </VCardText>
 
         <VDivider />
@@ -184,20 +244,12 @@ fetchLanguages()
           </template>
 
           <template #item.value="{ item }">
-            <VTextField v-if="editingId === item.id" v-model="editValue" dense hide-details
-              @keyup.enter="saveEdit(item)" @keyup.esc="cancelEdit" autofocus />
-            <span v-else class="text-body-2">{{ item.value || '—' }}</span>
+            <span class="text-body-2">{{ item.value || '—' }}</span>
           </template>
 
           <template #item.actions="{ item }">
-            <template v-if="editingId === item.id">
-              <IconBtn color="success" @click="saveEdit(item)"><VIcon icon="tabler-check" /></IconBtn>
-              <IconBtn color="secondary" @click="cancelEdit"><VIcon icon="tabler-x" /></IconBtn>
-            </template>
-            <template v-else>
-              <IconBtn v-if="$can('update', 'translation')" @click="startEdit(item)"><VIcon icon="tabler-pencil" /></IconBtn>
-              <IconBtn v-if="$can('destroy', 'translation')" @click="deleteTranslation(item.id)"><VIcon icon="tabler-trash" /></IconBtn>
-            </template>
+            <IconBtn v-if="$can('update', 'translation')" @click="openEditDialog(item)"><VIcon icon="tabler-pencil" /></IconBtn>
+            <IconBtn v-if="$can('destroy', 'translation')" @click="deleteTranslation(item.id)"><VIcon icon="tabler-trash" /></IconBtn>
           </template>
 
           <template #bottom>
@@ -208,34 +260,64 @@ fetchLanguages()
     </VCol>
   </VRow>
 
-  <VDialog v-model="isAddDialogOpen" max-width="500">
+  <VDialog v-model="isAddDialogOpen" max-width="600">
     <VCard>
-      <VCardTitle>{{ $t('Add Translation Key') }}</VCardTitle>
+      <VCardTitle>{{ $t('translation.Add Translation Key') }}</VCardTitle>
       <VCardText>
         <VRow>
           <VCol cols="12">
-            <AppTextField v-model="addForm.group" :label="$t('Group (optional)')"
-              :placeholder="$t('e.g. $vuetify')" />
+            <AppTextField v-model="addForm.group" :label="$t('translation.Group (optional)')" :placeholder="$t('translation.Group')" />
           </VCol>
           <VCol cols="12">
-            <AppTextField v-model="addForm.key" :rules="[requiredValidator]"
-              :label="$t('Key')" :placeholder="$t('translation.key.name')" />
+            <AppTextField v-model="addForm.key" :rules="[requiredValidator]" :label="$t('translation.Key')" :placeholder="$t('translation.key Name')" />
           </VCol>
-          <VCol cols="12">
-            <AppTextField v-model="addForm.value" :label="$t('Value')" :placeholder="$t('Translated text')" />
+          <VCol cols="12" v-for="lang in languages" :key="lang.id">
+            <AppTextField
+              v-model="addForm.values[lang.id]"
+              :label="$t('translation.Value') + ' (' + lang.name + ')'"
+              :placeholder="$t('translation.Translated text')"
+            />
           </VCol>
         </VRow>
       </VCardText>
       <VCardActions>
         <VSpacer />
-        <VBtn variant="tonal" @click="isAddDialogOpen = false">{{ $t('Cancel') }}</VBtn>
-        <VBtn color="primary" @click="addTranslation">{{ $t('Add') }}</VBtn>
+        <VBtn variant="tonal" @click="isAddDialogOpen = false">{{ $t('translation.Cancel') }}</VBtn>
+        <VBtn color="primary" @click="addTranslation">{{ $t('translation.Add') }}</VBtn>
+      </VCardActions>
+    </VCard>
+  </VDialog>
+
+  <VDialog v-model="isEditDialogOpen" max-width="600">
+    <VCard>
+      <VCardTitle>{{ $t('translation.Edit Translation Key') }}</VCardTitle>
+      <VCardText>
+        <VRow>
+          <VCol cols="12">
+            <AppTextField :model-value="editForm.group" :label="$t('translation.Group')" readonly />
+          </VCol>
+          <VCol cols="12">
+            <AppTextField :model-value="editForm.key" :label="$t('translation.Key')" readonly />
+          </VCol>
+          <VCol cols="12" v-for="lang in languages" :key="lang.id">
+            <AppTextField
+              v-model="editForm.values[lang.id]"
+              :label="$t('translation.Value') + ' (' + lang.name + ')'"
+              :placeholder="$t('translation.Translated text')"
+            />
+          </VCol>
+        </VRow>
+      </VCardText>
+      <VCardActions>
+        <VSpacer />
+        <VBtn variant="tonal" @click="isEditDialogOpen = false">{{ $t('translation.Cancel') }}</VBtn>
+        <VBtn color="primary" @click="saveEditDialog">{{ $t('translation.Update') }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
 
   <VSnackbar v-model="snackbar" :color="snackbarColor" location="top" timeout="2000">
     {{ snackbarMessage }}
-    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">Close</VBtn></template>
+    <template #actions><VBtn color="white" variant="text" @click="snackbar = false">{{ $t('translation.Close') }}</VBtn></template>
   </VSnackbar>
 </template>

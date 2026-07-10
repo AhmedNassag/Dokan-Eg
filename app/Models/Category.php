@@ -32,4 +32,22 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
+
+    public function scopeFilter($query, $filter)
+    {
+        return $filter->apply($query);
+    }
+
+    public function scopeOrdering($query, $ordering = null)
+    {
+        if (!$ordering) {
+            return $query->orderBy('created_at', 'desc');
+        }
+
+        if ($ordering == 'oldest') {
+            return $query->orderBy('created_at', 'asc');
+        }
+
+        return $query->orderBy('created_at', 'desc');
+    }
 }

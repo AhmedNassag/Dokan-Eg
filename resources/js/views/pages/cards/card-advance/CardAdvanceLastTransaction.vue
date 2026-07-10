@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import aeIcon from '@images/icons/payments/ae-icon.png'
 import mastercardIcon from '@images/icons/payments/mastercard-icon.png'
 import visaIcon from '@images/icons/payments/visa-icon.png'
@@ -54,15 +56,15 @@ const resolveStatus = {
 
 const moreList = [
   {
-    title: 'Refresh',
+    title: t('Refresh'),
     value: 'refresh',
   },
   {
-    title: 'Download',
+    title: t('Download'),
     value: 'Download',
   },
   {
-    title: 'View All',
+    title: t('View All'),
     value: 'View All',
   },
 ]
@@ -71,7 +73,7 @@ const getPaddingStyle = index => index ? 'padding-block-end: 1.5rem;' : 'padding
 </script>
 
 <template>
-  <VCard title="Last Transaction">
+  <VCard :title="$t('Last Transaction')">
     <template #append>
       <div class="me-n2">
         <MoreBtn :menu-list="moreList" />
@@ -82,10 +84,10 @@ const getPaddingStyle = index => index ? 'padding-block-end: 1.5rem;' : 'padding
     <VTable class="text-no-wrap transaction-table">
       <thead>
         <tr>
-          <th>CARD</th>
-          <th>DATE</th>
-          <th>STATUS</th>
-          <th>TREND</th>
+          <th>{{ $t('CARD') }}</th>
+          <th>{{ $t('DATE') }}</th>
+          <th>{{ $t('STATUS') }}</th>
+          <th>{{ $t('TREND') }}</th>
         </tr>
       </thead>
 
@@ -107,14 +109,14 @@ const getPaddingStyle = index => index ? 'padding-block-end: 1.5rem;' : 'padding
                   {{ transition.lastDigit }}
                 </p>
                 <p class="text-sm mb-0">
-                  {{ transition.cardType }}
+                  {{ $t(transition.cardType) }}
                 </p>
               </div>
             </div>
           </td>
           <td :style="getPaddingStyle(index)">
             <p class="text-high-emphasis text-base mb-0">
-              Sent
+              {{ $t('Sent') }}
             </p>
             <span class="text-sm">{{ transition.sentDate }}</span>
           </td>
@@ -124,7 +126,7 @@ const getPaddingStyle = index => index ? 'padding-block-end: 1.5rem;' : 'padding
               :color="resolveStatus[transition.status]"
               size="small"
             >
-              {{ transition.status }}
+              {{ $t(transition.status) }}
             </VChip>
           </td>
           <td :style="getPaddingStyle(index)">

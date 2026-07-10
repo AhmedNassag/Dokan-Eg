@@ -53,10 +53,10 @@ const chartOptions = computed(() => {
   <VCard>
     <VCardItem class="pb-3">
       <VCardTitle>
-        Impression
+        {{ $t('Impression') }}
       </VCardTitle>
       <VCardSubtitle>
-        Expenses
+        {{ $t('Expenses') }}
       </VCardSubtitle>
     </VCardItem>
     <VCardText>

@@ -14,14 +14,14 @@ import girlWithLaptop from '@images/illustrations/laptop-girl.png'
       </div>
       <div>
         <h5 class="text-h5 mb-2">
-          Upcoming Webinar
+          {{ $t('Upcoming Webinar') }}
         </h5>
         <div class="text-body-2">
-          Next Generation Frontend Architecture Using Layout Engine And Vue.
+          {{ $t('Next Generation Frontend Architecture Using Layout Engine And Vue.') }}
         </div>
         <div class="d-flex justify-space-between gap-4 flex-wrap my-4">
           <div
-            v-for="{ icon, title, value } in [{ icon: 'tabler-calendar', title: '17 Nov 23', value: 'Date' }, { icon: 'tabler-clock', title: '32 Minutes', value: 'Duration' }]"
+            v-for="{ icon, title, value } in [{ icon: 'tabler-calendar', title: $t('17 Nov 23'), value: $t('Date') }, { icon: 'tabler-clock', title: $t('32 Minutes'), value: $t('Duration') }]"
             :key="title"
             class="d-flex gap-x-3 align-center"
           >
@@ -46,7 +46,7 @@ import girlWithLaptop from '@images/illustrations/laptop-girl.png'
           </div>
         </div>
         <VBtn block>
-          Join the event
+          {{ $t('Join the event') }}
         </VBtn>
       </div>
     </VCardText>

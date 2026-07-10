@@ -1,4 +1,6 @@
-<script setup>
+<script setup>import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import PermissionAPI from '@/Api/Admin/Permission/permission'
 
 const api = new PermissionAPI()
@@ -17,8 +19,8 @@ const snackbarMessage = ref('')
 const snackbarColor = ref('success')
 
 const headers = [
-  { title: '#', key: 'id', sortable: true },
-  { title: 'Permission', key: 'name', sortable: true },
+  { title: t('permission.#'), key: 'id', sortable: true },
+  { title: t('permission.Permission'), key: 'name', sortable: true },
 ]
 
 const updateOptions = options => {
@@ -60,17 +62,17 @@ fetchPermissions()
       <div class="d-flex flex-wrap align-center">
         <div>
           <h4 class="text-h4">
-            {{ $t('Permission Management') }}
+            {{ $t('permission.Permission Management') }}
           </h4>
           <p class="text-body-1 mb-0">
-            {{ $t('Manage permissions') }}
+            {{ $t('permission.Manage Permissions') }}
           </p>
         </div>
         <VSpacer />
         <div class="d-flex align-center flex-wrap gap-4">
           <AppTextField
             v-model="searchQuery"
-            :placeholder="$t('Search')"
+            :placeholder="$t('permission.Search')"
             style="inline-size: 15.625rem;"
             clearable
             clear-icon="tabler-x"
@@ -131,7 +133,7 @@ fetchPermissions()
         variant="text"
         @click="snackbar = false"
       >
-        Close
+        {{ $t('permission.Close') }}
       </VBtn>
     </template>
   </VSnackbar>
