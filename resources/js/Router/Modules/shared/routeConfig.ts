@@ -118,6 +118,15 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     action: 'list',
     subject: 'shippingCompany',
   },
+  shop: {
+    title: 'Shops',
+    path: 'shop',
+    namePrefix: 'shop',
+    component: () => import('@/views/pages/shared/Shop/Shop.vue'),
+    icon: { icon: 'tabler-building-store' },
+    action: 'list',
+    subject: 'shop',
+  },
   order: {
     title: 'Orders',
     path: 'order',

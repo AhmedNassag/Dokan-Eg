@@ -11,6 +11,7 @@ export function createNavItems(role, sections = [
   'area',
   'branch',
   'shippingCompany',
+  'shop',
   'language',
   'translation',
   'order',

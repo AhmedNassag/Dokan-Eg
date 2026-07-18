@@ -8,6 +8,7 @@ export { default as CityAPI } from './shared/City/city'
 export { default as AreaAPI } from './shared/Area/area'
 export { default as BranchAPI } from './shared/Branch/branch'
 export { default as ShippingCompanyAPI } from './shared/ShippingCompany/shippingCompany'
+export { default as ShopAPI } from './shared/Shop/shop'
 export { default as LanguageAPI } from './shared/Language/language'
 export { default as TranslationAPI } from './shared/Translation/translation'
 
@@ -35,6 +36,10 @@ export { default as MarketerBranch } from './Marketer/Branch/branch'
 export { default as AdminShippingCompany } from './Admin/ShippingCompany/shippingCompany'
 export { default as MerchantShippingCompany } from './Merchant/ShippingCompany/shippingCompany'
 export { default as MarketerShippingCompany } from './Marketer/ShippingCompany/shippingCompany'
+
+export { default as AdminShop } from './Admin/Shop/shop'
+export { default as MerchantShop } from './Merchant/Shop/shop'
+export { default as MarketerShop } from './Marketer/Shop/shop'
 
 export { default as AdminLanguage } from './Admin/Language/language'
 export { default as MerchantLanguage } from './Merchant/Language/language'

@@ -7,6 +7,7 @@ use Database\Seeders\Branch\BranchSeeder;
 use Database\Seeders\Category\CategorySeeder;
 use Database\Seeders\Language\LanguageSeeder;
 use Database\Seeders\ShippingCompany\ShippingCompanySeeder;
+use Database\Seeders\Shop\ShopSeeder;
 use Database\Seeders\Translation\TranslationSeeder;
 use Database\Seeders\City\CitySeeder;
 use Database\Seeders\Country\CountrySeeder;
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AreaSeeder::class);
         $this->call(BranchSeeder::class);
         $this->call(ShippingCompanySeeder::class);
+        $this->call(ShopSeeder::class);
         
         $this->call(PermissionSeeder::class);
     }
