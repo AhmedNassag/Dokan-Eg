@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\ShippingCompanyController;
+use App\Http\Controllers\Api\ShopController;
+use App\Http\Controllers\Api\ShopSectionController;
 use App\Http\Controllers\Api\TranslationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\RoleController;
@@ -90,6 +92,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('shippingCompany/{id}', [ShippingCompanyController::class, 'show']);
     Route::put('shippingCompany/{id}', [ShippingCompanyController::class, 'update']);
     Route::delete('shippingCompany/{id}', [ShippingCompanyController::class, 'destroy']);
+
+    // Shop CRUD — permission-managed
+    Route::get('shop', [ShopController::class, 'index']);
+    Route::post('shop', [ShopController::class, 'store']);
+    Route::get('shop/{id}', [ShopController::class, 'show']);
+    Route::put('shop/{id}', [ShopController::class, 'update']);
+    Route::post('shop/{id}', [ShopController::class, 'update']);
+    Route::delete('shop/{id}', [ShopController::class, 'destroy']);
+
+    // Shop Sections
+    Route::get('shop/{shopId}/sections', [ShopSectionController::class, 'index']);
+    Route::post('shop/{shopId}/sections', [ShopSectionController::class, 'store']);
+    Route::put('shop/{shopId}/sections/{sectionId}', [ShopSectionController::class, 'update']);
+    Route::delete('shop/{shopId}/sections/{sectionId}', [ShopSectionController::class, 'destroy']);
+    Route::post('shop/{shopId}/sections/reorder', [ShopSectionController::class, 'reorder']);
 
     // Language CRUD — permission-managed
     Route::get('language', [LanguageController::class, 'index']);

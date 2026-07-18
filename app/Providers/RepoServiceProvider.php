@@ -20,6 +20,8 @@ use App\Repositories\Role\RoleInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\ShippingCompany\ShippingCompanyInterface;
 use App\Repositories\ShippingCompany\ShippingCompanyRepository;
+use App\Repositories\Shop\ShopInterface;
+use App\Repositories\Shop\ShopRepository;
 use App\Repositories\Translation\TranslationInterface;
 use App\Repositories\Translation\TranslationRepository;
 use App\Repositories\User\UserInterface;
@@ -56,6 +58,11 @@ class RepoServiceProvider extends ServiceProvider
         $this->app->bind(
             ShippingCompanyInterface::class,
             ShippingCompanyRepository::class
+        );
+
+        $this->app->bind(
+            ShopInterface::class,
+            ShopRepository::class
         );
 
         $this->app->bind(

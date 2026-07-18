@@ -13,6 +13,7 @@ export default createNavItems(
     'area',
     'branch',
     'shippingCompany',
+    'shop',
     'language',
     'translation',
     'order',
